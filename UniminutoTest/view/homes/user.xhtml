@@ -1,0 +1,101 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<!-- Presentacion asociada al usuario vigilado -->
+	<h:panelGrid columns="2" rendered="#{identity.loggedIn and identity.hasRole('User')}">
+
+		<h:graphicImage value="/img/SuperfinancieraLogo.png" alt="Superintendencia Financiera" />
+
+		<h:panelGroup styleClass="info">
+			<p>
+				<strong>:: Recepci&oacute;n de informaci&oacute;n ::</strong>
+				m&oacute;dulo para la recepci&oacute;n de la informaci&oacute;n
+				enviada por los vigilados de la Superintendencia y para la
+				verificaci&oacute;n de su estado de procesamiento. En este
+				m&oacute;dulo, el usuario vigilado podr&aacute; llevar a cabo las
+				siguientes operaciones:
+			</p>
+			<ul class="bullets">
+
+				<li>
+					<h:graphicImage value="/img/upload.png" styleClass="pic" alt="Transmision de archivos" /> 
+					<strong>Verificar el estado de procesamiento: </strong> 
+					seleccionado un periodo de corte y un
+					proceso de negocio, el usuario podr&aacute; verificar el estado
+					de procesamiento de los archivos enviados a la Superintendencia.<br />
+
+					<h:link outcome="/user/SendingStateVerifier" id="SendingStateVerifierIdHomeUser">
+						<f:param name="codFinancialInstitution" value="#{authenticator.financialInstitutionCode}" />
+						<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+						<rich:tooltip styleClass="tooltip" layout="block" value="Ir al m&oacute;dulo" target="SendingStateVerifierIdHomeUser" />
+					</h:link> 
+					<br /> 
+					<br />
+				</li>
+
+				<li>
+					<h:graphicImage value="/img/upload.png" styleClass="pic" alt="Transmision de archivos" /> 
+					<strong>Enviar informaci&oacute;n: </strong> 
+					seleccionado un periodo de corte y un
+					proceso de negocio, el usuario podr&aacute; enviar sus archivos
+					planos a los sistemas de informaci&oacute;n de la
+					Superintendencia.<br /> 
+					
+					<h:link outcome="/user/SendingUpload" id="SendingUploadIdHomeUser">
+						<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+						<rich:tooltip styleClass="tooltip" layout="block" value="Ir al m&oacute;dulo" target="SendingUploadIdHomeUser" />
+					</h:link> 
+					<br /> 
+					<br /> 
+				</li>
+				
+				<li>
+					<h:graphicImage value="/img/wrench.png" styleClass="pic" alt="Procesos de negocio" /> 
+					<strong>Procesos de negocio habilitados para su entidad: </strong> 
+					los procesos de negocio definidos para el
+					env&iacute;o de su informaci&oacute;n a la 
+					Superintendencia financiera son los siguientes: 
+					<br /> 
+					<br />
+					
+					<ul>
+						<ui:repeat value="#{authenticator.businessProcess}" var="_businessProcessByFinancialInstitutionList">
+						
+							<li>
+								<strong>
+									<h:outputText value="#{_businessProcessByFinancialInstitutionList.name} :" />
+								</strong> 
+								<h:outputText value="#{_businessProcessByFinancialInstitutionList.description}" />
+								<br />
+								
+								<h:graphicImage value="#{_businessProcessByFinancialInstitutionList.state ? '/img/enabled.png':'/img/disabled.png'}" alt="#{_businessProcessByFinancialInstitutionList.state ? 'Proceso habilitado':'Proceso en mantenimiento'}" id="active" />
+								<rich:tooltip styleClass="tooltip" layout="block" value="#{_businessProcessByFinancialInstitutionList.state ? 'Proceso habilitado':'Proceso en mantenimiento'}" target="active" />
+									
+								<h:link id="_sendingUploadInactive" rendered="#{not _businessProcessByFinancialInstitutionList.state}">
+									<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+									<rich:tooltip styleClass="tooltip" layout="block" value="M&#243;dulo en mantenimiento. No podr&#225; enviar informaci&#243;n temporalmente." target="_sendingUploadInactive" />
+								</h:link>
+								
+								<h:link outcome="/user/SendingUpload" id="_sendingUpload" rendered="#{_businessProcessByFinancialInstitutionList.state}">
+									<f:param name="businessProcessId" value="#{_businessProcessByFinancialInstitutionList.id}" />
+									<f:param name="loadFunctionsFlag" value="false" />
+									<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+									<rich:tooltip styleClass="tooltip" layout="block" value="Ir al m&oacute;dulo" target="_sendingUpload" />
+								</h:link> 
+								
+								<br /> 
+								<br />
+							</li>
+
+						</ui:repeat>
+					</ul>
+				</li>
+			</ul>
+		</h:panelGroup>
+	</h:panelGrid>
+</ui:composition>

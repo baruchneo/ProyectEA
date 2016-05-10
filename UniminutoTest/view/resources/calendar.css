@@ -1,0 +1,36 @@
+.tdc
+{
+  	background-color: #FF7800;
+  	color: #FFEBDA;
+  	font-weight: bold;
+}
+
+.bdc 
+{
+	background-color: #E6E6E6;
+	font-weight: normal;
+	font-style: normal;
+	color:#C0C0C0;
+}
+
+.wdc 
+{
+	background-color: #FFEBDA;
+	font-weight: normal;
+	font-style: normal;
+}
+
+.enableddc 
+{
+	font-weight: bold;
+	font-style: italic;
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+.fdc 
+{
+	background-color: #948C8C;
+	font-weight: lighter;
+	font-style: italic;
+}

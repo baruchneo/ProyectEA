@@ -1,0 +1,206 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="firstResult" value="#{businessProcessList.firstResult}" />
+				<f:viewParam name="sort" value="#{businessProcessList.orderColumn}" />
+				<f:viewParam name="dir" value="#{businessProcessList.orderDirection}" />
+				<f:viewParam name="logic" value="#{businessProcessList.restrictionLogicOperator}" />
+	
+				<f:viewParam name="from" />
+				<f:viewParam name="reportTypeId" />
+				<f:viewParam name="id" value="#{businessProcessList.businessProcess.id}" />
+				<f:viewParam name="name" value="#{businessProcessList.businessProcess.name}" />
+				<f:viewParam name="state" value="#{businessProcessList.businessProcess.state}" />
+				<f:viewParam name="digitalSignatureRequiered" value="#{businessProcessList.businessProcess.digitalSignatureRequired}" />
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+	
+	<ui:define name="body">
+
+		<h:form id="businessProcessSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="Filtro de b&uacute;squeda de procesos de negocio" switchType="client">
+				<f:validateBean disabled="#{true}">
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Identificador</ui:define>
+						<h:inputText id="id" value="#{businessProcessList.businessProcess.id}">
+							<f:validateBean disabled="#{true}" />
+						</h:inputText>
+					</ui:decorate>
+	
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Nombre</ui:define>
+						<h:inputText id="name" value="#{businessProcessList.businessProcess.name}">
+							<f:validateBean disabled="#{true}" />
+						</h:inputText>
+					</ui:decorate>
+					
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">¿Proceso en mantenimiento?</ui:define>
+						<h:selectOneMenu id="businessProcessState" title="Seleccione" value="#{businessProcessList.businessProcess.state}">
+							<f:selectItem itemValue="" itemLabel="Seleccione"/>
+							<f:selectItem itemValue="false" itemLabel="Si"/>
+							<f:selectItem itemValue="true" itemLabel="No"/>
+							<f:validateBean disabled="#{true}" />
+						</h:selectOneMenu>
+					</ui:decorate>
+					
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">¿Env&iacute;os definitivos requieren firma digital?</ui:define>
+						<h:selectOneMenu id="businessProcessDigitalSignatureRequiered" title="Seleccione" value="#{businessProcessList.businessProcess.digitalSignatureRequired}">
+							<f:selectItem itemValue="" itemLabel="Seleccione"/>
+							<f:selectItem itemValue="true" itemLabel="Si"/>
+							<f:selectItem itemValue="false" itemLabel="No"/>
+							<f:validateBean disabled="#{true}" />
+						</h:selectOneMenu>
+					</ui:decorate>
+					
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Coincidencia</ui:define>
+						<h:selectOneRadio id="logic" value="#{businessProcessList.restrictionLogicOperator}" styleClass="radio">
+							<f:selectItem itemLabel="Todos los criterios especificados" itemValue="and" />
+							<f:selectItem itemLabel="Alguno de los criterios especificados" itemValue="or" />
+						</h:selectOneRadio>
+					</ui:decorate>
+				</f:validateBean>
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton type="submit" id="search" value="Buscar" />
+				<h:button onclick="showWaitDialog();" id="reset" value="Reiniciar B&uacute;squeda" includeViewParams="false" rendered="#{empty from}"/>
+				<h:button onclick="showWaitDialog();" id="return" value="Regresar" rendered="#{not empty from}" outcome="#{from}" includeViewParams="true" >
+					<f:param name="reportTypeId" value="#{reportTypeId}" />
+				</h:button>
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+		
+			<f:facet name="header">Resultados de b&uacute;squeda de procesos de negocio (#{empty businessProcessList.resultList ? 0 : (businessProcessList.paginated ? businessProcessList.resultCount : businessProcessList.resultList.size)})</f:facet>
+			<div class="results" id="businessProcessList">
+
+				<h:outputText value="La b&uacute;squeda de procesos de negocio no retorn&oacute; resultados." rendered="#{empty businessProcessList.resultList}" />
+				
+				<rich:dataScroller renderIfSinglePage="false" for="businessProcessList" maxPages="5" id="dataScroller1" reRender="dataScroller2" rendered="#{not empty businessProcessList.resultList}"/>
+				
+				<rich:dataTable rows="10" style="width:100%" id="businessProcessList" var="_businessProcess" rowClasses="rvgRowOne,rvgRowTwo"  value="#{businessProcessList.resultList}" rendered="#{not empty businessProcessList.resultList}">
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="Id" />
+								<ui:param name="propertyPath" value="businessProcess.id" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_businessProcess.id}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="Nombre" />
+								<ui:param name="propertyPath" value="businessProcess.name" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_businessProcess.name}" />
+					</h:column>
+        			
+        			<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="Descripci&oacute;n" />
+								<ui:param name="propertyPath" value="businessProcess.description" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_businessProcess.description}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="C&oacute;digo negocio" />
+								<ui:param name="propertyPath" value="businessProcess.includeSFCBusinessCode" />
+							</ui:include>
+						</f:facet>
+						<h:graphicImage id="imgIncludeSFCBusinessCode" value="#{_businessProcess.includeSFCBusinessCode? '/img/enabled.png' : '/img/disabled.png'}" alt="#{_businessProcess.includeSFCBusinessCode ? 'Proceso de negocio activo' : 'Proceso de negocio en mantenimiento'}" />
+						<rich:tooltip value="#{_businessProcess.includeSFCBusinessCode ? 'Proceso de negocio activo' : 'Proceso de negocio en mantenimiento'}" target="imgIncludeSFCBusinessCode"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="Estado" />
+								<ui:param name="propertyPath" value="businessProcess.state" />
+							</ui:include>
+						</f:facet>
+						<h:graphicImage id="imgState" value="#{_businessProcess.state? '/img/enabled.png' : '/img/disabled.png'}" alt="#{_businessProcess.state ? 'Proceso de negocio activo' : 'Proceso de negocio en mantenimiento'}" />
+						<rich:tooltip value="#{_businessProcess.state ? 'Proceso de negocio activo' : 'Proceso de negocio en mantenimiento'}" target="imgState"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{businessProcessList}" />
+								<ui:param name="propertyLabel" value="Firma digital" />
+								<ui:param name="propertyPath" value="businessProcess.digitalSignatureRequired" />
+							</ui:include>
+						</f:facet>
+						<h:graphicImage id="imgDigitalSignatureRequired" value="#{_businessProcess.digitalSignatureRequired? '/img/enabled.png' : '/img/disabled.png'}" alt="#{_businessProcess.digitalSignatureRequired ? 'Si' : 'No'}" />
+						<rich:tooltip value="#{_businessProcess.digitalSignatureRequired ? 'Si' : 'No'}" target="imgDigitalSignatureRequired"/>
+					</h:column>
+					
+					<rich:column styleClass="action">
+						
+						<f:facet name="header">Acci&oacute;n</f:facet>
+            
+						<h:link outcome="#{empty from ? 'BusinessProcess' : from}" id="businessProcessViewId" includeViewParams="true">
+							<f:param name="businessProcessId" value="#{_businessProcess.id}"/>
+							<f:param name="businessProcessIdOperation" value="insert"/>
+							<f:param name="reportTypeId" value="#{reportTypeId}"/>
+							<h:graphicImage value="#{empty from ? '/img/view.png' : '/img/link.png'}" alt="#{empty from ? 'Ver' : 'Seleccionar'}" />
+							<rich:tooltip styleClass="tooltip" layout="block" value="#{empty from ? 'Ver' : 'Seleccionar'}" target="businessProcessViewId"/>
+							
+						</h:link>
+						
+						<h:link outcome="BusinessProcessEdit" id="businessProcessEdit" rendered="#{empty from}" includeViewParams="true" >
+						
+							<f:param name="businessProcessId" value="#{_businessProcess.id}"/>
+							<h:graphicImage value="/img/pencil.png" alt="Editar"/>
+							<rich:tooltip styleClass="tooltip" layout="block" value="Editar" target="businessProcessEdit"/>
+							
+						</h:link>
+						
+					</rich:column>
+					
+				</rich:dataTable>
+				
+				<rich:dataScroller renderIfSinglePage="false" for="businessProcessList" maxPages="5" id="dataScroller2" reRender="dataScroller1" rendered="#{not empty businessProcessList.resultList}"/>
+
+			</div>
+		</rich:panel>
+		
+		<h:panelGroup styleClass="actionButtons" rendered="#{empty from}">
+			<h:button outcome="BusinessProcessEdit" id="create" value="Crear proceso de negocio">
+				<f:param name="businessProcessId" />
+			</h:button>
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>

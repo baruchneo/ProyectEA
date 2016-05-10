@@ -1,0 +1,47 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich">
+
+	<!-- Presentacion asociada al usuario auditor de la Superintendencia-->
+	<h:panelGrid columns="2" rendered="#{identity.loggedIn and identity.hasRole('Auditor')}">
+       	
+       	<h:graphicImage value="/img/SuperfinancieraLogo.png" alt="Superintendencia Financiera"/>
+		
+		<h:panelGroup styleClass="info">
+			<p><strong>:: Recepci&oacute;n de informaci&oacute;n ::</strong> para la definici&oacute;n y gesti&oacute;n de las entidades asociadas al m&oacute;dulo de recepci&oacute;n de archivos. En este m&oacute;dulo, el usuario podr&aacute; llevar a cabo las siguientes operaciones:</p>
+			<ul class="bullets">
+            
+				<li>
+					<h:graphicImage value="/img/finalEntity.png" styleClass="pic" alt="Entidades" />
+					<strong>Gestionar entidades: </strong> 
+					el usuario podr&aacute; seleccionar una entidad determinada y actualizar sus indicadores de env&iacute;o de informaci&oacute;n con firma digital o archivos de notas anexas.<br/>
+                      	
+                      	<h:link outcome="/admin/FinancialInstitutionList" id="FinancialInstitutionListIdHomeAuditor">
+						<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+						<rich:tooltip styleClass="tooltip" layout="block" value="Ir al m&oacute;dulo" target="FinancialInstitutionListIdHomeAuditor"/>
+					</h:link>
+					<br/>
+					<br/>
+				</li>
+				
+				<li>
+					<h:graphicImage value="/img/shield.png" styleClass="pic" alt="Auditoria" />
+					<strong>Auditor&iacute;a: </strong> 
+					el usuario podr&aacute; seleccionar los env&iacute;os realizados por la entidades vigiladas, ver su estado de procesamiento y autorizar reenv&iacute;os de informaci&oacute;n. <br/>
+                      	
+					<h:link outcome="/admin/SendingList" id="SendingListIdHomeAuditor">
+						<h:graphicImage value="/img/link.png" alt="Ir al m&oacute;dulo" />
+						<rich:tooltip styleClass="tooltip" layout="block" value="Ir al m&oacute;dulo" target="SendingListIdHomeAuditor"/>
+					</h:link>
+					<br/>
+					<br/>
+				</li>
+			</ul>
+		</h:panelGroup>
+	</h:panelGrid>
+</ui:composition>

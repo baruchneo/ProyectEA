@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	contentType="text/html">
+	
+	<h:html>
+		<h:head>
+			<meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+			<meta content="utf-8" http-equiv="encoding"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
+			<title>::Recepci&#243;n de informaci&#243;n:: Superintendencia Financiera de Colombia</title>
+			<link rel="shortcut icon" href="#{request.contextPath}/favicon.ico" />
+			
+			<h:outputStylesheet name="theme.ecss" />
+			<h:outputStylesheet name="theme.css"  />
+			<h:outputStylesheet name="sc.css"  />
+			<h:outputStylesheet name="calendar.css"  />
+			<h:outputScript library="javascript" name="genericScript.js" />
+			<ui:insert name="head" />
+		</h:head>
+		
+		<ui:insert name="metadata"/>
+		
+		<h:body>
+		
+			<ui:include src="menu.xhtml">
+				<ui:param name="projectName" value="::M&#243;dulo de recepci&#243;n de informaci&#243;n:: Superintendencia Financiera de Colombia" />
+			</ui:include>
+			
+			<div class="body">
+				<h:messages id="messages" globalOnly="true" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"  />
+				<ui:insert name="body" />
+			</div>
+			
+			<div class="footer">
+				<p>
+					<a href="http://www.superfinanciera.gov.co/" target="_blank"><strong>Superintendencia Financiera de Colombia</strong></a> <br/>
+					Calle 7a. No. 4-49<br/>
+					Conmutador: (571) 594 02 00 - 594 02 01 - Fax (571) 350 79 99 - 350 5707<br/>
+					Centro de Contacto: 419-7100: Recibe consultas e inquietudes sobre los diferentes servicios que presta la Superintendencia Financiera de Colombia. Este servicio opera de 7:30 a.m. a 5:30 p.m. en jornada continua.
+				</p>
+				
+				<p>
+					Los temas relacionados con la transmisi&oacute;n de informaci&oacute;n de las entidades vigiladas, se atender&aacute;n a trav&eacute;s de la l&iacute;nea 5940200/01 Opci&oacute;n 5.<br/>
+					Punto de contacto: Lunes a Viernes de 8:15 a.m. a 4:15 p.m. Jornada continua<br/>
+					L&iacute;nea Gratuita Nacional: 018000 120 100<br/>
+					Horario de Atenci&oacute;n al P&uacute;blico: Lunes a Viernes de 8:15 a.m. a 4:45 p.m. Jornada Continua
+				</p>
+				
+				<p>
+					Horario de trabajo: Lunes a Viernes de 8:00 a.m. a 5:00 p.m.<br/>
+					Bogot&aacute;, D.C. - Colombia<br/>
+					Opine y formule su consulta a trav&eacute;s del enlace: <a href="mailto:super@superfinanciera.gov.co" >super@superfinanciera.gov.co </a><br/>
+					Correo electr&oacute;nico para notificaciones judiciales: <a href="mailto:notificaciones_ingreso@superfinanciera.gov.co" >notificaciones_ingreso@superfinanciera.gov.co</a>
+				</p>
+			</div>
+			
+		</h:body>
+		
+		<ui:include src="loading.xhtml" />
+		<ui:include src="infoDialogs.xhtml" />
+		
+	</h:html>
+</f:view>

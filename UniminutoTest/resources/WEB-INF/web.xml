@@ -1,0 +1,209 @@
+<?xml version="1.0" ?>
+<web-app 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	
+	<display-name>Superintendencia Financiera de Colombia :: uniminutoTest ::</display-name>
+	 
+	<listener>
+		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+	</listener>
+
+	<!-- RichFaces -->
+	<context-param>
+		<param-name>org.richfaces.skin</param-name>
+		<param-value>ruby</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.ajax4jsf.handleViewExpiredOnClient</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.richfaces.fileUpload.createTempFiles</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>org.richfaces.fileUpload.maxRequestSize</param-name>
+		<param-value>10000000</param-value>
+	</context-param>  
+
+	<!-- Suppress spurious style sheets -->
+
+	<context-param>
+		<param-name>org.richfaces.enableControlSkinning</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>org.richfaces.enableControlSkinningClasses</param-name>
+		<param-value>true</param-value>
+	</context-param>
+    
+	<context-param>
+          <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+          <param-value>/WEB-INF/sc.taglib.xml</param-value>
+     </context-param>
+     
+	<!-- Change load strategy to DEFAULT to disable sending scripts/styles as packs -->
+
+	<!-- Seam -->
+	<listener>
+		<listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>Seam Filter</filter-name>
+		<filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Seam Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>Seam Multipart Filter</filter-name>
+		<filter-class>org.jboss.seam.web.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Seam Multipart Filter</filter-name>
+		<url-pattern>*.seam</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>Seam Resource Servlet</servlet-name>
+		<servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>servlet upload file</servlet-name>
+		<servlet-class>co.com.sc.nexura.superfinanciera.action.user.uploadServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>servlet download file</servlet-name>
+		<servlet-class>co.com.sc.nexura.superfinanciera.action.user.DownloaderResponse</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>servlet download file</servlet-name>
+		<url-pattern>/user/downloadServlet.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>servlet download file</servlet-name>
+		<url-pattern>/admin/downloadServlet.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>servlet upload file</servlet-name>
+		<url-pattern>/user/uploadServlet.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Seam Resource Servlet</servlet-name>
+		<url-pattern>/seam/resource/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Change to "Development" when you are developing -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+    
+	<!-- JSF -->
+	<context-param> 
+		<param-name>javax.faces.CONFIG_FILES</param-name> 
+		<param-value>/WEB-INF/faces-config.xml</param-value> 
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>org.richfaces.push.jms.enabled</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+        <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.seam</url-pattern>
+	</servlet-mapping>
+
+	<security-constraint>
+		<display-name>Restrict raw XHTML Documents</display-name>
+		<web-resource-collection>
+			<web-resource-name>XHTML</web-resource-name>
+			<url-pattern>*.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint />
+	</security-constraint>
+	
+	<mime-mapping>
+		<extension>ecss</extension>
+		<mime-type>text/css</mime-type>
+	</mime-mapping>
+    
+	<session-config>
+		<session-timeout>240</session-timeout>
+	</session-config>
+    
+	<context-param>
+		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+    	<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    	<param-value>true</param-value>
+	</context-param>
+	
+	<error-page>
+        <location>/error.xhtml</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>503</error-code>
+		<location>/login.seam</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/login.seam</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/login.seam</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/login.seam</location>
+	</error-page>
+
+</web-app>

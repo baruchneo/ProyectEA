@@ -1,0 +1,275 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sc="http://www.software-colombia.com/namespace"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+	
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="businessProcessId" value="#{sendingUpload.processContext.id}"/>
+			<f:event type="preRenderView" listener="#{sendingUpload.setFirstLoadExecutedCustom(param['loadFunctionsFlag'])}"/>
+			<f:event type="preRenderView" listener="#{sendingUpload.initialBusinessProcessLoad()}"/>
+		</f:metadata>
+	</ui:define>
+	
+	<ui:define name="head">
+
+		<h:outputScript library="javascript" name="fine-uploader.min.js" />
+		<h:outputScript library="javascript" name="SC-UploadApplet.js" />
+		<h:outputScript library="javascript" name="deployJava.js" />
+		<h:outputScript library="javascript" name="jquery-1.7.1.min.js" />
+		<h:outputStylesheet name="css/fine-uploader-new.min.css" />
+		<h:outputStylesheet name="css/fineUploaderConf.css" />
+		
+		<script type="text/javascript">
+
+				$( document ).ready(function() 
+				{
+					showSendButton(false);
+					showNotBlockPanel(#{sendingUpload.processContext.blockSending}, '#{sendingUpload.sendTypeSelected}');
+					showNote(#{sendingUpload.enabledNotes});
+					showbusinessCode(#{sendingUpload.processContext.includeSFCBusinessCode});
+				});
+		</script>
+
+		<script type="text/template" id="qq-template-files">
+			<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Arrastre los archivos aqui">
+				<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+					<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+				</div>
+				<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone="qq-hide-dropzone">
+					<span class="qq-upload-drop-area-text-selector"></span>
+				</div>
+				<div class="buttons" id="buttons-files">
+					<div class="qq-upload-button-selector qq-upload-button">
+						<div>Seleccionar Archivos</div>
+					</div>
+					<button type="button" id="trigger-upload-files" class="btn btn-primary">
+						<i class="icon-upload icon-white"></i> Subir
+					</button>
+				</div>
+				<span class="qq-drop-processing-selector qq-drop-processing">
+					<span>Procesando archivos...</span>
+					<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+				</span>
+				<ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
+					<li>
+						<div class="qq-progress-bar-container-selector">
+							<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+						</div>
+						<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+						<img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale="qq-server-scale"  />
+						<span class="qq-upload-file-selector qq-upload-file"></span>
+						<span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Editar nombre de archivo"></span>
+						<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text" />
+						<span class="qq-upload-size-selector qq-upload-size"></span>
+						<button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel" style="color: #FFFFFF">Cancelar</button>
+						<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+					</li>
+				</ul>
+				<dialog class="qq-alert-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector">Cerrar</button>
+					</div>
+				</dialog>
+				<dialog class="qq-confirm-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector">No</button>
+						<button type="button" class="qq-ok-button-selector">Si</button>
+					</div>
+				</dialog>
+				<dialog class="qq-prompt-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<input type="text" />
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector">Cancelar</button>
+						<button type="button" class="qq-ok-button-selector">Aceptar</button>
+					</div>
+				</dialog>
+			</div>
+		</script>
+
+		<script type="text/template" id="qq-template-notes">
+			<div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Arrastre los archivos aqui">
+				<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+					<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+				</div>
+				<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone="qq-hide-dropzone">
+					<span class="qq-upload-drop-area-text-selector"></span>
+				</div>
+				<div class="buttons" id="buttons-notes">
+					<div class="qq-upload-button-selector qq-upload-button">
+						<div>Seleccionar Archivos</div>
+					</div>
+					<button type="button" id="trigger-upload-notes" class="btn btn-primary">
+						<i class="icon-upload icon-white"></i> Subir
+					</button>
+				</div>
+				<span class="qq-drop-processing-selector qq-drop-processing">
+					<span>Procesando archivos...</span>
+					<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+				</span>
+				<ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
+					<li>
+						<div class="qq-progress-bar-container-selector">
+							<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+						</div>
+						<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+						<img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale="qq-server-scale"  />
+						<span class="qq-upload-file-selector qq-upload-file"></span>
+						<span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Editar nombre de archivo"></span>
+						<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text" />
+						<span class="qq-upload-size-selector qq-upload-size"></span>
+						<button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel" style="color: #FFFFFF">Cancelar</button>
+						<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+					</li>
+				</ul>
+				<dialog class="qq-alert-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector" >Cerrar</button>
+					</div>
+				</dialog>
+				<dialog class="qq-confirm-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector">No</button>
+						<button type="button" class="qq-ok-button-selector">Si</button>
+					</div>
+				</dialog>
+				<dialog class="qq-prompt-dialog-selector">
+					<div class="qq-dialog-message-selector"></div>
+					<input type="text" />
+					<div class="qq-dialog-buttons">
+						<button type="button" class="qq-cancel-button-selector">Cancelar</button>
+						<button type="button" class="qq-ok-button-selector">Aceptar</button>
+					</div>
+				</dialog>
+			</div>
+		</script>
+						
+	</ui:define>
+	
+	
+
+	<ui:define name="body">
+	
+		
+				
+		<h:form id="formSending" enctype="multipart/form-data">
+			<rich:collapsiblePanel header="Caracter&#237;sticas del tipo de archivo a enviar." switchType="client">
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Proceso de negocio</ui:define>
+					<h:selectOneMenu  id="businessProcessId" value="#{sendingUpload.processContext.id}" valueChangeListener="#{sendingUpload.loadItemsReportType}">
+						<f:selectItems var="item" value="#{authenticator.businessProcess}" itemLabel="#{item.name}" itemValue="#{item.id}"/>
+						<a4j:ajax  event="change" render="reportTypeID,uploadNote,sendTypeID,cutOffDate,businessCodeSFCID" rerender="businessCodeSFCID" oncomplete="showNote(#{sendingUpload.enabledNotes}),showNotBlockPanel(#{sendingUpload.processContext.blockSending}, '#{sendingUpload.sendTypeSelected}'),showbusinessCode(#{sendingUpload.processContext.includeSFCBusinessCode})"/>
+					</h:selectOneMenu>
+				</ui:decorate>
+
+				
+				<div id="notBlockPanel">
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Tipo de informe</ui:define>
+						<h:selectOneMenu id="reportTypeID" value="#{sendingUpload.reportTypeContext.id}" valueChangeListener="#{reportTypePeriodicityBean.loadNewCalendarDataModel}">
+							
+							<f:selectItems var="item" value="#{sendingUpload.reportTypeItems}" itemLabel="#{item.name}" itemValue="#{item.id}"/>
+							<a4j:ajax event="change" render="cutOffDate" oncomplete="showNote(#{sendingUpload.enabledNotes})"/>
+						</h:selectOneMenu>
+						<h:message for="reportTypeID"/>
+					</ui:decorate>
+							
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Periodo de corte</ui:define>
+						<rich:calendar styleClass="input-calendar" direction="topAuto" id="cutOffDate"  dataModel="#{reportTypePeriodicityBean.currentCalendarDataModel}" value="#{sendingUpload.cutOffDate}" mode="ajax" todayControlMode="hidden" firstWeekDay="1" showFooter="false" monthLabels="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Dicembre" monthLabelsShort="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" weekDayLabelsShort="Dom,Lun,Mar,Mie,Jue,Vie,Sab" weekDayLabels="Domingo,Lunes,Martes,Miercoles,Jueves,Viernes,Sabado"  boundaryDatesMode="scroll" datePattern="yyyy-MM-dd"/>
+						<h:message for="cutOffDate"/>
+					</ui:decorate>
+					
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Tipo de Env&#237;o</ui:define>
+						<h:selectOneMenu id="sendTypeID" value="#{sendingUpload.sendTypeSelected}" required="true">
+							<f:selectItems value="#{sendingUpload.sendTypes}" />
+							<a4j:ajax event="change" oncomplete="showNotBlockPanel(#{sendingUpload.processContext.blockSending}, '#{sendingUpload.sendTypeSelected}'); showNote(#{sendingUpload.enabledNotes})"/>
+						</h:selectOneMenu>
+					</ui:decorate>
+					<div id="businessCodeSection">
+						<ui:decorate template="/layout/display.xhtml">
+							<ui:define name="label" >
+									C&oacute;digo de negocio	
+							</ui:define>
+							<rich:autocomplete id="businessCodeSFCID" type="list" value="#{sendingUpload.idBusinessCodeAssociatedList}" required="#{sendingUpload.processContext.includeSFCBusinessCode}" minChars="1" autocompleteMethod="#{sendingUpload.loadBusinessCodeList}" var="item" mode="ajax" fetchValue="#{item.legacyTypeCode}-#{item.subLegacyTypeCode}-#{item.businessCode}" layout="div" rendered="#{sendingUpload.disableBusinessCode}" autocompleteList="true" autofill="true">
+								<b>(#{item.legacyTypeCode}-#{item.subLegacyTypeCode}-#{item.businessCode})&nbsp;</b>#{item.businessName} #{item.legacyTypename}
+							</rich:autocomplete>
+							<h:outputText id="businessCodeSFCIDName" size="65" maxlength="200" value="#{sendingUpload.businessCodeNameDefaultSelected}" rendered="#{!sendingUpload.disableBusinessCode}"/>
+						</ui:decorate>
+					</div>
+				</div>
+				
+			</rich:collapsiblePanel>
+			
+			<br/>
+			<br/>
+			
+			<rich:collapsiblePanel header="Carga de Archivos" switchType="client">
+				<h:panelGrid columns="2">
+					<rich:panel title="Cargue el archivo definitivo a enviar" header="Archivo Definitivo">
+						<div id="definitivePanel" style="z-index: 0;"></div>
+					</rich:panel>
+					
+					<rich:panel title="Cargue el archivo de notas a enviar" header="Archivo de Notas" >
+						<div id="notesPanel" style="z-index: 0;"></div>
+					</rich:panel>
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+			
+			<br/>
+			<br/>
+			<div id="sendForm">
+				<div id="sendFormPopUp" class="popupPanel" style="z-index:290;">
+					<rich:panel header="Confirmar env&#237;o">
+						<h:panelGrid columns="1" >
+							<h:outputLabel class="name" value="Los archivos ya se encuentran en el servidor de la Superintendencia." />
+							<h:outputLabel class="name" value="Para finalizar el env&#237;o haga clic en el bot&#243;n Procesar informaci&#243;n." />
+							<h:commandButton onclick="showWaitDialog();" value="Procesar informaci&#243;n" action="#{sendingUpload.sendFilesAction()}" style="margin-left:20%;height:40px;"/>
+						</h:panelGrid>
+					</rich:panel>
+				</div>
+				<iframe id="sendFormIframe" class="popupBackground" style="z-index:289;"/>				
+			</div>
+		</h:form>
+		<rich:popupPanel id="popupMessages" moveable="false" autosized="false" maxWidth="388" width="380" minWidth="380" modal="true" resizeable="false" style="sfont-size: 12px;" show="#{facesContext.maximumSeverity != null}" onshow="$('#definitivePanel').hide(); $('#notePanel').hide();">
+	        <f:facet name="header">
+	        	<!-- every severity has a ordinal number, im not sure but 0 = info, 1 = warn, 2 = error and 3 = fatal, i guess -->
+	   			<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 0}">
+	      			<h:graphicImage value="/img/msginfo.png"/>
+	      			<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Informaci&oacute;n"/>
+	   			</h:panelGrid>
+	   			
+	   			<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 1}">
+	      			<h:graphicImage value="/img/msgwarn.png"/>
+	      			<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Advertencia"/>
+	   			</h:panelGrid>
+	
+				<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 2}">
+					<h:graphicImage value="/img/msgerror.png"/>
+					<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Error"/>
+				</h:panelGrid>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:outputLink value="#" onclick="#{rich:component('popupMessages')}.hide(); $('#definitivePanel').show(); $('#notePanel').show(); return false;" style="sfont-size: 12px; color: white;">
+	                X
+	            </h:outputLink>
+	        </f:facet>
+	        
+	        <rich:messages style="font-size:14px;" id="mpMessage1" />   	
+	        <h:commandButton onclick="#{rich:component('popupMessages')}.hide(); $('#definitivePanel').show(); $('#notePanel').show(); return false;" value="Aceptar" style="align:center; font-size:14px;"/>
+    	</rich:popupPanel>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+                 
+	<a4j:region>
+		<script language="javascript">
+			jsf.ajax.addOnError(function(data)
+			{
+				if (data.responseCode == 200)
+				{
+					RichFaces.$('sessionTimeOutWindow').show();
+				}
+			});
+		</script>
+	
+	</a4j:region>
+ 
+	<rich:popupPanel id="sessionTimeOutWindow" styleClass="confirm" width="375" height="160" resizeable="false" onmaskclick="#{rich:component('sessionTimeOutWindow')}.hide()">
+		<f:facet name="header">
+			<h:outputText value="Sesi&#243;n caducada" />
+		</f:facet>
+		 
+		<h:panelGrid styleClass="confirmContent" rowclasses="wXXL, ">
+			
+			<h:panelGrid>
+                <h:outputText styleClass="textMessage" value="La sesi&#243;n ha caducado. Haga clic en el bot&#243;n Aceptar para volver a acceder a la aplicaci&#243;n." />
+            </h:panelGrid>
+			
+			<div class="actionButtons">
+				<input  id="confirmBackToLogin" type="button" value="Aceptar" onclick="window.location='/uniminutoTest/';" />
+			</div>
+			
+		</h:panelGrid>
+		
+	</rich:popupPanel>
+
+</ui:composition>

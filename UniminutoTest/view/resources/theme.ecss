@@ -1,0 +1,82 @@
+body{
+	font-family:'#{richSkin.generalFamilyFont}';
+	color:'#{richSkin.generalTextColor}';
+}
+h1{
+	font-family:'#{richSkin.generalFamilyFont}';
+	color:'#{richSkin.tabDisabledTextColor}';
+}
+a:active, a:link, a:visited{
+	color:'#{richSkin.generalLinkColor}';
+}
+a:hover{
+	color:'#{richSkin.hoverLinkColor}';
+}
+input[type=text], input[type=password], textarea, select{
+	background-color:'#{richSkin.controlBackgroundColor}';
+	color:'#{richSkin.controlTextColor}';
+	background-position:left top;
+	background-repeat:repeat-x;
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.InputBackgroundImage']})";
+	border:1px solid;
+	border-color:'#{richSkin.tableBorderColor}';
+}
+select{
+	background-color:transparent;
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.InputBackgroundImage']})";
+}
+option{
+	background-color:'#{richSkin.generalBackgroundColor}';
+}
+select[multiple]{
+	background-color:'#{richSkin.controlBackgroundColor}';
+}
+select[multiple] option{
+	background-color:transparent;
+}
+input[type=submit], input[type=button]{
+	padding:1px 4px;
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.ButtonBackgroundImage']})";
+	border:1px solid;
+	border-color:'#{richSkin.headerBackgroundColor}';
+	color:'#{richSkin.headerTextColor}';
+	font-weight:bold;
+}
+input[type=submit][disabled], input[type=button][disabled]{
+	opacity:0.33;
+}
+* html input[type=submit], * html input[type=button], *+html input[type=submit], *+html input[type=button]{
+	border:0;
+	font-size:11px;
+}
+.rf-tbl-subheadercell{
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.InputBackgroundImage']})";
+}
+.rf-tb a:link, .rf-tb a:visited, .rf-tb a:active, .rf-tb a:hover{
+	color:'#{richSkin.headerTextColor}';
+}
+.rf-tb a:hover{
+	color:color:rgb(200, 200, 200);
+}
+.rf-tb .rf-ddm-itm, .rf-tb .rf-ddm-itm a, .rf-tb .rf-ddm-itm a:hover, .rf-tb .rf-ddm-itm a:visited{
+	color:'#{richSkin.generalTextColor}';
+}
+.rf-tbl-subheadercell a:hover{
+	color:'#{richSkin.calendarHolidaysTextColor}';
+}
+input[type=text][class|=rich-combobox-button-icon]{
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.ComboDownButton']})";
+	background-color:transparent;
+}
+input[type=text][class~=rich-combobox-button-icon-disabled]{
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.ComboDownButton']})";
+	background-color:transparent;
+}
+input[type=text][class|=rich-combobox-button-background]{
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.StandardButtonBgImage']})";
+	background-color:'#{richSkin.tabBackgroundColor}';
+}
+input[type=text][class~=rich-combobox-button-pressed-background]{
+	background-image:"url(#{resource['org.richfaces.renderkit.html.images.ComboDownButton']})";
+	background-color:'#{richSkin.tabBackgroundColor}';
+}

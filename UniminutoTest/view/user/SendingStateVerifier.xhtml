@@ -1,0 +1,238 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sc="http://www.software-colombia.com/namespace"
+	xmlns:a4j="http://richfaces.org/a4j" 
+	template="/layout/template.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="firstResult" value="#{sendingListUser.firstResult}" />
+				<f:viewParam name="sort" value="#{sendingListUser.orderColumn}" />
+				<f:viewParam name="dir" value="#{sendingListUser.orderDirection}" />
+				<f:viewParam name="logic" value="#{sendingListUser.restrictionLogicOperator}" />
+				
+				<f:viewParam name="from" />
+				<f:viewParam name="businessProcessId" value="#{sendingListUser.sending.reportType.businessProcess.id}" />
+				<f:viewParam name="reportTypeId" value="#{sendingListUser.sending.reportType.id}" />
+				<f:viewParam name="sendingForValidation" value="#{sendingListUser.sending.sendingForValidation}" />
+				<f:viewParam name="cutOffDate" value="#{sendingListUser.sending.cutOffDate}" />
+				<f:viewParam name="sendingForValidationState" value="#{sendingListUser.sending.state.id}" />
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+	
+	<ui:define name="head">
+		<h:outputScript library="javascript" name="genericScriptSendingStateVerifier.js" />
+	</ui:define>
+	
+	<ui:define name="body">
+		<h:form id="reportTypeSearch" styleClass="edit">
+		
+			<rich:collapsiblePanel header="Filtro de b&uacute;squeda de env&iacute;os" switchType="client">
+
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Proceso de negocio</ui:define>
+					<h:selectOneMenu id="businessProcessId" value="#{sendingListUser.sending.businessProcess.id}" title="Seleccione un proceso de negocio." valueChangeListener="#{reportTypeByBusinessProcessList.loadNewItems}">
+						<f:selectItem itemLabel="Seleccione un proceso de negocio."/>
+						<f:selectItems var="item" value="#{authenticator.businessProcess}" itemLabel="#{item.name}" itemValue="#{item.id}"/>
+						<a4j:ajax event="change" render="reportTypeId"/>
+					</h:selectOneMenu>
+				</ui:decorate>
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Tipo de informe</ui:define>
+					<h:selectOneMenu id="reportTypeId" value="#{sendingListUser.sending.reportType.id}" title="Seleccione un tipo de informe." valueChangeListener="#{reportTypePeriodicityBean.loadNewCalendarDataModel}">
+						<f:selectItem  itemLabel="Seleccione un tipo de informe."/>
+						<f:selectItems var="item" value="#{reportTypeByBusinessProcessList.resultListByBusinessProcess}" itemLabel="#{item.name}" itemValue="#{item.id}"/>
+						<a4j:ajax event="change" render="cutOffDate"/>
+					</h:selectOneMenu>
+				</ui:decorate>
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Periodo de corte</ui:define>
+					<rich:calendar id="cutOffDate"  dataModel="#{reportTypePeriodicityBean.currentCalendarDataModel}" value="#{sendingListUser.sending.cutOffDate}" mode="ajax" todayControlMode="hidden" firstWeekDay="1" showFooter="false" monthLabels="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Dicembre" monthLabelsShort="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic" weekDayLabelsShort="Dom,Lun,Mar,Mie,Jue,Vie,Sab" weekDayLabels="Domingo,Lunes,Martes,Miercoles,Jueves,Viernes,Sabado"  boundaryDatesMode="scroll" datePattern="yyyy-MM-dd" styleClass="input-calendar"/>
+				</ui:decorate>
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Tipo de env&iacute;o</ui:define>
+					<h:selectOneMenu id="sendingForValidation" title="Seleccione" value="#{sendingListUser.sending.sendingForValidation}">
+						<f:selectItem itemValue="false" itemLabel="Definitivo"/>
+						<f:selectItem itemValue="true" itemLabel="Validaci&oacute;n"/>
+						<f:validateBean disabled="#{true}" />
+					</h:selectOneMenu>
+				</ui:decorate>
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Estado del env&iacute;o</ui:define>
+					<h:selectOneMenu id="sendingForValidationState" title="Seleccione" value="#{sendingListUser.sending.state.id}">
+						<f:selectItem itemLabel="Seleccione"/>
+						<f:selectItems var="item" value="#{sendingListUserByStateList.resultList}" itemLabel="#{item.name}" itemValue="#{item.id}"/>
+					</h:selectOneMenu>
+				</ui:decorate>
+				
+				<ui:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Coincidencia</ui:define>
+					<h:selectOneRadio id="logic" value="#{sendingListUser.restrictionLogicOperator}" styleClass="radio">
+						<f:selectItem itemLabel="Todos los criterios especificados" itemValue="and" />
+						<f:selectItem itemLabel="Alguno de los criterios especificados" itemValue="or" />
+					</h:selectOneRadio>
+				</ui:decorate>
+
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton onclick="showWaitDialog();" type="submit" id="search" value="Buscar" />
+				<h:button  onclick="showWaitDialog();" id="reset" value="Reiniciar b&uacute;squeda"/>
+			</div>
+
+			<rich:panel>
+			
+				<f:facet name="header">Resultados de b&uacute;squeda de env&iacute;os (#{empty sendingListUser.resultList ? 0 : (sendingListUser.paginated ? sendingListUser.resultCount : sendingListUser.resultList.size)})</f:facet>
+				<div class="results" id="sendingListUser">
+	
+					<h:outputText value="La b&uacute;squeda de env&iacute;os no retorn&oacute; resultados." rendered="#{empty sendingListUser.resultList}" />
+					
+					<rich:dataScroller renderIfSinglePage="false" execute="@form" for="sendingListUser" maxPages="5" id="dataScroler1" reRender="dataScroler2" rendered="#{not empty sendingListUser.resultList}"/>
+					
+					<rich:dataTable rows="15" style="width:100%" id="sendingListUser" var="_sending" rowClasses="rvgRowOne,rvgRowTwo"  value="#{sendingListUser.resultList}" rendered="#{not empty sendingListUser.resultList}" styleClass="rf-dt-shdr-c1">
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Id" />
+									<ui:param name="propertyPath" value="sending.id" />
+								</ui:include>
+							</f:facet>
+							<h:outputText value="#{_sending.id}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Proceso de negocio" />
+							</f:facet>
+							<h:outputText value="#{empty _sending.businessProcess.name ? _sending.reportType.businessProcess.name : _sending.businessProcess.name}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Fecha de corte" />
+									<ui:param name="propertyPath" value="sending.cutOffDate" />
+								</ui:include>
+							</f:facet>
+							<h:outputText value="#{_sending.cutOffDate}">
+								<f:convertDateTime type="date" dateStyle="full"/>
+							</h:outputText>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Fecha de env&iacute;o" />
+									<ui:param name="propertyPath" value="sending.currentDate" />
+								</ui:include>
+							</f:facet>
+							<h:outputText value="#{_sending.currentDate}">
+								<f:convertDateTime type="both" dateStyle="full" timeZone="EST"/>
+							</h:outputText>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Estado" />
+									<ui:param name="propertyPath" value="sending.state.name" />
+								</ui:include>
+							</f:facet>
+							<h:outputText value="#{_sending.state.name}" />
+						</h:column>
+					
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Env&iacute;o para validaci&oacute;n?" />
+									<ui:param name="propertyPath" value="sending.sendingForValidation" />
+								</ui:include>
+							</f:facet>
+							<h:graphicImage id="imgSendingForValidation" value="#{_sending.sendingForValidation? '/img/enabled.png' : '/img/disabled.png'}" alt="#{_sending.sendingForValidation ? 'Si' : 'No'}" />
+							<rich:tooltip value="#{_sending.sendingForValidation ? 'Si' : 'No'}" target="imgSendingForValidation"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+									<ui:param name="entityList" value="#{sendingListUser}" />
+									<ui:param name="propertyLabel" value="Retransmisi&oacute;n autorizada?" />
+									<ui:param name="propertyPath" value="sending.resendAllowed" />
+								</ui:include>
+							</f:facet>
+							<h:graphicImage id="imgResendAllowed" value="#{_sending.resendAllowed ? '/img/enabled.png' : '/img/disabled.png'}" alt="#{_sending.resendAllowed ? 'Si' : 'No'}" />
+							<rich:tooltip value="#{_sending.resendAllowed ? 'Si' : 'No'}" target="imgResendAllowed"/>
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<ui:include src="/layout/sort.xhtml">
+										<ui:param name="propertyLabel" value="Descargar Respuesta"/>
+								</ui:include>
+							</f:facet>
+							<h:outputLink 	disabled="#{!_sending.downloadEnabled()}" value="downloadServlet.do" target="frameDownload">
+								<h:graphicImage id="imgDownload" value="#{_sending.downloadEnabled()? '/img/down.png':'/img/disabled.png'}" alt="Descargar respuesta" />
+								<rich:tooltip value="#{_sending.downloadEnabled()? 'Descargar archivo de respuesta. El archivo de respuesta se encuentra firmado digitalmente por la Superintendencia Financiera con el est&aacute;ndar CMS/PKCS7 attached. Para su verificaci&oacute;n y visualizaci&oacute;n se recomienda utilizar un visor de firma digital provisto por una autoridad de certificaci&oacute;n digital abierta.':'Descarga no disponible'}" target="imgDownload"/>
+								<f:param name="idSending" value="#{_sending.id}"/>
+							</h:outputLink>
+						</h:column>
+						
+					</rich:dataTable>
+	
+					<rich:dataScroller renderIfSinglePage="false" execute="@form" for="sendingListUser" maxPages="5"  rendered="#{not empty sendingListUser.resultList}" id="dataScroler2" reRender="dataScroler1"/>
+	
+				</div>
+			</rich:panel>
+		
+		</h:form>
+		<iframe name="frameDownload" style="display:none"/>
+	
+		<rich:popupPanel id="popupMessagesList" moveable="false" autosized="false" maxWidth="388" width="380" minWidth="380" modal="true" resizeable="false" style="sfont-size: 12px;" show="#{facesContext.maximumSeverity != null}" >
+	        <f:facet name="header">
+	        	<!-- every severity has a ordinal number, im not sure but 0 = info, 1 = warn, 2 = error and 3 = fatal, i guess -->
+	   			<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 0}">
+	      			<h:graphicImage value="/img/msginfo.png"/>
+	      			<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Informaci&oacute;n"/>
+	   			</h:panelGrid>
+	   			
+	   			<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 1}">
+	      			<h:graphicImage value="/img/msgwarn.png"/>
+	      			<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Advertencia"/>
+	   			</h:panelGrid>
+	
+				<h:panelGrid columns="2" rendered="#{facesContext.maximumSeverity.ordinal == 2}">
+					<h:graphicImage value="/img/msgerror.png"/>
+					<h:outputText value="Superfinanciera transmisi&oacute;n de archivos - Error"/>
+				</h:panelGrid>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:outputLink value="#" onclick="#{rich:component('popupMessagesList')}.hide(); return false;" style="sfont-size: 12px; color: white;">
+	                X
+	            </h:outputLink>
+	        </f:facet>
+	        
+	        <rich:messages style="font-size:14px;" id="mpMessage1" />   	
+	        <h:commandButton onclick="#{rich:component('popupMessagesList')}.hide(); return false;" value="Aceptar" style="align:center; font-size:14px;"/>
+    	</rich:popupPanel>
+	</ui:define>
+
+</ui:composition>

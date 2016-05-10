@@ -1,0 +1,569 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:rich="http://richfaces.org/rich"
+		xmlns:o="http://java.sun.com/jsf/composite/layout"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		template="/layout/template.xhtml">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="businessProcessFrom" />
+				<f:viewParam name="businessProcessId" value="#{businessProcessHome.businessProcessId}" />
+				<f:viewParam name="reportTypeFrom" />
+				<f:viewParam name="reportTypeId" value="#{reportTypeHome.reportTypeId}" />
+				<f:viewParam name="financialInstitutionTypeIdOperation" />
+				<f:viewParam name="financialInstitutionTypeId" value="#{financialInstitutionTypeHome.financialInstitutionTypeId}"/>
+				<f:viewParam name="financialInstitutionIdOperation" />
+				<f:viewParam name="financialInstitutionId" value="#{financialInstitutionHome.financialInstitutionId}"/>
+				<f:event type="preRenderView" listener="#{businessProcessHome.wireManyToManyRelationShip(financialInstitutionIdOperation)}" />
+				<f:event type="preRenderView" listener="#{businessProcessHome.wire()}" />
+				<f:event type="preRenderView" listener="#{businessProcessHome.wireManyToManyRelationShip(financialInstitutionTypeIdOperation)}"/>
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="head">
+		<h:outputScript library="javascript" name="showHidePassword.js"/>
+		<h:outputScript library="javascript" name="formManagment.js"/>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<h:form id="businessProcess" styleClass="edit">
+
+			<rich:panel>
+
+				<f:facet name="header">#{businessProcessHome.managed ? 'Editar' : 'Adicionar'} Proceso de negocio</f:facet>
+
+				<o:decorate label="Identificador" object="#{id}" showComponent="#{businessProcessHome.managed}">
+					<h:inputText binding="#{id}" id="id" required="true" disabled="#{businessProcessHome.managed}" value="#{businessProcessHome.instance.id}" />
+				</o:decorate>
+
+				<o:decorate label="Nombre" object="#{name}">
+					<h:inputText binding="#{name}" id="name" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.name}" />
+				</o:decorate>
+
+				<o:decorate label="Descripci&oacute;n" object="#{description}">
+					<h:inputText binding="#{description}" id="description" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.description}" />
+				</o:decorate>
+
+				<o:decorate label="¿Proceso activo?" object="#{state1}">
+					<h:selectOneMenu binding="#{state1}" required="true" id="state1" title="Seleccione" value="#{businessProcessHome.instance.state}">
+						<f:selectItem itemValue="" itemLabel="Seleccione"/>
+						<f:selectItem itemValue="false" itemLabel="Proceso en mantenimiento"/>
+						<f:selectItem itemValue="true" itemLabel="Proceso activo"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Env&iacute;os definitivos requieren firma digital?" object="#{digitalSignatureRequired}">
+					<h:selectOneMenu binding="#{digitalSignatureRequired}" required="true" id="digitalSignatureRequired" title="Seleccione" value="#{businessProcessHome.instance.digitalSignatureRequired}" onchange="showHideData(this.value,'.signPath', ['signedFilesPath', 'signedNotesPath'])">
+						<f:selectItem itemValue="" itemLabel="Seleccione"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+						<f:selectItem itemValue="false" itemLabel="No"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Env&iacute;os definitivos requieren notas complementarias?" object="#{notesRequired}">
+					<h:selectOneMenu binding="#{notesRequired}" required="true" id="notesRequired" title="Seleccione" value="#{businessProcessHome.instance.notesRequired}" onchange="showHideData(this.value,'.signNotes', ['signedNotesPath', 'unSignedNotesPath'], 'notes')">
+						<f:selectItem itemValue="" itemLabel="Seleccione"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+						<f:selectItem itemValue="false" itemLabel="No"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Existe l&oacute;gica de validaci&oacute;n previa?" object="#{validationAvailable}">
+					<h:selectOneMenu binding="#{validationAvailable}" required="true" id="validationAvailable" title="Seleccione" value="#{businessProcessHome.instance.validationAvailable}" onchange="showHideData(this.value,'.validData', ['validationPath', 'responseValidationPath','successPatternValidat'])">
+						<f:selectItem itemValue="" itemLabel="Seleccione"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+						<f:selectItem itemValue="false" itemLabel="No"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<div class="signPath" style="display: #{businessProcessHome.instance.digitalSignatureRequired ? 'inline' : 'none'}">
+					<o:decorate label="Ruta archivos firmados" object="#{signedFilesPath}">
+						<h:inputText binding="#{signedFilesPath}" id="signedFilesPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.signedFilesPath}" />
+					</o:decorate>
+				</div>
+				<o:decorate label="Ruta archivos no firmados" object="#{unSignedFilesPath}">
+					<h:inputText binding="#{unSignedFilesPath}" id="unSignedFilesPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.unSignedFilesPath}" />
+				</o:decorate>
+
+				<o:decorate label="Ruta tempotal de archivos no firmados" object="#{unSignedFilesPathTemp}">
+					<h:inputText binding="#{unSignedFilesPathTemp}" id="unSignedFilesPathTemp" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.unSignedFilesPathTemp}" />
+					<rich:tooltip target="unSignedFilesPathTemp">
+						Ruta creada para la transmisi&oacute;n de archivos grandes; en especial los archivos asociados a la antigua Superintendencia Bancaria. En este caso, los archivos ser&aacute;n
+						copiados en la ruta definida en esta entrada de texto y posteriormente ser&aacute;n movidos a la ruta definida en el campo 'Ruta archivos no firmados'. Este nuevo
+						par&aacute;metro se ha implementado como medida de contingencia para que los sistemas de la Superintendencia no empiecen a procesar un archivo hasta
+						que &eacute;ste se encuentre totalmente transmitido.
+					</rich:tooltip>
+				</o:decorate>
+
+				<div class="signPath signNotes" style="display: #{(businessProcessHome.instance.digitalSignatureRequired and businessProcessHome.instance.notesRequired) ? 'inline' : 'none'}">
+					<o:decorate label="Ruta notas firmadas" object="#{signedNotesPath}">
+						<h:inputText binding="#{signedNotesPath}" id="signedNotesPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.signedNotesPath}" />
+					</o:decorate>
+				</div>
+
+				<div class="signNotes notes" style="display: #{businessProcessHome.instance.notesRequired ? 'inline' : 'none'}">
+					<o:decorate label="Ruta notas no firmadas" object="#{unSignedNotesPath}">
+						<h:inputText binding="#{unSignedNotesPath}" id="unSignedNotesPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.unSignedNotesPath}" />
+					</o:decorate>
+				</div>
+
+				<div class="validData" style="display: #{businessProcessHome.instance.validationAvailable ? 'inline' : 'none'}">
+					<o:decorate label="Ruta de archivos para validaci&oacute;n" object="#{validationPath}">
+						<h:inputText binding="#{validationPath}" id="validationPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.validationPath}" />
+					</o:decorate>
+				</div>
+
+				<o:decorate label="Ruta de respuesta de procesamiento definitivo" object="#{responseFinalPath}">
+					<h:inputText binding="#{responseFinalPath}" id="responseFinalPath" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.responseFinalPath}" />
+				</o:decorate>
+
+				<div class="validData" style="display: #{businessProcessHome.instance.validationAvailable ? 'inline' : 'none'}">
+					<o:decorate label="Ruta de respuestas de procesamiento de validaci&oacute;n" object="#{responseValidationPath}">
+						<h:inputText binding="#{responseValidationPath}" id="responseValidationPath" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.responseValidationPath}" />
+					</o:decorate>
+				</div>
+
+				<o:decorate label="N&uacute;meros de reintentos de procesamiento" object="#{retryNumber}">
+					<h:inputText binding="#{retryNumber}" id="retryNumber" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.retryNumber}" />
+				</o:decorate>
+
+				<o:decorate label="Tiempo para el reintento" object="#{retryTime}">
+					<h:inputText binding="#{retryTime}" id="retryTime" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.retryTime}" />
+				</o:decorate>
+
+				<o:decorate label="Patr&oacute;n de respuesta exitosa" object="#{successResponsePattern}">
+					<h:inputText binding="#{successResponsePattern}" id="sucsessPattern" size="65" maxlength="200" required="true" value="#{businessProcessHome.instance.successResponsePattern}" />
+				</o:decorate>
+
+				<div class="validData" style="display: #{businessProcessHome.instance.validationAvailable ? 'inline' : 'none'}">
+					<o:decorate label="Patr&oacute;n de respuesta exitosa en validaci&oacute;n" object="#{successResPatternValidat}">
+						<h:inputText binding="#{successResPatternValidat}" id="successPatternValidat" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.successResPatternValidat}" />
+					</o:decorate>
+				</div>
+
+				<o:decorate label="¿Copia remota?" object="#{remoteCopy}">
+					<h:selectOneMenu binding="#{remoteCopy}" required="true" id="remoteCopy" title="Seleccione" value="#{businessProcessHome.instance.remoteReportCopy}" onchange="showHideData(this.value,'.dataSCP', ['scpUser', 'scpPasswordHide', 'scpPasswordShow', 'scpMachine', 'remotePort'], 'remote')">
+						<f:selectItem itemValue="false" itemLabel="No"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Lectura remota de archivos de respuesta?" object="#{remoteResponseRead}">
+					<h:selectOneMenu binding="#{remoteResponseRead}" required="true" id="remoteResponseRead" title="Seleccione" value="#{businessProcessHome.instance.remoteResponseRead}" onchange="showHideData(this.value,'.dataSCP', ['scpUser', 'scpPasswordHide', 'scpPasswordShow', 'scpMachine', 'remotePort'], 'remote')">
+						<f:selectItem itemValue="false" itemLabel="No"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Copia remota de archivos firmados en Ares?" object="#{remoteAres}">
+					<h:selectOneMenu binding="#{remoteAres}" required="true" id="remoteAres" title="Seleccione" value="#{businessProcessHome.instance.remoteAres}" onchange="showHideData(this.value,'.dataAresSCP', ['scpAresUser', 'scpAresPassword', 'scpAresMachine', 'remoteAresPort'])">
+						<f:selectItem itemValue="false" itemLabel="No"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<o:decorate label="¿Incluir c&oacute;digo de negocio?" object="#{includeSFCBusinessCode}">
+					<h:selectOneMenu binding="#{includeSFCBusinessCode}" required="true" id="includeSFCBusinessCode" title="Seleccione" value="#{businessProcessHome.instance.includeSFCBusinessCode}">
+						<f:selectItem itemValue="false" itemLabel="No"/>
+						<f:selectItem itemValue="true" itemLabel="Si"/>
+					</h:selectOneMenu>
+				</o:decorate>
+
+				<div class="dataSCP" style="display: #{(businessProcessHome.instance.remoteReportCopy or businessProcessHome.instance.remoteResponseRead) ? 'inline' : 'none'}">
+					<o:decorate label="Usuario SCP" object="#{scpUser}">
+						<h:inputText binding="#{scpUser}" id="scpUser" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.scpUser}" />
+					</o:decorate>
+
+					<o:decorate label="Password SCP" object="#{scpPassword}">
+						<input type="password" value="" name="scpPasswordHide" id="scpPasswordHide" style="width:410px;" onblur="updatePassword(this.value, 'scpPassword')"/>
+						<input type="text" value="" name="scpPasswordShow" id="scpPasswordShow" style="display: none; width:410px;" onblur="updatePassword(this.value, 'scpPassword')"/>
+						<img style=" height : 25px;" id="verImagenRemote" src="../img/eye-icon.png" onclick="showHideData(true, 'verImagenRemote', 'scpPasswordShow', 'ocultarImagenRemote', 'scpPasswordHide', 'scpPassword', 'edit')" alt="Ver Clave"/>
+						<rich:tooltip target="verImagenRemote" value="Ver clave" />
+						<img style="display: none; height : 25px;" id="ocultarImagenRemote" src="../img/eye-icon-closed.png" onclick="showHidePassword(false, 'verImagenRemote', 'scpPasswordShow', 'ocultarImagenRemote', 'scpPasswordHide', 'scpPassword', 'edit')" alt="Ocultar Clave"/>
+						<rich:tooltip target="ocultarImagenRemote" value="Ocultar clave" />
+						<h:inputHidden id="scpPassword"  required="false" name="scpAresPassword" value="#{businessProcessHome.instance.scpPassword}" />
+					</o:decorate>
+
+					<o:decorate label="M&aacute;quina remota" object="#{scpMachine}">
+						<h:inputText binding="#{scpMachine}" id="scpMachine" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.scpMachine}" />
+					</o:decorate>
+
+					<o:decorate label="Puerto m&aacute;quina remota" object="#{remotePort}">
+						<h:inputText binding="#{remotePort}" id="remotePort" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.remotePort}" />
+					</o:decorate>
+				</div>
+
+				<div class="dataAresSCP" style="display: #{businessProcessHome.instance.remoteAres ? 'inline' : 'none'}">
+					<o:decorate label="Usuario Ares SCP" object="#{scpAresUser}">
+						<h:inputText binding="#{scpAresUser}" id="scpAresUser" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.scpAresUser}" />
+					</o:decorate>
+
+					<o:decorate label="Password Ares SCP" object="#{scpAresPassword}">
+						<input type="password" value="" name="scpAresPasswordHide" id="scpAresPasswordHide" style="width:410px;" onblur="updatePassword(this.value, 'scpAresPassword')"/>
+						<input type="text" value="" name="scpAresPasswordShow" id="scpAresPasswordShow" style="display: none; width:410px;" onblur="updatePassword(this.value, 'scpAresPassword')"/>
+						<img style=" height : 25px;" id="verImagenAres" src="../img/eye-icon.png" onclick="showHideData(true, 'verImagenAres', 'scpAresPasswordShow', 'ocultarImagenAres', 'scpAresPasswordHide', 'scpAresPassword', 'edit')" alt="Ver Clave"/>
+						<rich:tooltip target="verImagenAres" value="Ver clave" />
+						<img style="display: none; height : 25px;" id="ocultarImagenAres" src="../img/eye-icon-closed.png" onclick="showHidePassword(false, 'verImagenAres', 'scpAresPasswordShow', 'ocultarImagenAres', 'scpAresPasswordHide', 'scpAresPassword', 'edit')" alt="Ocultar Clave"/>
+						<rich:tooltip target="ocultarImagenAres" value="Ocultar clave" />
+						<h:inputHidden id="scpAresPassword"  required="false" name="scpAresPassword" value="#{businessProcessHome.instance.scpAresPassword}" />
+					</o:decorate>
+
+					<o:decorate label="M&aacute;quina remota Ares" object="#{scpAresMachine}">
+						<h:inputText binding="#{scpAresMachine}" id="scpAresMachine" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.scpAresMachine}" />
+					</o:decorate>
+
+					<o:decorate label="Puerto m&aacute;quina remota Ares" object="#{remoteAresPort}">
+						<h:inputText binding="#{remoteAresPort}" id="remoteAresPort" size="65" maxlength="200" required="false" value="#{businessProcessHome.instance.remoteAresPort}" />
+					</o:decorate>
+				</div>
+
+				<rich:panel>
+					<o:decorate label="¿Envío por bloques?" object="#{blockSending}">
+						<h:selectOneMenu binding="#{blockSending}" required="true" id="blockSending" title="Seleccione" value="#{businessProcessHome.instance.blockSending}" onchange="showHideData(this.value,'.bloqSending', ['businessProcess:j_idt156:nomenclatureReport', 'businessProcess:j_idt168:nomenclatureResponse'])">
+							<f:selectItem itemValue="false" itemLabel="No"/>
+							<f:selectItem itemValue="true" itemLabel="Si"/>
+						</h:selectOneMenu>
+					</o:decorate>
+
+					<div class="bloqSending" style="display: #{businessProcessHome.instance.blockSending ? 'inline' : 'none'}">
+						<o:decorate label="Nomenclatura para reportes" object="#{nomenclatureReport}">
+							<h:inputText binding="#{nomenclatureReport}" id="nomenclatureReport" size="65" maxlength="1000" required="false" value="#{businessProcessHome.instance.nomenclatureReport}" />
+							<rich:tooltip target="nomenclatureReport">
+							<ul>
+								<li>
+									<strong>{TIPO_ENTIDAD_CODE}</strong>: C&oacute;digo unificado del tipo de entIdad. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+								</li>
+
+								<li>
+									<strong>{TIPO_ENTIDAD_CODE_RNVEI}</strong>: C&oacute;digo antiguo de tipo de entidad RNVEI al cual pertenece la entidad vigiLada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+								</li>
+
+								<li>
+									<strong>{ENTIDAD_CODE}</strong>: C&oacute;digo unificado asignado a la entidad vigilada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de seis d&iacute;gitos.
+								</li>
+
+								<li>
+									<strong>{ENTIDAD_CODE_RNVEI}</strong>: C&oacute;digo antiguo RNVEI asignado a la entidad vigilada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+								</li>
+
+								<li>
+									<strong>{SUB_EXT}</strong>: Extensi&oacute;n anterior o sub-extensi&oacute;n del archivo originalmente enviado por el usuario vigiLado.
+								</li>
+
+								<li>
+									<strong>{EXT}</strong>: Extensi&oacute;n del archivo originalmente enviado por el usuario vigiLado.
+								</li>
+
+								<li>
+									<strong>{ID_ENVIO}</strong>: Identificador &uacute;nico del env&iacute;o asociado al archivo.
+								</li>
+
+								<li>
+									<strong>{ID_ENVIO_N}</strong>: Identificador único del envío asociado al archivo con un padding de N ceros al principio del identificador.
+								</li>
+
+							</ul>
+							</rich:tooltip>
+						</o:decorate>
+
+						<o:decorate label="Nomenclatura para respuestas" object="#{nomenclatureResponse}">
+							<h:inputText binding="#{nomenclatureResponse}" id="nomenclatureResponse" size="65" maxlength="1000" required="false" value="#{businessProcessHome.instance.nomenclatureResponse}" />
+							<rich:tooltip target="nomenclatureResponse">
+								<ul>
+									<li>
+										<strong>{TIPO_ENTIDAD_CODE}</strong>: C&oacute;digo unificado del tipo de entIdad. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+									</li>
+
+									<li>
+										<strong>{TIPO_ENTIDAD_CODE_RNVEI}</strong>: C&oacute;digo antiguo de tipo de entidad RNVEI al cual pertenece la entidad vigiLada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+									</li>
+
+									<li>
+										<strong>{ENTIDAD_CODE}</strong>: C&oacute;digo unificado asignado a la entidad vigilada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de seis d&iacute;gitos.
+									</li>
+
+									<li>
+										<strong>{ENTIDAD_CODE_RNVEI}</strong>: C&oacute;digo antiguo RNVEI asignado a la entidad vigilada. Al procesar este comod&iacute;n se retornar&aacute; un c&oacute;digo de tres d&iacute;gitos.
+									</li>
+
+									<li>
+										<strong>{SUB_EXT}</strong>: Extensi&oacute;n anterior o sub-extensi&oacute;n del archivo originalmente enviado por el usuario vigiLado.
+									</li>
+
+									<li>
+										<strong>{EXT}</strong>: Extensi&oacute;n del archivo originalmente enviado por el usuario vigiLado.
+									</li>
+
+									<li>
+										<strong>{ID_ENVIO}</strong>: Identificador &uacute;nico del env&iacute;o asociado al archivo.
+									</li>
+
+									<li>
+										<strong>{ID_ENVIO_N}</strong>: Identificador único del envío asociado al archivo con un padding de N ceros al principio del identificador.
+									</li>
+
+								</ul>
+							</rich:tooltip>
+						</o:decorate>
+					</div>
+
+				</rich:panel>
+
+				<div style="clear:both">
+					<span class="required">
+						<h:graphicImage value="/img/requiredTextField.png"/>
+						Campos requeridos
+					</span>
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="Salvar" action="#{businessProcessHome.persist}" rendered="#{!businessProcessHome.managed}" />
+				<h:commandButton id="update" value="Actualizar" action="#{businessProcessHome.update}" rendered="#{businessProcessHome.managed}" />
+				<h:commandButton id="delete" value="Borrar" action="#{businessProcessHome.remove}" immediate="true" rendered="#{businessProcessHome.managed}" />
+				<h:button id="cancelEdit" value="Cancelar" immediate="true" outcome="BusinessProcess" rendered="#{businessProcessHome.managed}" includeViewParams="true">
+					<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}" />
+				</h:button>
+				<h:button id="cancelAdd" value="Cancelar" immediate="true" outcome="#{empty businessProcessFrom ? 'BusinessProcessList' : businessProcessFrom}" rendered="#{!businessProcessHome.managed}" includeViewParams="true"/>
+
+			</div>
+
+			<script type="application/javascript">
+				$( document ).ready(function() {
+					var hiddenFieldAres = $('[id$=scpAresPassword]').val();
+					var hiddenFieldRemote = $('[id$=scpPassword]').val();
+					var inputTypeHideAres = $('#scpAresPasswordHide');
+					var inputTypeHideRemote = $('#scpPasswordHide');
+					if(hiddenFieldAres != '')
+					{
+						inputTypeHideAres.val(hiddenFieldAres);
+					}
+					if(hiddenFieldRemote != '')
+					{
+						inputTypeHideRemote.val(hiddenFieldRemote);
+					}
+				});
+			</script>
+		</h:form>
+
+		<h:form styleClass="association" id="associations">
+
+			<rich:tabPanel switchType="ajax" rendered="#{businessProcessHome.managed}">
+
+				<rich:tab>
+
+					<f:facet name="header">
+						<h:panelGrid columns="2">
+							<h:graphicImage value="/img/onetomany.gif"
+											style="vertical-align: middle; padding-right: 4px;float:left"/>
+							<h:outputLabel value="Tipos de reporte"/>
+						</h:panelGrid>
+					</f:facet>
+
+					<h:outputText value="No existen tipos de reporte asociados a este proceso de negocio" rendered="#{empty businessProcessHome.reportTypes}" />
+
+					<rich:dataTable style="width:100%" value="#{businessProcessHome.reportTypes}" var="_reportType" rendered="#{not empty businessProcessHome.reportTypes}" rowClasses="rvgRowOne,rvgRowTwo" id="reportTypeTable">
+						<rich:column sortBy="#{_reportType.id}">
+							<f:facet name="header">Id</f:facet>
+							<h:outputText value="#{_reportType.id}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_reportType.name}">
+							<f:facet name="header">Nombre</f:facet>
+							<h:outputText value="#{_reportType.name}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_reportType.superfinancieraCode}">
+							<f:facet name="header">C&oacute;digo Superfinanciera</f:facet>
+							<h:outputText value="#{_reportType.superfinancieraCode}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_reportType.periodicity}">
+							<f:facet name="header">Periodicidad</f:facet>
+							<h:outputText value="#{_reportType.periodicity}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">Acci&oacute;n</f:facet>
+							<h:link id="selectReportType" outcome="ReportType" includeViewParams="true">
+								<f:param name="reportTypeId" value="#{_reportType.id}" />
+								<f:param name="reportTypeFrom" value="BusinessProcessEdit" />
+								<h:graphicImage id="imgSelect" value="/img/view.png" alt="Ver"/>
+							</h:link>
+							<rich:tooltip value="Ver" for="imgSelect"/>
+						</rich:column>
+
+					</rich:dataTable>
+
+					<f:subview rendered="#{businessProcessHome.managed}" id="bussinesProcess">
+						<div class="actionButtons">
+							<h:button id="addreportType" value="Crear y asociar un tipo de reporte" outcome="ReportTypeEdit" includeViewParams="true">
+								<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}" />
+								<f:param name="reportTypeFrom" value="BusinessProcessEdit" />
+							</h:button>
+						</div>
+					</f:subview>
+
+				</rich:tab>
+
+				<rich:tab>
+
+					<f:facet name="header">
+						<h:panelGrid columns="2">
+							<h:graphicImage value="/img/onetomany.gif"
+											style="vertical-align: middle; padding-right: 4px;float:left"/>
+							<h:outputLabel value="Tipos de entidades"></h:outputLabel>
+						</h:panelGrid>
+					</f:facet>
+
+					<h:outputText value="No existen tipos de entidades asociadas a este proceso de negocio." rendered="#{empty financialInstitutionTypeListByBusinessProcess.resultList}" />
+
+					<rich:extendedDataTable value="#{financialInstitutionTypeListByBusinessProcess.resultList}" filterVar="filterValue" var="_financialInstitutionType" rendered="#{not empty financialInstitutionTypeListByBusinessProcess.resultList}" rowClasses="rvgRowOne,rvgRowTwo" id="financialInstitutionTypeTable" sortMode="single">
+						<rich:column sortBy="#{_financialInstitutionType.id}" sortOrder="descending" filterExpression="#{empty filterValue or fn:startsWith(_financialInstitutionType.id, filterValue)}">
+							<f:facet name="header">Id</f:facet>
+							<h:outputText value="#{_financialInstitutionType.id}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_financialInstitutionType.name}" filterExpression="#{empty filterValue or fn:startsWith(_financialInstitutionType.name, filterValue)}">
+							<f:facet name="header">Nombre</f:facet>
+							<h:outputText value="#{_financialInstitutionType.name}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_financialInstitutionType.code}" filterExpression="#{empty filterValue or fn:startsWith(_financialInstitutionType.code, filterValue)}">
+							<f:facet name="header">C&oacute;digo</f:facet>
+							<h:outputText value="#{_financialInstitutionType.code}" />
+						</rich:column>
+
+						<rich:column style="width:15%">
+							<f:facet name="header">Acci&oacute;n</f:facet>
+							<h:link id="selectFinancialInstitutionType" outcome="FinancialInstitutionType"  onclick="showWaitDialog();" includeViewParams="true">
+								<f:param name="financialInstitutionTypeId" value="#{_financialInstitutionType.id}" />
+								<f:param name="financialInstitutionTypeFrom" value="BusinessProcessEdit" />
+								<f:param name="financialInstitutionTypeIdOperation" value="none"/>
+								<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}"/>
+								<h:graphicImage id="imgSelectFinancialInstitutionType" value="/img/view.png" alt="Ver"/>
+
+								<rich:tooltip target="imgSelect" styleClass="tooltip" layout="block" value="Ver" />
+							</h:link>
+
+
+							<h:link id="disableFinancialInstitutionType"  onclick="showWaitDialog();" outcome="BusinessProcessEdit">
+								<f:param name="financialInstitutionTypeId" value="#{_financialInstitutionType.id}" />
+								<f:param name="financialInstitutionTypeIdOperation" value="delete"/>
+								<f:param name="financialInstitutionTypeFrom" value="BusinessProcessEdit"/>
+								<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}"/>
+								<h:graphicImage id="imgDisableFinancialInstitutionType" value="/img/disabled.png" alt="Deshabilitar tipo de entidad para el proceso de negocio actual."/>
+
+								<rich:tooltip target="imgDisable" styleClass="tooltip" layout="block"  value="Deshabilitar tipo de entidad para el proceso de negocio #{businessProcessHome.instance.name}." />
+							</h:link>
+
+						</rich:column>
+
+					</rich:extendedDataTable>
+
+					<div class="actionButtons">
+						<h:button value="Asociar tipo de entidad al proceso de negocio" outcome="FinancialInstitutionTypeList"  onclick="showWaitDialog();" includeViewParams="true" >
+							<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}" />
+							<f:param name="from" value="BusinessProcessEdit" />
+						</h:button>
+					</div>
+
+				</rich:tab>
+				<rich:tab>
+
+					<f:facet name="header">
+						<h:panelGrid columns="2">
+							<h:graphicImage value="/img/onetomany.gif"
+											style="vertical-align: middle; padding-right: 4px;float:left"/>
+							<h:outputLabel value="Entidades"/>
+						</h:panelGrid>
+					</f:facet>
+
+					<h:outputText value="No existen entidades asociadas a este proceso de negocio" rendered="#{empty financialInstitutionListByBusinessProcess.resultList}" />
+
+					<rich:extendedDataTable value="#{financialInstitutionListByBusinessProcess.resultList}" var="_financialInstitution" filterVar="filterValue1" rendered="#{not empty financialInstitutionListByBusinessProcess.resultList}" rowClasses="rvgRowOne,rvgRowTwo" id="financialInstitutionTable" sortMode="single">
+
+						<rich:column sortBy="#{_financialInstitution.id}" sortOrder="descending" filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.id, filterValue1)}">
+                            <f:facet name="header">Id</f:facet>
+                            <h:outputText value="#{_financialInstitution.id}" />
+                        </rich:column>
+
+						<rich:column sortBy="#{_financialInstitution.financialInstitutionType.oldRNVEICode}"
+									 filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.financialInstitutionType.oldRNVEICode, filterValue1)}">
+                            <f:facet name="header">Tipo entidad c&oacute;digo antiguo RNVEI</f:facet>
+                            <h:outputText value="#{_financialInstitution.financialInstitutionType.oldRNVEICode}" />
+                        </rich:column>
+
+						<rich:column sortBy="#{_financialInstitution.code}"
+									 filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.code, filterValue1)}">
+                            <f:facet name="header">C&oacute;digo unificado</f:facet>
+                            <h:outputText value="#{_financialInstitution.code}" />
+                        </rich:column>
+
+						<rich:column sortBy="#{_financialInstitution.oldRNVEICode}"
+									 filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.oldRNVEICode, filterValue1)}">
+                            <f:facet name="header">C&oacute;digo antiguo RNVEI</f:facet>
+                            <h:outputText value="#{_financialInstitution.oldRNVEICode}" />
+                        </rich:column>
+
+						<rich:column sortBy="#{_financialInstitution.name}"
+									 filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.name, filterValue1)}">
+                            <f:facet name="header">Nombre</f:facet>
+                            <h:outputText value="#{_financialInstitution.name}" />
+                        </rich:column>
+
+						<rich:column sortBy="#{_financialInstitution.identification}"
+									 filterExpression="#{empty filterValue1 or fn:startsWith(_financialInstitution.identification, filterValue1)}">
+                            <f:facet name="header">NIT</f:facet>
+                            <h:outputText value="#{_financialInstitution.identification}" />
+                        </rich:column>
+
+						<rich:column>
+
+							<f:facet name="header">Acci&oacute;n</f:facet>
+							<h:link id="selectFinancialInstitution" outcome="FinancialInstitution" onclick="showWaitDialog();" includeViewParams="true">
+								<f:param name="financialInstitutionId" value="#{_financialInstitution.id}" />
+								<f:param name="financialInstitutionFrom" value="BusinessProcessEdit" />
+								<f:param name="financialInstitutionIdOperation" value="none"/>
+								<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}"/>
+								<h:graphicImage id="imgSelectFinancialInstitution" value="/img/view.png" alt="Ver"/>
+								<rich:tooltip for="selectFinancialInstitution" styleClass="tooltip" layout="block" value="Ver" />
+							</h:link>
+
+							<h:link id="disableFinancialInstitution" outcome="BusinessProcessEdit" onclick="showWaitDialog();" includeViewParams="true">
+								<f:param name="financialInstitutionId" value="#{_financialInstitution.id}" />
+								<f:param name="financialInstitutionIdOperation" value="delete"/>
+								<h:graphicImage id="imgDisableFinancialInstitution" value="/img/disabled.png" alt="Deshabilitar entidad asociada a este proceso de negocio"/>
+								<rich:tooltip for="disableFinancialInstitution" styleClass="tooltip" layout="block"  value="Deshabilitar entidad asociada a este proceos de negocio" />
+							</h:link>
+
+						</rich:column>
+
+					</rich:extendedDataTable>
+
+					<div class="actionButtons">
+						<h:button value="Asociar entidad al este procesos de negocio" outcome="FinancialInstitutionList" onclick="showWaitDialog();" includeViewParams="true">
+							<f:param name="businessProcessId" value="#{businessProcessHome.instance.id}" />
+							<f:param name="from" value="BusinessProcessEdit" />
+						</h:button>
+					</div>
+
+				</rich:tab>
+			</rich:tabPanel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

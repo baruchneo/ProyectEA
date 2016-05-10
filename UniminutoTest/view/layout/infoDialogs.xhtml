@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	<rich:popupPanel showWhenRendered="#{facesContext.maximumSeverity != null}"  id="popup" autosized="true" onmaskclick="#{rich:component('popup')}.hide()">
+		
+		<f:facet name="header">
+			<h:outputText value="Ventana informativa.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
+		</f:facet>
+		
+		<f:facet name="controls">
+			<h:graphicImage value="/img/close.png" styleClass="hidelink" id="hidelink" onclick="#{rich:component('popup')}.hide(); return false;"/>
+		</f:facet>
+		
+		<h:messages/>
+		
+		<rich:panel>
+			<h:panelGrid columns="2">
+				<a4j:commandButton  ignoreDupResponses="true" id="cerrarModal"  value="Cerrar"  onclick="#{rich:component('popup')}.hide(); return false;"/>
+				<a4j:commandButton  ignoreDupResponses="true" id="regresarModal"  value="Regresar"  onclick="window.location='/uniminutoTest/';"/>
+			</h:panelGrid>
+		</rich:panel>
+	</rich:popupPanel>
+	
+</ui:composition>

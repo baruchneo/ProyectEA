@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+
+	
+	<!-- Presentacion asociada a usuarios no autenticados -->
+	<h:form id="loginForm">
+	
+		<h:panelGrid columns="2" rendered="#{not identity.loggedIn}">
+	
+			<h:graphicImage value="/img/SuperfinancieraLogo.png" alt="Superintendencia Financiera" />
+	
+			<h:panelGroup styleClass="info">
+				<p>
+					<strong>:: Recepci&oacute;n de informaci&oacute;n ::</strong>
+					m&oacute;dulo para la recepci&oacute;n de la informaci&oacute;n
+					enviada por los vigilados de la Superintendencia y para la
+					verificaci&oacute;n de su estado de procesamiento.
+				</p>
+				
+				<div class="dialog">
+					<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value">
+						
+							<h:outputLabel for="username">Usuario</h:outputLabel>
+							<h:inputText binding="#{username}"  id="username" value="#{identity.username}" required="true" style="width:180px" />
+							
+							<h:panelGroup styleClass="error" rendered="#{!username.valid}">
+								<h:graphicImage styleClass="errors" value="/img/warning.png"/> 
+								<h:message errorClass="errors" for="username" />
+							</h:panelGroup>
+							
+							<h:outputText value="" rendered="#{username.valid}"/>
+							
+							<h:outputLabel for="password">Clave</h:outputLabel>
+							<h:inputSecret binding="#{password}" id="password" value="#{identity.password}" required="true" style="width:180px"/>
+							
+							<h:panelGroup styleClass="error" rendered="#{!password.valid}">
+								<h:graphicImage styleClass="errors" value="/img/warning.png"/> 
+								<h:message errorClass="errors" for="password" />
+							</h:panelGroup>
+							
+							<h:outputText value="" rendered="#{password.valid}"/>
+							
+							<h:outputLabel for="rememberMe">Recordar usuario en este equipo?</h:outputLabel>
+							<h:selectBooleanCheckbox id="rememberMe" value="#{rememberMe.enabled}" />
+							<h:outputText value="" />
+							
+							<h:outputText value="" />
+							<h:commandButton onclick="showWaitDialog();" id="submit" value="Ingresar" action="#{identity.login}" status="loadingStatus" ignoreDupResponses="true" />
+							<h:outputText value="" />
+							
+					</h:panelGrid>
+				</div>
+			</h:panelGroup>
+		</h:panelGrid>
+		
+	</h:form>
+	
+</ui:composition>

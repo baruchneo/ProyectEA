@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config 
+	version="2.1" 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+	<application>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>bg</supported-locale>
+			<supported-locale>de</supported-locale>
+			<supported-locale>en</supported-locale>
+			<supported-locale>fr</supported-locale>
+			<supported-locale>it</supported-locale>
+			<supported-locale>tr</supported-locale>
+			<supported-locale>da</supported-locale>
+		</locale-config>
+	</application>
+  
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{identity.login}</from-action>
+			<if>#{identity.loggedIn}</if>
+			<to-view-id>/home.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/PropertyEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{propertyHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/Property.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{propertyHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/Property.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{propertyHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/PropertyList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/ReportTypeEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{reportTypeHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/ReportType.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{reportTypeHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/ReportType.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{reportTypeHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/ReportTypeList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/SendingEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{sendingHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/Sending.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{sendingHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/Sending.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{sendingHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/SendingList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/StateEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{stateHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/State.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{stateHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/State.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{stateHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/StateList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/BusinessProcessEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{businessProcessHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/BusinessProcess.xhtml</to-view-id>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{businessProcessHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/BusinessProcess.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{businessProcessHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/BusinessProcessList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		
+	</navigation-rule>
+	
+	<navigation-rule>
+	
+		<from-view-id>/admin/FinancialInstitutionEdit.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{financialInstitutionHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/FinancialInstitution.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<factory>
+		<exception-handler-factory>co.com.sc.exception.ExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+ 
+</faces-config>

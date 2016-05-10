@@ -1,0 +1,4 @@
+#Jboss default
+#jboss.home=G:/aplicationServers/jboss-as-7.1.1.Final
+#Deply to jbossEAP
+jboss.home=G:/aplicationServers/jboss-eap-6.4

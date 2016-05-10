@@ -1,0 +1,183 @@
+<rich:toolbar 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	<rich:toolbarGroup>
+	
+		<h:graphicImage value="/img/gear.png"/>
+		<p style="white-space:nowrap;">#{projectName}</p>
+		
+		<h:link id="menuHomeId" outcome="/home" onclick="showWaitDialog();">
+			<h:graphicImage value="/img/favorite.png"/>
+			<h:outputText value="Inicio" />
+		</h:link>
+		
+	</rich:toolbarGroup>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin')}" >
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/member.png" styleClass="pic" alt="Transmision de archivos" />
+				<h:outputText value="Administraci&#243;n" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuGroup label="Gesti&#243;n de procesos de negocio">
+			<rich:menuItem>
+				<h:link outcome="/admin/BusinessProcessList" value="Listar procesos de negocio" id="BusinessProcessListIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<h:link outcome="/admin/BusinessProcessEdit" value="Crear procesos de negocio" id="BusinessProcessEditIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+		</rich:menuGroup>
+		
+		<rich:menuGroup label="Gesti&#243;n de tipos de reportes">
+			<rich:menuItem>
+				<h:link outcome="/admin/ReportTypeList" value="Listar tipos de Reporte" id="ReportTypeListIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<h:link outcome="/admin/ReportTypeEdit" value="Crear tipos de Reporte" id="ReportTypeEditIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+		</rich:menuGroup>
+        
+        <rich:menuGroup label="Gesti&#243;n de propiedades del sistema">
+        	<rich:menuItem>
+				<h:link outcome="/admin/PropertyList" value="Listar propiedades" id="PropertyListIdMenu" onclick="showWaitDialog();"  />
+			</rich:menuItem>
+			<rich:menuItem>
+				<h:link outcome="/admin/PropertyEdit" value="Crear propiedades" id="PropertyEditIdMenu" onclick="showWaitDialog();"  />
+			</rich:menuItem>
+		</rich:menuGroup>
+		
+		<rich:menuGroup label="Gesti&#243;n de estados de transmisi&#243;n">
+			<rich:menuItem>
+				<h:link outcome="/admin/StateList" value="Listar estados" id="StateListIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<h:link outcome="/admin/StateEdit" value="Crear estados" id="StateEditIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+		</rich:menuGroup>
+
+	</rich:dropDownMenu>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin')  or identity.loggedIn and identity.hasRole('Auditor')}">
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/finalEntity.png" styleClass="pic" alt="Entidades" />
+				<h:outputText value="Gesti&#243;n de entidades" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuItem>
+			<h:link outcome="/admin/FinancialInstitutionTypeList" value="Tipos de entidad" id="FinancialInstitutionTypeListIdMenu" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+		<rich:menuItem>
+			<h:link outcome="/admin/FinancialInstitutionList" value="Entidades vigiladas" id="FinancialInstitutionListIdMenu" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+	</rich:dropDownMenu>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin') or identity.loggedIn and identity.hasRole('Auditor')}">
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/shield.png" styleClass="pic" alt="Auditoria" />
+				<h:outputText value="Auditor&#237;a" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuItem>
+			<h:link outcome="/admin/SendingList" value="Listar reportes de entidades." id="SendingListIdMenu" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		<rich:menuItem>
+			<h:link outcome="/admin/SendingNIIFList" value="Listar reportes de env&#237;os NIIF." id="SendingNIIFListIdMenu" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+	</rich:dropDownMenu>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('User')}">
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/upload.png" styleClass="pic" alt="Gestion de envios de informacion" />
+				<h:outputText value="Gesti&#243;n de env&#237;os de informaci&#243;n" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuItem>
+			<h:link outcome="/user/SendingUpload.seam?loadFunctionsFlag=false" value="Enviar Informaci&#243;n" id="SendingListIdMenuUser" onclick="showWaitDialog();"  />
+
+		</rich:menuItem>
+		
+		<rich:menuItem>
+			<h:link outcome="/user/SendingStateVerifier" value="Ver estado de procesamiento" id="SendingListIdMenuUser2" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+		<rich:menuItem>
+			<h:link outcome="/user/SendingStateVerifierNIIF" value="Ver estado de procesamiento transmisiones NIIF" id="SendingListIdMenuUser3" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+	</rich:dropDownMenu>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('User')}">
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/key2.png" styleClass="pic" alt="Seguridad" />
+				<h:outputText value="Seguridad" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuItem>
+			<h:link outcome="/password/ChangePassword" value="Cambiar Contrase&#241;a" id="ChangePassword" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+	</rich:dropDownMenu>
+	
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Password')}">
+	
+		<f:facet name="label">
+			<h:panelGroup>
+				<h:graphicImage value="/img/key2.png" styleClass="pic" alt="Seguridad" />
+				<h:outputText value="Seguridad" />
+			</h:panelGroup>
+		</f:facet>
+		
+		<rich:menuItem>
+			<h:link outcome="/password/ChangePassword" value="Cambiar Contrase&#241;a" id="ChangePasswordUser" onclick="showWaitDialog();"  />
+		</rich:menuItem>
+		
+	</rich:dropDownMenu>
+	
+	<rich:toolbarGroup location="right">
+	
+		<h:graphicImage value="/img/user.png" rendered="#{identity.loggedIn}"/>
+		<h:panelGroup rendered="#{identity.loggedIn}" id="menuWelcomeIdPanel">
+			<p style="white-space:nowrap;" id="menuWelcomeId"> Autenticado como: #{authenticator.financialInstitution != null ? (authenticator.financialInstitution.initials != null ? authenticator.financialInstitution.initials.concat(' ('.concat(credentials.username.concat(')'))) : authenticator.financialInstitution.name.concat(' ('.concat(credentials.username.concat(')')))) : credentials.username}  </p>
+		</h:panelGroup>
+		
+		<h:panelGrid columns="2" rendered="#{not identity.loggedIn}" >
+			<h:link id="menuLoginIdText" outcome="/login" value="Ingreso"  onclick="showWaitDialog();"/>
+			<h:link id="menuLoginIdImg" outcome="/login"  onclick="showWaitDialog();">
+				<h:graphicImage value="/img/lock.png"/>
+			</h:link>
+		</h:panelGrid>
+		
+		<h:form id="logoutForm">
+			<h:commandLink id="menuLogoutId" action="#{identity.logout}"  rendered="#{identity.loggedIn}" outcome="/home"  onclick="showWaitDialog();">
+				<h:panelGrid columns="2">
+					<h:graphicImage value="/img/exit.png"/>
+					<h:outputText id="exit" value="Salida" />
+				</h:panelGrid>
+			</h:commandLink>
+		</h:form>
+		
+	</rich:toolbarGroup>
+	
+</rich:toolbar>

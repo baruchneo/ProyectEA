@@ -1,0 +1,101 @@
+#trigger-upload-files {
+    color: white;
+    background-color: #900000;
+    font-size: 12px;
+    padding: 7px 20px;
+    background-image: none;
+    height: 29px;
+}
+
+#trigger-upload-notes {
+    color: white;
+    background-color: #900000;
+    font-size: 12px;
+    padding: 7px 20px;
+    background-image: none;
+    height: 29px;
+}
+
+.qq-upload-button
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-upload-button:hover
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-cancel-button-selector
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-cancel-button-selector:hover
+{
+    background-color: #900000; !important
+color: white; !important
+}
+
+.qq-ok-button-selector
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-ok-button-selector:hover
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-btn
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-btn:hover
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-upload-cancel-selector
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-upload-cancel-selector:hover
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-upload-cancel
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+.qq-upload-cancel:hover
+{
+    background-color: #900000; !important
+    color: white; !important
+}
+
+#fine-uploader-manual-trigger .qq-upload-button {
+    margin-right: 15px;
+}
+
+#fine-uploader-manual-trigger .buttons {
+    width: 36%;
+}
+
+#fine-uploader-manual-trigger .qq-uploader .qq-total-progress-bar-container {
+    width: 60%;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#admin#Application.xhtml"
+  PATH="/admin/Application.xhtml" SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin#ApplicationList.xhtml"
+  PATH="/admin/ApplicationList.xhtml" SHAPE="272,209,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#admin#FinancialInstitutionList.xhtml"
+  PATH="/admin/FinancialInstitutionList.xhtml" SHAPE="376,344,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#admin#ApplicationEdit.xhtml"
+  PATH="/admin/ApplicationEdit.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#admin#ApplicationEdit.xhtml:0" NAME="item"
+   PATH="/admin/ApplicationEdit.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="updated:#{applicationHome.update}:#admin#Application.xhtml"
+    NAME="output" PATH="/admin/Application.xhtml"
+    TARGET="rules:#admin#Application.xhtml"
+    TITLE="#{applicationHome.update}:updated" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="removed:#{applicationHome.remove}:#admin#ApplicationList.xhtml"
+    NAME="output1" PATH="/admin/ApplicationList.xhtml"
+    TARGET="rules:#admin#ApplicationList.xhtml"
+    TITLE="#{applicationHome.remove}:removed" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="persisted:#{applicationHome.persist}:#admin#Application.xhtml"
+    NAME="output2" PATH="/admin/Application.xhtml"
+    TARGET="rules:#admin#Application.xhtml"
+    TITLE="#{applicationHome.persist}:persisted" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

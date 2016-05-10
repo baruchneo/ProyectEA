@@ -1,0 +1,16 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core">
+	
+	<h:link styleClass="columnHeader" value="#{propertyLabel}" includeViewParams="true" >
+    	<h:graphicImage value="/img/down.png" alt="Orden descendente." rendered="#{(entityList.orderColumn == propertyPath) and (entityList.orderDirection == 'desc')}"/>
+    	<h:graphicImage value="/img/up.png" alt="Orden ascendente." rendered="#{(entityList.orderColumn == propertyPath) and (entityList.orderDirection == 'asc')}"/>
+    	<h:graphicImage value="/img/sort.png" alt="Ordenar resultados." rendered="#{(entityList.orderColumn != propertyPath)}"/>
+        <f:param name="sort" value="#{propertyPath}"/>
+        <f:param name="dir" value="#{entityList.orderColumn == propertyPath and entityList.orderDirection == 'asc' ? 'desc' : 'asc'}"/>
+    </h:link>
+    
+</ui:composition>

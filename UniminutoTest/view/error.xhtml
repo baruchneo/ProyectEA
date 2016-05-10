@@ -1,0 +1,38 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:sc="http://www.software-colombia.com/namespace" 
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:param name="showGlobalMessages" value="false" />
+	<ui:define name="body">
+
+		<h3>Se ha producido un error no controlado.</h3>
+		
+		<h:form id="businessProcessSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="Mensaje de error" switchType="client">
+				<h:outputText value="#{sc:exceptionGetMessage('exception')}" id="exceptionMessage"/>
+			</rich:collapsiblePanel>
+			<br/>
+			
+			<rich:collapsiblePanel header="Detalles del error" switchType="client" expanded="false">
+				<pre>
+					<h:outputText value="#{sc:exceptionGetStackTrace('exception')}" id="exceptionStack"/>
+				</pre>
+			</rich:collapsiblePanel>
+			
+			<h:button id="return" value="Regresar" outcome="/home" />
+		</h:form>
+		
+		<rich:panel id="uno">
+			<h:outputText value="M&oacute;dulo: #{sc:getParameterSession('exceptionSimpleName')} (#{sc:exceptionGetLocalizedMessage('exception')})" id="exceptionSimpleName"/>
+		</rich:panel>
+		
+	</ui:define>
+</ui:composition>
