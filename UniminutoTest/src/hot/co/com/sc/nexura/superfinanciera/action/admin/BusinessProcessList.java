@@ -6,10 +6,10 @@ import java.util.List;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 
-import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
+//import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
 
 @Name("businessProcessList")
-public class BusinessProcessList extends EntityQuery<BusinessProcess>
+public class BusinessProcessList //extends EntityQuery<BusinessProcess>
 {
 
 	//---------------------------------------------------------------//
@@ -19,7 +19,7 @@ public class BusinessProcessList extends EntityQuery<BusinessProcess>
 	/**
 	 * Default serial version Id
 	 */
-	private static final long serialVersionUID = 1L;
+	/*private static final long serialVersionUID = 1L;
 	
 	private static final String EJBQL = "select businessProcess from BusinessProcess businessProcess";
 
@@ -66,7 +66,7 @@ public class BusinessProcessList extends EntityQuery<BusinessProcess>
 	/**
 	 * @param businessProcess the businessProcess to set
 	 */
-	public void setBusinessProcess(BusinessProcess businessProcess)
+	/*public void setBusinessProcess(BusinessProcess businessProcess)
 	{
 		this.businessProcess = businessProcess;
 	}
@@ -79,5 +79,5 @@ public class BusinessProcessList extends EntityQuery<BusinessProcess>
 	public List<BusinessProcess> getResultList()
 	{
 		return super.getResultList();
-	}
+	}*/
 }

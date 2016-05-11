@@ -1,21 +1,19 @@
 package co.com.sc.nexura.superfinanciera.action.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
+//import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
+import co.com.sc.nexura.superfinanciera.model.FinancialInstitution;
+import co.com.sc.nexura.superfinanciera.model.FinancialInstitutionType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
-import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
-import co.com.sc.nexura.superfinanciera.model.FinancialInstitution;
-import co.com.sc.nexura.superfinanciera.model.FinancialInstitutionType;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import java.util.ArrayList;
+import java.util.List;
 
 @Name("businessProcessHome")
-public class BusinessProcessHome extends EntityHome<BusinessProcess>
+public class BusinessProcessHome //extends EntityHome<BusinessProcess>
 {
 
 	//---------------------------------------------------------------//
@@ -25,13 +23,13 @@ public class BusinessProcessHome extends EntityHome<BusinessProcess>
 	/**
 	 * Default serial version Id
 	 */
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	
 	//---------------------------------------------------------------//
 	// Class attributes
 	//---------------------------------------------------------------//
 	
-	@In(create = true)
+	/*@In(create = true)
 	FinancialInstitutionTypeHome financialInstitutionTypeHome;
 	
 	@In(create = true)
@@ -161,11 +159,6 @@ public class BusinessProcessHome extends EntityHome<BusinessProcess>
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar el proceso de negocio. Tiene entidades financieras asociadas", "Entidades financieras asociadas"));
 			return "fail";
 		}
-		else if(getInstance().getFinancialInstitutionTypes().size() > 0)
-		{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar el proceso de negocio. Tiene tipos de entidades financieras asociadas", "Tipos de entidades financieras asociadas"));
-			return "fail";
-		}
 		else
 		{
 			return super.remove();
@@ -203,5 +196,5 @@ public class BusinessProcessHome extends EntityHome<BusinessProcess>
 	public void setFinancialInstitutionHome(FinancialInstitutionHome financialInstitutionHome) 
 	{
 		this.financialInstitutionHome = financialInstitutionHome;
-	}
+	}*/
 }
