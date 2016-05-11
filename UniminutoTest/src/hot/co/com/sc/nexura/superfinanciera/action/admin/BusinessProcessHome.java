@@ -13,7 +13,6 @@ import org.jboss.seam.framework.EntityHome;
 import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
 import co.com.sc.nexura.superfinanciera.model.FinancialInstitution;
 import co.com.sc.nexura.superfinanciera.model.FinancialInstitutionType;
-import co.com.sc.nexura.superfinanciera.model.ReportType;
 
 @Name("businessProcessHome")
 public class BusinessProcessHome extends EntityHome<BusinessProcess>
@@ -167,11 +166,6 @@ public class BusinessProcessHome extends EntityHome<BusinessProcess>
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar el proceso de negocio. Tiene tipos de entidades financieras asociadas", "Tipos de entidades financieras asociadas"));
 			return "fail";
 		}
-		else if(getInstance().getReportTypes().size() > 0)
-		{
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No se puede eliminar el proceso de negocio. Tiene tipos de reporte asociados", "Tipos de reporte asociados"));
-			return "fail";
-		}
 		else
 		{
 			return super.remove();
@@ -180,11 +174,6 @@ public class BusinessProcessHome extends EntityHome<BusinessProcess>
 	//---------------------------------------------------------------//
 	// Associated objects return methods
 	//---------------------------------------------------------------//
-
-	public List<ReportType> getReportTypes()
-	{
-		return getInstance() == null ? null : new ArrayList<ReportType>(getInstance().getReportTypes());
-	}
 	
 	public List<FinancialInstitutionType> getFinancialInstitutionTypes()
 	{
