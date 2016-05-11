@@ -219,7 +219,7 @@ public class BusinessProcess implements Serializable, Cloneable
 	/**
 	 * Business process associated report types
 	 */
-	private Set<ReportType> reportTypes = new HashSet<ReportType>(0);
+	//private Set<ReportType> reportTypes = new HashSet<ReportType>(0);
 	
 	/**
 	 * Report type associated financial institution types
@@ -461,11 +461,11 @@ public class BusinessProcess implements Serializable, Cloneable
 	/**
 	 * @return the reportTypes
 	 */
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="businessProcess")
-	public Set<ReportType> getReportTypes()
-	{
-		return reportTypes;
-	}
+	//@OneToMany(fetch = FetchType.EAGER, mappedBy="businessProcess")
+	//public Set<ReportType> getReportTypes()
+	//{
+	//	return reportTypes;
+	//}
 	
 	/**
 	 * @return the remoteAres
@@ -711,10 +711,10 @@ public class BusinessProcess implements Serializable, Cloneable
 	/**
 	 * @param reportTypes the reportTypes to set
 	 */
-	public void setReportTypes(Set<ReportType> reportTypes)
-	{
-		this.reportTypes = reportTypes;
-	}
+	//public void setReportTypes(Set<ReportType> reportTypes)
+	//{
+	//	this.reportTypes = reportTypes;
+	//}
 
 	/**
 	 * @param signedFilesPath the signedFilesPath to set

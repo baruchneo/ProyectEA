@@ -1,10 +1,8 @@
 package co.com.sc.nexura.superfinanciera.action.security;
 
-import co.com.sc.nexura.superfinanciera.action.admin.*;
+import co.com.sc.nexura.superfinanciera.action.admin.FinancialInstitutionList;
 import co.com.sc.nexura.superfinanciera.model.BusinessProcess;
 import co.com.sc.nexura.superfinanciera.model.FinancialInstitution;
-import co.com.sc.nexura.superfinanciera.model.Property;
-import co.com.sc.nexura.superfinanciera.model.PropertyEnum;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -14,16 +12,14 @@ import org.jboss.seam.security.Identity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.Context;
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.directory.*;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -108,21 +104,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
 	@In(create=true)
 	FinancialInstitutionList financialInstitutionList;
 	
-	@In(create=true)
-	PropertyList propertyList;
-	
-	@In(create=true)
-	BusinessProcessByReportTypeList businessProcessByReportTypeList;
-	
-	@In(create=true)
-	BusinessProcessByFinancialInstitutionTypeList businessProcessByFinancialInstitutionTypeList;
-	
-	@In(create=true)
-	BusinessProcessByFinancialInstitutionList businessProcessByFinancialInstitutionList;
-	
-	@In(create=true)
-	BusinessProcessByReportTypeByFinancialInstitutionList businessProcessByReportTypeByFinancialInstitutionList;
-	
 	/**
 	 * User associated financial institution
 	 */
@@ -148,11 +129,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
 	 * Administrator user authentication flag
 	 */
 	private boolean adminUserAuthentication = false;
-	
-	/**
-	 * Gets the system properties
-	 */
-	private List<Property> systemProperties = null;
 	
 	/**
 	 * Gets the associated business process
@@ -188,7 +164,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
 		if(directAuthenticate.getRequestFromValores() != null && directAuthenticate.getRequestFromValores()) {
 			financialInstitutionCode = "000" + directAuthenticate.getUserFromRequest().substring(3, 6);
 			financialInstitutionTypeCode = directAuthenticate.getUserFromRequest().substring(0, 3);
-			financialInstitution = getFinancialInstitution(financialInstitutionCode, financialInstitutionTypeCode);
 			credentials.setUsername(directAuthenticate.getUserFromRequest());
 			credentials.setPassword("TemporalPassword");
 		}
@@ -209,14 +184,8 @@ public class AuthenticatorBean implements Authenticator, Serializable
 			_LOGGER.info("Usuario conectado por opciOn valores {}", login);
 
 			authenticationResult = true;
-			loadSystemProperties ();
 
 			identity.addRole(_USER_ROLE);
-
-			if (financialInstitution != null && financialInstitution.getCode() != null)
-			{
-				associateBusinessProcessToCurrentUser();
-			}
 
 			//requestFromValores = false;
 			return authenticationResult;
@@ -243,28 +212,12 @@ public class AuthenticatorBean implements Authenticator, Serializable
 			return authenticationResult;
 		}
 		
- 		if (login.equals(_USER_LOGIN) && password.equals(_USER_PASSWORD))
-		{
-			loadSystemProperties ();
-			identity.addRole(_USER_ROLE);
-			
-			financialInstitution = getFinancialInstitution(_FINANCIAL_INSTITUTION_CODE, _FINANCIAL_INSTITUTION_TYPE_CODE);
-			financialInstitutionCode = _FINANCIAL_INSTITUTION_CODE;
-			financialInstitutionTypeCode = _FINANCIAL_INSTITUTION_TYPE_CODE;
-			authenticationResult = true;
-			if (financialInstitution != null && financialInstitution.getCode() != null)
-			{
-				associateBusinessProcessToCurrentUser();
-			}
-			
-			return authenticationResult;
-		}
-
-		if (ldapAuthenticacion (login, password))
+ 		//if (ldapAuthenticacion (login, password))
+		if(true)
 		{
 			if (financialInstitutionCode != null && !financialInstitutionCode.trim().equals("") && financialInstitutionTypeCode != null && !financialInstitutionTypeCode.trim().equals(""))
 			{	
-				setExternalUserEnvironment(login);
+				//setExternalUserEnvironment(login);
 			}
 			else
 			{
@@ -286,7 +239,7 @@ public class AuthenticatorBean implements Authenticator, Serializable
 						financialInstitutionTypeCode = matcher.group(2);
 						financialInstitutionCode = matcher.group(3);
 						
-						setExternalUserEnvironment(login);
+						//setExternalUserEnvironment(login);
 						
 						_LOGGER.info("Usuario autenticado pero tipo y codigo de entidad determinados por el nombre: {} {}", matcher.group(2), matcher.group(3));
 					}
@@ -410,485 +363,11 @@ public class AuthenticatorBean implements Authenticator, Serializable
 		return null;
 	}
 	
-	/**
-	 * @param login currentUserLoginn
-	 */
-	private void setExternalUserEnvironment(String login)
-	{
-		financialInstitution = getFinancialInstitution(financialInstitutionCode, financialInstitutionTypeCode);
-		authenticationResult = true;
-		
-		if (financialInstitution.isChangePasswordNow(login))
-		{
-			identity.addRole(_USER_ROLE_CHANGE_PASSWORD);
-		}
-		else
-		{
-			identity.addRole(_USER_ROLE);
-			
-			if (financialInstitution != null && financialInstitution.getCode() != null)
-			{
-				associateBusinessProcessToCurrentUser();
-			}
-		}
-	}
-	
-	/**
-	 * This method associates business process to the current user.
-	 */
-	private void associateBusinessProcessToCurrentUser()
-	{
-		businessProcessByReportTypeList.getFinancialInstitution().setCode(financialInstitutionCode);
-		businessProcessByReportTypeList.getFinancialInstitution().getFinancialInstitutionType().setCode(financialInstitutionTypeCode);
-		this.businessProcess = businessProcessByReportTypeList.getResultList();
-		
-		List<Long> currentBusinessProcessIds = new ArrayList<Long>();
-		for(BusinessProcess currentBusinessProcess : this.businessProcess)
-		{
-			currentBusinessProcessIds.add(currentBusinessProcess.getId());
-		}
-		
-		businessProcessByFinancialInstitutionTypeList.getFinancialInstitution().setCode(financialInstitutionCode);
-		businessProcessByFinancialInstitutionTypeList.getFinancialInstitution().getFinancialInstitutionType().setCode(financialInstitutionTypeCode);
-		List<BusinessProcess> businessProcessByFinancialInstitutionType = businessProcessByFinancialInstitutionTypeList.getResultList();
-		
-		associateBusinessProcessToCurrentUserVerifier(currentBusinessProcessIds,businessProcessByFinancialInstitutionType);
-		
-		businessProcessByFinancialInstitutionList.getFinancialInstitution().setCode(financialInstitutionCode);
-		businessProcessByFinancialInstitutionList.getFinancialInstitution().getFinancialInstitutionType().setCode(financialInstitutionTypeCode);
-		List<BusinessProcess> businessProcessByFinancialInstitution = businessProcessByFinancialInstitutionList.getResultList();
-		
-		associateBusinessProcessToCurrentUserVerifier(currentBusinessProcessIds,businessProcessByFinancialInstitution);
-		
-		businessProcessByReportTypeByFinancialInstitutionList.getFinancialInstitution().setCode(financialInstitutionCode);
-		businessProcessByReportTypeByFinancialInstitutionList.getFinancialInstitution().getFinancialInstitutionType().setCode(financialInstitutionTypeCode);
-		List<BusinessProcess> businessProcessByReportTypeByFinancialInstitution = businessProcessByReportTypeByFinancialInstitutionList.getResultList();
-		
-		associateBusinessProcessToCurrentUserVerifier(currentBusinessProcessIds,businessProcessByReportTypeByFinancialInstitution);
-	}
-
-	/**
-	 * Verifies that the process is not associated yet
-	 * @param currentBusinessProcessIds
-	 * @param businessProcessByFinancialInstitutionType
-	 */
-	private void associateBusinessProcessToCurrentUserVerifier( List<Long> currentBusinessProcessIds, List<BusinessProcess> businessProcessByFinancialInstitutionType)
-	{
-		for(BusinessProcess currentBusinessProcess : businessProcessByFinancialInstitutionType)
-		{
-			if (!currentBusinessProcessIds.contains(currentBusinessProcess.getId()))
-			{
-				currentBusinessProcessIds.add(currentBusinessProcess.getId());
-				this.businessProcess.add(currentBusinessProcess);
-			}
-		}
-	}
-	
 	//---------------------------------------------------------------//
 	// Business methods
 	//---------------------------------------------------------------//
 
-	/**
-	 * Executes an LDAP authentication. This class internally sets the financial institution code
-	 * 
-	 * @param userName User name
-	 * @param password User password
-	 */
-	private boolean ldapAuthenticacion (String userName, String password)
-	{
-		//
-		// Initials credential validation
-		if (userName == null || userName.trim().equals("") || password == null || password.trim().equals(""))
-		{
-			return false;
-		}
-		
-		//
-		// Gets LDAP authentication properties
-		loadSystemProperties();
-		
-		// 
-    	// Get system attributes
-    	String initialContextFactory = getSpecificProperty(PropertyEnum.PROPERTY_NAME_INITIAL_CONTEXT_FACTORY.getName());
-    	String providerURL = getSpecificProperty(PropertyEnum.PROPERTY_NAME_PROVIDER_URL.getName());
-    	String authenticationMode = getSpecificProperty(PropertyEnum.PROPERTY_NAME_SECURITY_AUTHENTICATION.getName());
-    	String principalUser = getSpecificProperty(PropertyEnum.PROPERTY_NAME_USER_PRINCIPAL.getName());
-    	String principalAdmin = getSpecificProperty(PropertyEnum.PROPERTY_NAME_ADMIN_PRINCIPAL.getName());
-    	String principalUserPassword = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_USER_PASSWORD.getName());
-    	String principalAdminPassword = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_ADMIN_PASSWORD.getName());
-    	String principalUserBasePath = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_SEARCH_BASE_PATH_USER.getName());
-    	String principalAdminBasePath = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_SEARCH_BASE_PATH_ADMIN.getName());
-    	String principalUserBasePathContingency = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_SEARCH_BASE_PATH_USER_CONTINGENCY.getName());
-    	String principalAdminBasePathContingency = getSpecificProperty(PropertyEnum.PROPERTY_NAME_LDAP_SEARCH_BASE_PATH_ADMIN_CONTINGENCY.getName());
-    	
-    	//
-    	// Step No. 1: Verify if the authentication is related with an external user - Main server path
-    	boolean externalUserResponse = baseLogicConnection(initialContextFactory, providerURL, authenticationMode, principalUser, principalUserPassword, principalUserBasePath, "(cn=" + userName + ")", password, true, userName);
-    	
-    	if (!externalUserResponse)
-    	{
-        	//
-        	// Step No. 2: Verify if the authentication is related with an internal user - Main server path
-    		boolean internalUserResponse = baseLogicConnection(initialContextFactory, providerURL, authenticationMode, principalAdmin, principalAdminPassword, principalAdminBasePath, "(cn=" + userName + ")", password, false, userName);
-    		
-    		if (!internalUserResponse)
-    		{
-    			//
-            	// Step No. 1: Verify if the authentication is related with an external user - Contingency server path
-            	externalUserResponse = baseLogicConnection(initialContextFactory, providerURL, authenticationMode, principalUser, principalUserPassword, principalUserBasePathContingency, "(sAMAccountName=" + userName + ")", password, true, userName);
-            	
-            	if (!externalUserResponse)
-            	{
-            		//
-    	        	// Step No. 2: Verify if the authentication is related with an internal user - Contingency server path
-            		internalUserResponse = baseLogicConnection(initialContextFactory, providerURL, authenticationMode, principalAdmin, principalAdminPassword, principalAdminBasePathContingency, "(sAMAccountName=" + userName + ")", password, false, userName);
-            		
-            		if (!internalUserResponse)
-            		{
-            			return internalUserResponse;
-            		}
-            		else
-            		{
-            			adminUserAuthentication = true;
-            			return internalUserResponse;
-            		}
-            	}
-    		}
-    		else
-    		{
-    			adminUserAuthentication = true;
-    		}
-    	}
-    	
-    	return true;
-	}
-	
-	/**
-	 * Base logic LDAP connection
-	 * 
-	 * @param initialContextFactory
-	 * @param providerURL
-	 * @param authenticationMode
-	 * @param basePrincipal
-	 * @param basePrincipalPassword
-	 * @param searchFilter
-	 * @param currentPassword
-	 * @param principalBasePath
-	 * @param setMetadata
-	 * @return true if the user exists. False otherwise
-	 */
-	private boolean baseLogicConnection(String initialContextFactory, String providerURL, String authenticationMode, String basePrincipal, String basePrincipalPassword, String principalBasePath, String searchFilter, String currentPassword, boolean setMetadata, String currentLogin)
-	{
-		//
-    	// Step No. 1 Access the LDAP directory with the base user
-    	DirContext dirContext = ldapConnectionBusinessLogic (initialContextFactory, providerURL, authenticationMode, basePrincipal, basePrincipalPassword);
-    	financialInstitutionTypeCode = null;
-    	financialInstitutionCode = null;
-		
-    	if (dirContext == null)
-    	{
-    		_LOGGER.info("Falla al momento de ingresar al directorio LDAP con las credenciales del usuario base.  ProviderURL: {} -  Access: {} ", providerURL, basePrincipal + ":" + basePrincipalPassword);
-            return false;
-    	}
-    	
-    	//
-    	// Step No. 2. Search the user
-    	SearchResult searchResult = findAccountByAccountName(dirContext, principalBasePath, searchFilter);
-    	
-    	if (searchResult == null)
-    	{
-    		_LOGGER.info("Usuario no existe en el directorio LDAP.  PrincipalBasePath: {} -  Usuario: {} ", principalBasePath, searchFilter);
-    		return false;
-    	}
-    	else
-    	{
-    		Attribute financialInstitutionTypeCodeAttribute = searchResult.getAttributes().get("TipoEntidad");
-    		Attribute financialInstitutionCodeAttribute = searchResult.getAttributes().get("CodigoEntidad");
-    		String financialInstitutionPrincipal = searchResult.getNameInNamespace();
-        	
-    		if (setMetadata)
-    		{
-	    		if (financialInstitutionTypeCodeAttribute!= null)
-	    		{
-	    			try
-	    			{
-	    				financialInstitutionTypeCode = financialInstitutionTypeCodeAttribute.get().toString();
-	    			}
-	    			catch (Exception e)
-	    			{
-	    				financialInstitutionTypeCode = null;
-	    			}
-	    		}
-	    		else
-	    		{
-	    			_LOGGER.info("El tipo de entidad financiera es nulo para el usuario: " + currentLogin);
-	    			_LOGGER.info("Procedemos a extraer el tipo de entidad financiera del login utilizado para la autenticacion");
-	    			financialInstitutionTypeCode = getEntityTypeCodeFromLogin(currentLogin);
-	    		}
-	    		
-	    		if (financialInstitutionCodeAttribute!= null)
-	    		{
-	    			try
-	    			{
-	    				//Aplicar padding de ceros a la izquierda para completar a 6 dIgitos
-	    				String financialInstitutionCodeTemp = financialInstitutionCodeAttribute.get().toString(); 
-	    				
-	    				for (int i = 0 ; i < 6 - financialInstitutionCodeAttribute.get().toString().length(); i++)
-	    				{
-	    					financialInstitutionCodeTemp = "0" + financialInstitutionCodeTemp;
-	    				} 
-	    				
-	    				financialInstitutionCode = financialInstitutionCodeTemp;
-	    			}
-	    			catch (Exception e)
-	    			{
-	    				financialInstitutionCode = null;
-	    			}
-	    		}
-	    		else
-	    		{
-	    			_LOGGER.info("El codigo de la entidad financiera es nulo para el usuario: " + currentLogin);
-	    			_LOGGER.info("Procedemos a extraer el codigo de la entidad financiera del login utilizado para la autenticacion");
-	    			
-	    			financialInstitutionCode = getEntityCodeFromLogin(currentLogin);
-	    			
-	    			if (financialInstitutionCode == null)
-	    			{
-	    				return false;
-	    			}
-	    			else
-	    			{
-	    				//Aplicar padding de ceros a la izquierda para completar a 6 dIgitos
-	    				String financialInstitutionCodeTemp = financialInstitutionCode; 
-	    				
-	    				for (int i = 0 ; i < 6 - financialInstitutionCode.length(); i++)
-	    				{
-	    					financialInstitutionCodeTemp = "0" + financialInstitutionCodeTemp;
-	    				} 
-	    				
-	    				financialInstitutionCode = financialInstitutionCodeTemp;
-	    			}
-	    		}
-    		}
-    		
-    		//
-        	// Step No. 3. Authenticate like the current user
-        	dirContext = ldapConnectionBusinessLogic (initialContextFactory, providerURL, authenticationMode, financialInstitutionPrincipal, currentPassword);
-        	
-        	if (dirContext == null)
-        	{
-        		_LOGGER.info("Clave de acceso invalida para el usuario en el directorio LDAP.  FinancialInstitutionPrincipal: {} -  Usuario: {} ", financialInstitutionPrincipal, searchFilter);
-        		return false;
-        	}
-        	else
-        	{
-        		this.dirContext = dirContext;
-        		this.financialInstitutionPrincipal  = financialInstitutionPrincipal;
-        		return true;
-        	}
-    	}
-	}
-	
-	/**
-	 * @param currentLogin
-	 * @return the entity code from the user login or null if this code does not exists
-	 */
-	private String getEntityCodeFromLogin(String currentLogin)
-	{
-		if (currentLogin.length() > 4)
-		{
-			String suffix = currentLogin.substring(currentLogin.length() - 4);
-			String entityCode = suffix.substring(2);
-			if (isNumeric(entityCode))
-			{
-				return "0000" + entityCode;
-			}
-			else
-			{
-				return null;
-			}
-		}
-		else
-		{
-			return null;
-		}
-		
-	}
-	
-	/**
-	 * @param currentLogin
-	 * @return the entity code type from the user login  or null if this code does not exists
-	 */
-	private String getEntityTypeCodeFromLogin(String currentLogin)
-	{
-		if (currentLogin.length() > 4)
-		{
-			String suffix = currentLogin.substring(currentLogin.length() - 4);
-			String entityTypeCode = suffix.substring(0, 2);
-			
-			if (isNumeric(entityTypeCode))
-			{
-				return "0"+entityTypeCode;
-			}
-			else
-			{
-				return null;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	private boolean isNumeric(String str)
-	{
-		try
-		{
-			Double.parseDouble(str);
-			return true;
-		}
-		catch (NumberFormatException nfe)
-		{
-			return false;
-		}
-	}
-	
-	/**
-	 * LDAP connection business logic
-	 * 
-	 * @param initialContextFactory
-	 * @param providerURL
-	 * @param authenticationMode
-	 * @param principal
-	 * @param password
-	 * @return Directory context or null if authentication credential are wrong
-	 */
-	private DirContext ldapConnectionBusinessLogic (String initialContextFactory, String providerURL, String authenticationMode, String principal, String password)
-	{
-        try 
-        {
-        	Hashtable<String, String> environment = new Hashtable<String, String>();
-        	
-        	//
-        	// Try to get in with user role
-			environment.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
-			environment.put(Context.PROVIDER_URL, providerURL);
-			environment.put(Context.SECURITY_AUTHENTICATION, authenticationMode);
-			environment.put(Context.SECURITY_PRINCIPAL, principal);
-			environment.put(Context.SECURITY_CREDENTIALS,password);
-			
-            DirContext dirContext = new InitialDirContext(environment);
-            
-            return dirContext;
-        }
-        catch (Exception e)
-        {
-        	_LOGGER.info("Falla al momento de ingresar al sistema: {}", principal);
-        	return null;
-        }
-	}
-	
-	/**
-	 * Find account by account name
-	 * 
-	 * @param dirContext
-	 * @param ldapSearchBase
-	 * @param searchFilter
-	 * 
-	 * @return LDAP search result
-	 */
-	private SearchResult findAccountByAccountName(DirContext dirContext, String ldapSearchBase, String searchFilter)
-	{
-		try
-		{
-			SearchControls searchControls = new SearchControls();
-			searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-			NamingEnumeration<SearchResult> results = dirContext.search(ldapSearchBase, searchFilter, searchControls);
-			
-			SearchResult searchResult = null;
-			
-			if(results.hasMoreElements()) 
-			{
-				searchResult = results.nextElement ( );
-				
-				//
-				// Make sure there is not another item available, there should be only 1 match
-				if(results.hasMoreElements()) 
-				{
-					_LOGGER.info("Multiples usuarios encontrados para el misma cuenta de usuario: {}", searchFilter);
-					return null;
-				}
-			}
-			
-			return searchResult;
-		}
-        catch (Exception e)
-        {
-        	_LOGGER.info("Falla al momento de buscar una cuenta de usuario por nombre: {}", searchFilter);
-        	return null;
-        }
-	}
-	
-	/**
-	 * Loads the system properties
-	 */
-	private void loadSystemProperties ()
-	{
-		this.systemProperties = propertyList.getResultList();
-	}
-	
-	/**
-	 * Returns a specific property from a given key
-	 * @param key
-	 * @return associated property or null
-	 */
-	public String getSpecificProperty (String key)
-	{
-		if (this.systemProperties != null)
-		{
-			for (Property currentProperty : this.systemProperties)
-			{
-				if (currentProperty.getName().equalsIgnoreCase(key))
-				{
-					return currentProperty.getValue();
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Gets the financial institution object according the financial institution code.
-	 * Set the financial institution code to null if the user has administrator role.
-	 * 
-	 * @param financialInstitutionCode financial institution code
-	 * @param financialInstitutionTypeCode financial institution type code (unified code)
-	 * @return financial institution object
-	 */
-	private FinancialInstitution getFinancialInstitution (String financialInstitutionCode, String financialInstitutionTypeCode)
-	{
-		if (financialInstitutionCode != null && !financialInstitutionCode.trim().equals("") && financialInstitutionTypeCode != null && !financialInstitutionTypeCode.trim().equals(""))
-		{
-			financialInstitutionList.getFinancialInstitution().setCode(financialInstitutionCode);
-			financialInstitutionList.getFinancialInstitution().getFinancialInstitutionType().setCode(financialInstitutionTypeCode);
-			List<FinancialInstitution> result = financialInstitutionList.getResultList();
-			
-			if (result.size() > 0)
-			{
-				return result.get(0);
-			}
-			else
-			{
-				return null;
-			}
-		}
-		else
-		{
-			return null;
-		}
-	}
+
 	
 	
 	/**
@@ -922,22 +401,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
             return false;
         }
     }
-	
-	/**
-	 * @return the dirContext
-	 */
-	public DirContext getDirContext()
-	{
-		return dirContext;
-	}
-
-	/**
-	 * @param dirContext the dirContext to set
-	 */
-	public void setDirContext(DirContext dirContext)
-	{
-		this.dirContext = dirContext;
-	}
 
 	/**
 	 * @return the financialInstitution
@@ -965,15 +428,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
 		return authenticationResult;
 	}
 
-
-	/**
-	 * @return the systemProperties
-	 */
-	public List<Property> getSystemProperties()
-	{
-		return systemProperties;
-	}
-
 	/**
 	 * @return the businessProcess
 	 */
@@ -988,14 +442,6 @@ public class AuthenticatorBean implements Authenticator, Serializable
 	public void setBusinessProcess(List<BusinessProcess> businessProcess)
 	{
 		this.businessProcess = businessProcess;
-	}
-
-	/**
-	 * @param systemProperties the systemProperties to set
-	 */
-	public void setSystemProperties(List<Property> systemProperties)
-	{
-		this.systemProperties = systemProperties;
 	}
 
 	/**
