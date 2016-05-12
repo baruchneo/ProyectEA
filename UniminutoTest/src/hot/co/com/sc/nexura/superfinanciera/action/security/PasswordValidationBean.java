@@ -192,7 +192,7 @@ public class PasswordValidationBean implements PasswordValidation, Serializable
 			    	// 4. Validar que la nueva clave no este en el historial de claves. 
 			    	if(vnewPasswd && vRTPasswd)
 			    	{
-			    		if (!authenticator.getFinancialInstitution().checkPasswordsRepository(user, sha1NewPassword))
+			    		/*if (!authenticator.getFinancialInstitution().checkPasswordsRepository(user, sha1NewPassword))
 			    		{
 			    			// 5. Realizar cambio contraseNa en capa media
 		    				try
@@ -245,7 +245,7 @@ public class PasswordValidationBean implements PasswordValidation, Serializable
 			    		else
 			    		{
 			    			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "La nueva contrase\u00f1a ya ha sido utilizada anteriormente. Recuerde que la nueva contrase\u00f1a no puede ser igual a las \u00DCltimas 5 contrase\u00f1as utilizadas.", "La nueva contrase\u00f1a ya ha sido utilizada anteriormente. Recuerde que la nueva contrase\u00f1a no puede ser igual a las \u00DCltimas 5 contrase\u00f1as utilizadas."));
-			    		}
+			    		}*/
 			    	}
 		    	}
 		    	else

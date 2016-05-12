@@ -1,4 +1,4 @@
-package co.com.sc.nexura.superfinanciera.model;
+package co.com.mic.medicalUMD.modelo;
 
 import org.hibernate.annotations.ForeignKey;
 import org.jboss.seam.annotations.Name;
@@ -35,7 +35,7 @@ public class Doctor implements Serializable, Cloneable
     @Id
     @GeneratedValue(generator = "SeqDoctor")
     @SequenceGenerator(name = "SeqDoctor", sequenceName = "SeqDoctor")
-    @Column(name = "Id")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }

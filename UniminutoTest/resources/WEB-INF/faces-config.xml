@@ -18,7 +18,7 @@
 		</locale-config>
 	</application>
   
-	<navigation-rule>
+	<!--<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{identity.login}</from-action>
@@ -161,7 +161,7 @@
 			<from-outcome>updated</from-outcome>
 			<to-view-id>/admin/FinancialInstitution.xhtml</to-view-id>
 		</navigation-case>
-	</navigation-rule>
+	</navigation-rule> -->
 	
 	<factory>
 		<exception-handler-factory>co.com.sc.exception.ExceptionHandlerFactory</exception-handler-factory>

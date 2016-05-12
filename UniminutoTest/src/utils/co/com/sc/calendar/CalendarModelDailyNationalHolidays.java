@@ -9,8 +9,8 @@ import javax.faces.bean.ApplicationScoped;
 import org.jboss.seam.annotations.Name;
 import org.richfaces.model.CalendarDataModelItem;
 
-import co.com.sc.nexura.superfinanciera.model.ColombianNationalHolidaysEnum;
-import co.com.sc.nexura.superfinanciera.model.ColombianVariableNationalHolidaysEnum;
+//import co.com.sc.nexura.superfinanciera.model.ColombianNationalHolidaysEnum;
+//import co.com.sc.nexura.superfinanciera.model.ColombianVariableNationalHolidaysEnum;
 
 @Name("calendarModelDailyNationalHolidays")
 @ApplicationScoped
@@ -92,7 +92,7 @@ public class CalendarModelDailyNationalHolidays extends CalendarModelBase
 	 */
 	private boolean checkColombianNationalHoliday(Calendar current)
 	{
-		for (ColombianNationalHolidaysEnum currentDate : ColombianNationalHolidaysEnum.values()) 
+		/*for (ColombianNationalHolidaysEnum currentDate : ColombianNationalHolidaysEnum.values())
 		{
 			Calendar currentHoliday = currentDate.getDate();
 			if (currentHoliday.get(Calendar.DAY_OF_MONTH) == current.get(Calendar.DAY_OF_MONTH) && currentHoliday.get(Calendar.MONTH) == current.get(Calendar.MONTH))
@@ -111,7 +111,7 @@ public class CalendarModelDailyNationalHolidays extends CalendarModelBase
 					return true;
 				}
 			}
-		}
+		}*/
 		
 		return false;
 	}

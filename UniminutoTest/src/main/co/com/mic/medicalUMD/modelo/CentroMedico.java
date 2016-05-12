@@ -1,4 +1,4 @@
-package co.com.sc.nexura.superfinanciera.model;
+package co.com.mic.medicalUMD.modelo;
 
 import org.hibernate.annotations.ForeignKey;
 import org.jboss.seam.annotations.Name;
@@ -33,7 +33,7 @@ public class CentroMedico implements Serializable, Cloneable
     @Id
     @GeneratedValue(generator = "SeqCentroMedico")
     @SequenceGenerator(name = "SeqCentroMedico", sequenceName = "SeqCentroMedico")
-    @Column(name = "Id")
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -71,7 +71,7 @@ public class CentroMedico implements Serializable, Cloneable
         return doctorSet;
     }
 
-    public void setDoctorList(Set<Doctor> doctorSet) {
+    public void setDoctorSet(Set<Doctor> doctorSet) {
         this.doctorSet = doctorSet;
     }
 }

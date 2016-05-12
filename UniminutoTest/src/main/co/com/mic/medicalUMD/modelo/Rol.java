@@ -1,4 +1,4 @@
-package co.com.sc.nexura.superfinanciera.model;
+package co.com.mic.medicalUMD.modelo;
 
 import org.jboss.seam.annotations.Name;
 
@@ -33,13 +33,13 @@ public class Rol implements Serializable, Cloneable
     @Id
     @GeneratedValue(generator = "SeqRol")
     @SequenceGenerator(name = "SeqRol", sequenceName = "SeqRol")
-    @Column(name = "ID")
+    @Column(name = "id")
     public Long getId()
     {
         return id;
     }
 
-    public void setID(Long id)
+    public void setId(Long id)
     {
         this.id = id;
     }

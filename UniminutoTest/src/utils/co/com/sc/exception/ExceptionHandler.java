@@ -14,7 +14,7 @@ import org.jboss.seam.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import co.com.sc.nexura.superfinanciera.action.user.SendingUploadBean;
+//import co.com.sc.nexura.superfinanciera.action.user.SendingUploadBean;
 
 /** 
  * Generic exception handler
@@ -81,8 +81,8 @@ public class ExceptionHandler extends ExceptionHandlerWrapper
 				externalContext.getSessionMap().put(_EXCEPTION, t);
 				externalContext.redirect(externalContext.getRequestContextPath() + _ERROR_PAGE);
 				facesContext.responseComplete();
-				SendingUploadBean sendingUpload = (SendingUploadBean) Component.getInstance(SendingUploadBean.class,Boolean.TRUE);
-				sendingUpload.cleanForm();
+				//SendingUploadBean sendingUpload = (SendingUploadBean) Component.getInstance(SendingUploadBean.class,Boolean.TRUE);
+				//sendingUpload.cleanForm();
 			}
 			catch (Exception e) 
 			{

@@ -1,4 +1,4 @@
-package co.com.sc.nexura.superfinanciera.model;
+package co.com.mic.medicalUMD.modelo;
 
 /**
  * NIIF reports state definition

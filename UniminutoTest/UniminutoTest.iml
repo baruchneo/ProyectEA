@@ -341,8 +341,9 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="SuperfinancieraArchivos" />
+          <factory-entry name="uniminutoTest" />
         </datasource-mapping>
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/exploded-archives/SuperfinancieraArchivos.ear/SuperfinancieraArchivos_jar/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/persistence-prod.xml" />
       </configuration>
     </facet>
     <facet type="ejb" name="EJB">
@@ -379,6 +380,36 @@
         <webroots>
           <root url="file://$MODULE_DIR$/exploded-archives/SuperfinancieraArchivos.ear/SuperfinancieraArchivos_war" relative="/" />
         </webroots>
+      </configuration>
+    </facet>
+    <facet type="javaeeApplication" name="javaEEApplication3">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/exploded-archives/uniminutoTest.ear/META-INF/application.xml" />
+        </descriptors>
+      </configuration>
+    </facet>
+    <facet type="web" name="Web3">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/exploded-archives/uniminutoTest.ear/uniminutoTest_war/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/exploded-archives/uniminutoTest.ear/uniminutoTest_war" relative="/" />
+        </webroots>
+      </configuration>
+    </facet>
+    <facet type="ejb" name="EJB3">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="ejb-jar.xml" url="file://$MODULE_DIR$/exploded-archives/uniminutoTest.ear/uniminutoTest_jar/META-INF/ejb-jar.xml" />
+        </descriptors>
+        <ejbRoots>
+          <root url="file://$MODULE_DIR$/src/hot" />
+          <root url="file://$MODULE_DIR$/src/main" />
+          <root url="file://$MODULE_DIR$/src/test" />
+          <root url="file://$MODULE_DIR$/src/utils" />
+        </ejbRoots>
       </configuration>
     </facet>
   </component>

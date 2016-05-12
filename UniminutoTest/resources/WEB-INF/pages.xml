@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
 	
-	<page view-id="/user/*" login-required="true">
+	<!--<page view-id="/user/*" login-required="false">
 	    <restrict>#{s:hasRole('User')}</restrict>
 	</page>  
     
@@ -16,25 +16,12 @@
     
 	<page view-id="/password/*">    
 		 <restrict>#{s:hasRole('User') or s:hasRole('Password')}</restrict>
-    </page>
+    </page>-->
     
     <page view-id="*">
 		<navigation>
 			<rule if-outcome="home">
 				<redirect view-id="/home.xhtml" />
-			</rule>
-		</navigation>
-	</page>
-
-	<page view-id="/loginDirect.xhtml" login-required="false" action="#{authenticator.RedirectUserFromValores}">
-		<param name="userFromRequest" value="#{directAuthenticate.userFromRequest}" required="true" />
-		<param name="requestFromValores" value="#{directAuthenticate.requestFromValores}" required="true" />
-		<navigation>
-			<rule if-outcome="loggedIn">
-				<redirect view-id="/user/SendingUpload.xhtml1">
-					<message>Autenticado con exito</message>
-					<param name="businessProcessId" value="1"/>
-				</redirect>
 			</rule>
 		</navigation>
 	</page>
