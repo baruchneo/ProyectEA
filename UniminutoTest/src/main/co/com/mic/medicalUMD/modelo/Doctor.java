@@ -33,7 +33,7 @@ public class Doctor implements Serializable, Cloneable
     private Set<CentroMedico> centroMedicoSet;
 
     @Id
-    @GeneratedValue(generator = "SeqDoctor")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "SeqDoctor", sequenceName = "SeqDoctor")
     @Column(name = "id")
     public Long getId() {
