@@ -7,11 +7,14 @@
 
 	<persistence-unit name="uniminutoTest">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/FunEspecificas</jta-data-source>
-		<class>co.com.sc.nexura.superfinanciera.model.FinancialInstitution</class>
+		<jta-data-source>java:jboss/datasources/EAProject</jta-data-source>
+		<class>co.com.mic.medicalUMD.modelo.CentroMedico</class>
+		<class>co.com.mic.medicalUMD.modelo.Doctor</class>
+		<class>co.com.mic.medicalUMD.modelo.Rol</class>
+		<class>co.com.mic.medicalUMD.modelo.Usuario</class>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.ProgressDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.jdbc.batch_size" value="20" />

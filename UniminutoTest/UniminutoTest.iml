@@ -341,9 +341,9 @@
         <setting name="provider-name" value="" />
         <datasource-mapping>
           <factory-entry name="SuperfinancieraArchivos" />
-          <factory-entry name="uniminutoTest" />
+          <factory-entry name="uniminutoTest" value="049340cb-0e45-44e0-bf24-1b2edffd8142" />
         </datasource-mapping>
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/persistence-prod.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/resources/META-INF/persistence-dev.xml" />
       </configuration>
     </facet>
     <facet type="ejb" name="EJB">

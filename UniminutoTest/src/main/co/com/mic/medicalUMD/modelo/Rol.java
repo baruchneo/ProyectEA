@@ -7,9 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * Created by IEUser on 5/10/2016.
- */
 @Entity
 @Table(name = "rol")
 @Name("rol")
@@ -44,7 +41,7 @@ public class Rol implements Serializable, Cloneable
         this.id = id;
     }
 
-    @Column(name = "nombre_rol", unique = false, nullable = false, length = 200)
+    @Column(name = "nombre_rol", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public String getNombreRol()

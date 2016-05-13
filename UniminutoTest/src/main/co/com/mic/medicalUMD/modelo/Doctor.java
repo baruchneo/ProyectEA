@@ -9,9 +9,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
-/**
- * Created by IEUser on 5/10/2016.
- */
 @Entity
 @Table(name = "doctor")
 @Name("doctor")
@@ -33,8 +30,8 @@ public class Doctor implements Serializable, Cloneable
     private Set<CentroMedico> centroMedicoSet;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "SeqDoctor", sequenceName = "SeqDoctor")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqDoctor")
+    @SequenceGenerator(name = "seqDoctor", sequenceName = "seqDoctor")
     @Column(name = "id")
     public Long getId() {
         return id;
@@ -44,7 +41,7 @@ public class Doctor implements Serializable, Cloneable
         this.id = id;
     }
 
-    @Column(name = "cedula", unique = false, nullable = false, length = 20)
+    @Column(name = "cedula", nullable = false, length = 20)
     @NotNull
     @Size(min = 2, max = 20)
     public String getCedula() {
@@ -55,7 +52,7 @@ public class Doctor implements Serializable, Cloneable
         this.cedula = cedula;
     }
 
-    @Column(name = "nombres", unique = false, nullable = false, length = 100)
+    @Column(name = "nombres", nullable = false, length = 100)
     @NotNull
     @Size(min = 2, max = 100)
     public String getNombres() {
@@ -66,7 +63,7 @@ public class Doctor implements Serializable, Cloneable
         this.nombres = nombres;
     }
 
-    @Column(name = "apellidos", unique = false, nullable = false, length = 100)
+    @Column(name = "apellidos", nullable = false, length = 100)
     @NotNull
     @Size(min = 2, max = 100)
     public String getApellidos() {
@@ -77,7 +74,7 @@ public class Doctor implements Serializable, Cloneable
         this.apellidos = apellidos;
     }
 
-    @ManyToMany(targetEntity = Doctor.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = CentroMedico.class, fetch = FetchType.EAGER)
     @ForeignKey(name = "FK_doc_doc" , inverseName = "FK_doc_cent_med")
     @JoinTable(name = "centro_medico_doctor", joinColumns = @JoinColumn(name = "id_cent_med"), inverseJoinColumns = @JoinColumn(name = "id_doctor"))
     public Set<CentroMedico> getCentroMedicoSet() {

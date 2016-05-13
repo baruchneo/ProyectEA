@@ -9,9 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
-/**
- * Created by IEUser on 5/10/2016.
- */
+
 @Entity
 @Table(name = "centro_medico")
 @Name("centroMedico")
@@ -42,7 +40,7 @@ public class CentroMedico implements Serializable, Cloneable
         this.id = id;
     }
 
-    @Column(name = "nombre_centro", unique = false, nullable = false, length = 200)
+    @Column(name = "nombre_centro", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public String getNombreCentro() {
@@ -53,7 +51,7 @@ public class CentroMedico implements Serializable, Cloneable
         this.nombreCentro = nombreCentro;
     }
 
-    @Column(name = "direccion_centro", unique = false, nullable = false, length = 200)
+    @Column(name = "direccion_centro", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public String getDireccionCentro() {

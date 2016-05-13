@@ -12,7 +12,7 @@
 		<driver-class>org.postgresql.Driver</driver-class>
 
 		<user-name>postgres</user-name>
-		<password>12345678</password>
+		<password>postgres</password>
 		<min-pool-size>3</min-pool-size>
 		<max-pool-size>100</max-pool-size>
 

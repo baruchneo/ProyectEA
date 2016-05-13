@@ -7,13 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Set;
-
-/**
- * Created by Edward on 10/05/2016.
- */
 
 @Entity
 @Table(name = "usuario")
@@ -46,9 +40,9 @@ public class Usuario implements Serializable, Cloneable{
      */
     private Date fechaCreacion;
 
-    private Set<Rol> rolSet;
+    private Rol rol;
 
-    private Set<CentroMedico> centroMedicoSet;
+    private CentroMedico centroMedico;
 
     private String email;
 
@@ -62,46 +56,46 @@ public class Usuario implements Serializable, Cloneable{
         return id;
     }
 
-    @Column(name = "nombre_usuario", unique = false, nullable = false, length = 80)
+    @Column(name = "nombre_usuario", nullable = false, length = 80)
     @NotNull
     @Size(min = 2, max = 80)
     public String getUsuario() {
         return usuario;
     }
 
-    @Column(name = "password", unique = false, nullable = false, length = 200)
+    @Column(name = "password", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public String getPassword() {
         return password;
     }
 
-    @Column(name = "fecha_creacion", unique = false, nullable = false)
+    @Column(name = "fecha_creacion", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
-    @Column(name = "email", unique = false, nullable = false, length = 200)
+    @Column(name = "email", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public String getEmail() {
         return email;
     }
 
-    @ManyToOne(targetEntity = CentroMedico.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Rol.class, fetch = FetchType.EAGER)
     @ForeignKey(name = "FK_usuario_rol")
-    @JoinColumn(name = "id_rol", nullable = false, updatable = false, insertable = true)
-    public Set<Rol> getRolSet() {
-        return rolSet;
+    @JoinColumn(name = "id_rol", nullable = false, updatable = false)
+    public Rol getRol() {
+        return rol;
     }
 
     @ManyToOne(targetEntity = CentroMedico.class, fetch = FetchType.EAGER)
     @ForeignKey(name = "FK_usuario_centro_medico")
-    @JoinColumn(name = "id_centro_medico", nullable = false, updatable = true, insertable = true)
-    public Set<CentroMedico> getCentroMedicoSet() {
-        return centroMedicoSet;
+    @JoinColumn(name = "id_centro_medico", nullable = false)
+    public CentroMedico getCentroMedico() {
+        return centroMedico;
     }
 
 
@@ -125,12 +119,12 @@ public class Usuario implements Serializable, Cloneable{
         this.fechaCreacion = fechaCreacion;
     }
 
-    public void setRolSet(Set<Rol> rolSet) {
-        this.rolSet = rolSet;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
-    public void setCentroMedicoSet(Set<CentroMedico> centroMedicoSet) {
-        this.centroMedicoSet = centroMedicoSet;
+    public void setCentroMedico(CentroMedico centroMedico) {
+        this.centroMedico = centroMedico;
     }
 
     public void setEmail(String email) {

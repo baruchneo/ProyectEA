@@ -8,11 +8,19 @@
 
 	<persistence-unit name="uniminutoTest">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
-		<class>co.com.sc.nexura.superfinanciera.model.FinancialInstitution</class>
+		<jta-data-source>java:jboss/datasources/EAProject</jta-data-source>
+		<class>co.com.mic.medicalUMD.modelo.CentroMedico</class>
+		<class>co.com.mic.medicalUMD.modelo.Doctor</class>
+		<class>co.com.mic.medicalUMD.modelo.Rol</class>
+		<class>co.com.mic.medicalUMD.modelo.Usuario</class>
 		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.ProgressDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.jdbc.batch_size" value="20" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.cache.use_structured_entries" value="true" />
 			<property name="hibernate.cache.use_second_level_cache" value="false" />
 			<property name="jboss.entity.manager.factory.jndi.name" value="java:/uniminutoTestEntityManagerFactory" />
 		</properties>

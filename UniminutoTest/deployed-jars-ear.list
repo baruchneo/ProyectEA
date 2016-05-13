@@ -33,7 +33,6 @@ guava.jar
 sac.jar
 cssparser.jar
 jsch-0.1.49.jar
-SuperfinancieraBase.jar
 hibernate-validator.jar
 hibernate-core.jar
 quartz.jar
