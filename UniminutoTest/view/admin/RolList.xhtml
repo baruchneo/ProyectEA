@@ -105,7 +105,7 @@
 							<rich:tooltip styleClass="tooltip" layout="block" value="#{empty from ? 'Ver' : 'Seleccionar'}" target="rolViewId"/>
 						</h:link>
 						
-						<h:link outcome="rolEdit" id="rolEdit" rendered="#{empty from}" includeViewParams="true" >
+						<h:link outcome="RolEdit" id="rolEdit" rendered="#{empty from}" includeViewParams="true" >
 							<f:param name="rolId" value="#{_rolList.id}"/>
 							<h:graphicImage value="/img/pencil.png" alt="Editar"/>
 							<rich:tooltip styleClass="tooltip" layout="block" value="Editar" target="rolEdit"/>
@@ -121,7 +121,7 @@
 		</rich:panel>
 		
 		<h:panelGroup styleClass="actionButtons" rendered="#{empty from}">
-			<h:button outcome="RolEdit" id="create" value="Crear proceso de negocio">
+			<h:button outcome="RolEdit" id="create" value="Crear rol">
 				<f:param name="rolId" />
 			</h:button>
 		</h:panelGroup>
