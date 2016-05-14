@@ -17,7 +17,7 @@
 		
 	</rich:toolbarGroup>
 	
-	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin')}" >
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none"  >
 	
 		<f:facet name="label">
 			<h:panelGroup>
@@ -64,7 +64,7 @@
 
 	</rich:dropDownMenu>
 	
-	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin')  or identity.loggedIn and identity.hasRole('Auditor')}">
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 	
 		<f:facet name="label">
 			<h:panelGroup>
@@ -83,7 +83,7 @@
 		
 	</rich:dropDownMenu>
 	
-	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Admin') or identity.loggedIn and identity.hasRole('Auditor')}">
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 	
 		<f:facet name="label">
 			<h:panelGroup>
@@ -101,7 +101,7 @@
 		
 	</rich:dropDownMenu>
 	
-	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('User')}">
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" >
 	
 		<f:facet name="label">
 			<h:panelGroup>
@@ -140,7 +140,7 @@
 		
 	</rich:dropDownMenu>
 	
-	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" rendered="#{identity.loggedIn and identity.hasRole('Password')}">
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none" >
 	
 		<f:facet name="label">
 			<h:panelGroup>
@@ -157,12 +157,12 @@
 	
 	<rich:toolbarGroup location="right">
 	
-		<h:graphicImage value="/img/user.png" rendered="#{identity.loggedIn}"/>
+		<h:graphicImage value="/img/user.png" />
 		<h:panelGroup rendered="#{identity.loggedIn}" id="menuWelcomeIdPanel">
-			<p style="white-space:nowrap;" id="menuWelcomeId"> Autenticado como: #{authenticator.financialInstitution != null ? (authenticator.financialInstitution.initials != null ? authenticator.financialInstitution.initials.concat(' ('.concat(credentials.username.concat(')'))) : authenticator.financialInstitution.name.concat(' ('.concat(credentials.username.concat(')')))) : credentials.username}  </p>
+			<p style="white-space:nowrap;" id="menuWelcomeId"> Autenticado como: </p>
 		</h:panelGroup>
 		
-		<h:panelGrid columns="2" rendered="#{not identity.loggedIn}" >
+		<h:panelGrid columns="2" >
 			<h:link id="menuLoginIdText" outcome="/login" value="Ingreso"  onclick="showWaitDialog();"/>
 			<h:link id="menuLoginIdImg" outcome="/login"  onclick="showWaitDialog();">
 				<h:graphicImage value="/img/lock.png"/>
@@ -170,7 +170,7 @@
 		</h:panelGrid>
 		
 		<h:form id="logoutForm">
-			<h:commandLink id="menuLogoutId" action="#{identity.logout}"  rendered="#{identity.loggedIn}" outcome="/home"  onclick="showWaitDialog();">
+			<h:commandLink id="menuLogoutId" action="#{identity.logout}"  outcome="/home"  onclick="showWaitDialog();">
 				<h:panelGrid columns="2">
 					<h:graphicImage value="/img/exit.png"/>
 					<h:outputText id="exit" value="Salida" />

@@ -17,18 +17,32 @@
 			<supported-locale>da</supported-locale>
 		</locale-config>
 	</application>
-  
-	<!--<navigation-rule>
-		<from-view-id>/login.xhtml</from-view-id>
+
+	<navigation-rule>
+		<from-view-id>/admin/RolEdit.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{identity.login}</from-action>
-			<if>#{identity.loggedIn}</if>
-			<to-view-id>/home.xhtml</to-view-id>
+			<from-action>#{rolHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/Rol.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{rolHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/Rol.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{rolHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/RolList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+
 	</navigation-rule>
-	
-	<navigation-rule>
+
+	<!--<navigation-rule>
 	
 		<from-view-id>/admin/PropertyEdit.xhtml</from-view-id>
 		<navigation-case>

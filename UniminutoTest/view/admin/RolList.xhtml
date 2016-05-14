@@ -1,0 +1,131 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="firstResult" value="#{rolList.firstResult}" />
+				<f:viewParam name="sort" value="#{rolList.orderColumn}" />
+				<f:viewParam name="dir" value="#{rolList.orderDirection}" />
+				<f:viewParam name="logic" value="#{rolList.restrictionLogicOperator}" />
+	
+				<f:viewParam name="from" />
+				<f:viewParam name="reportTypeId" />
+				<f:viewParam name="rolId" value="#{rolList.rol.id}" />
+				<f:viewParam name="name" value="#{rolList.rol.nombreRol}" />
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+	
+	<ui:define name="body">
+
+		<h:form id="RolSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="Filtro de b&uacute;squeda de roles" switchType="client">
+				<f:validateBean disabled="#{true}">
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Identificador</ui:define>
+						<h:inputText id="id" value="#{rolList.rol.id}">
+							<f:validateBean disabled="#{true}" />
+						</h:inputText>
+					</ui:decorate>
+	
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Nombre rol</ui:define>
+						<h:inputText id="name" value="#{rolList.rol.nombreRol}">
+							<f:validateBean disabled="#{true}" />
+						</h:inputText>
+					</ui:decorate>
+					
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Coincidencia</ui:define>
+						<h:selectOneRadio id="logic" value="#{rolList.restrictionLogicOperator}" styleClass="radio">
+							<f:selectItem itemLabel="Todos los criterios especificados" itemValue="and" />
+							<f:selectItem itemLabel="Alguno de los criterios especificados" itemValue="or" />
+						</h:selectOneRadio>
+					</ui:decorate>
+				</f:validateBean>
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton type="submit" id="search" value="Buscar" />
+				<h:button onclick="showWaitDialog();" id="reset" value="Reiniciar B&uacute;squeda" includeViewParams="false" rendered="#{empty from}"/>
+				<h:button onclick="showWaitDialog();" id="return" value="Regresar" rendered="#{not empty from}" outcome="#{from}" includeViewParams="true" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+		
+			<f:facet name="header">Resultados de b&uacute;squeda de roles (#{empty rolList.resultList ? 0 : (rolList.paginated ? rolList.resultCount : rolList.resultList.size)})</f:facet>
+			<div class="results" id="rolListSearchResult">
+
+				<h:outputText value="La b&uacute;squeda de roles no retorn&oacute; resultados." rendered="#{empty rolList.resultList}" />
+				
+				<rich:dataScroller renderIfSinglePage="false" for="rolList" maxPages="5" id="dataScroller1" reRender="dataScroller2" rendered="#{not empty rolList.resultList}"/>
+				
+				<rich:dataTable rows="10" style="width:100%" id="rolList" var="_rolList" rowClasses="rvgRowOne,rvgRowTwo"  value="#{rolList.resultList}" rendered="#{not empty rolList.resultList}">
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{rolList}" />
+								<ui:param name="propertyLabel" value="Identificador" />
+								<ui:param name="propertyPath" value="rol.id" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_rolList.id}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{rolList}" />
+								<ui:param name="propertyLabel" value="Nombre rol" />
+								<ui:param name="propertyPath" value="rol.nombreRol" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_rolList.nombreRol}" />
+					</h:column>
+					
+					<rich:column styleClass="action">
+						
+						<f:facet name="header">Acci&oacute;n</f:facet>
+            
+						<h:link outcome="#{empty from ? 'Rol' : from}" id="rolViewId" includeViewParams="true">
+							<f:param name="rolId" value="#{_rolList.id}"/>
+							<f:param name="rolIdOperation" value="insert"/>
+							<h:graphicImage value="#{empty from ? '/img/view.png' : '/img/link.png'}" alt="#{empty from ? 'Ver' : 'Seleccionar'}" />
+							<rich:tooltip styleClass="tooltip" layout="block" value="#{empty from ? 'Ver' : 'Seleccionar'}" target="rolViewId"/>
+						</h:link>
+						
+						<h:link outcome="rolEdit" id="rolEdit" rendered="#{empty from}" includeViewParams="true" >
+							<f:param name="rolId" value="#{_rolList.id}"/>
+							<h:graphicImage value="/img/pencil.png" alt="Editar"/>
+							<rich:tooltip styleClass="tooltip" layout="block" value="Editar" target="rolEdit"/>
+						</h:link>
+						
+					</rich:column>
+					
+				</rich:dataTable>
+				
+				<rich:dataScroller renderIfSinglePage="false" for="rolList" maxPages="5" id="dataScroller2" reRender="dataScroller1" rendered="#{not empty rolList.resultList}"/>
+
+			</div>
+		</rich:panel>
+		
+		<h:panelGroup styleClass="actionButtons" rendered="#{empty from}">
+			<h:button outcome="RolEdit" id="create" value="Crear proceso de negocio">
+				<f:param name="rolId" />
+			</h:button>
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,42 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:rich="http://richfaces.org/rich"
+				xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+				template="/layout/template.xhtml"
+		>
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="rolFrom" />
+			<f:viewParam name="rolId" value="#{rolHome.rolId}"/>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="body">
+		
+		<rich:panel>
+			<f:facet name="header">Detalles del rol</f:facet>
+				
+			<ui:decorate id="id" template="/layout/display.xhtml">
+				<ui:define name="label">Identificador</ui:define>
+				<h:outputText value="#{rolHome.instance.id}" />
+			</ui:decorate>
+			
+			<ui:decorate id="name" template="/layout/display.xhtml">		
+				<ui:define name="label">Nombre</ui:define>
+				<h:outputText value="#{rolHome.instance.nombreRol}" />
+			</ui:decorate>
+		    <div style="clear: both" ></div>
+		</rich:panel>
+
+		<div class="actionButtons">
+			<h:button onclick="showWaitDialog();" outcome="RolEdit" id="edit" value="Editar" includeViewParams="true" />
+			<h:button onclick="showWaitDialog();" outcome="#{empty rolFrom ? 'RolList' : rolFrom}" id="done" value="Regresar" includeViewParams="true" />
+		</div>
+
+	</ui:define>
+
+</ui:composition>

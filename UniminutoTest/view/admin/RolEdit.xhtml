@@ -1,0 +1,64 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:rich="http://richfaces.org/rich"
+		xmlns:o="http://java.sun.com/jsf/composite/layout"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		template="/layout/template.xhtml">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="rolFrom" />
+				<f:viewParam name="rolId" value="#{rolHome.rolId}" />
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<h:form id="rol" styleClass="edit">
+
+			<rich:panel>
+
+				<f:facet name="header">#{rolHome.managed ? 'Editar' : 'Adicionar'} Rol</f:facet>
+
+				<o:decorate label="Identificador" object="#{id}" showComponent="#{rolHome.managed}">
+					<h:inputText binding="#{id}" id="id" required="true" disabled="#{rolHome.managed}" value="#{rolHome.instance.id}" />
+				</o:decorate>
+
+				<o:decorate label="Nombre rol" object="#{nombreRol}">
+					<h:inputText binding="#{nombreRol}" id="nombreRol" size="65" maxlength="200" required="true" value="#{rolHome.instance.nombreRol}" />
+				</o:decorate>
+
+
+				<div style="clear:both">
+					<span class="required">
+						<h:graphicImage value="/img/requiredTextField.png"/>
+						Campos requeridos
+					</span>
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="Salvar" action="#{rolHome.persist}" rendered="#{!rolHome.managed}" />
+				<h:commandButton id="update" value="Actualizar" action="#{rolHome.update}" rendered="#{rolHome.managed}" />
+				<h:commandButton id="delete" value="Borrar" action="#{rolHome.remove}" immediate="true" rendered="#{rolHome.managed}" />
+				<h:button id="cancelEdit" value="Cancelar" immediate="true" outcome="Rol" rendered="#{rolHome.managed}" includeViewParams="true">
+					<f:param name="rolId" value="#{rolHome.instance.id}" />
+				</h:button>
+				<h:button id="cancelAdd" value="Cancelar" immediate="true" outcome="#{empty rolFrom ? 'RolList' : rolFrom}" rendered="#{!rolHome.managed}" includeViewParams="true"/>
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
