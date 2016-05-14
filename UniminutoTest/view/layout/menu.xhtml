@@ -6,17 +6,16 @@
 	xmlns:rich="http://richfaces.org/rich">
 	
 	<rich:toolbarGroup>
-	
-		<h:graphicImage value="/img/gear.png"/>
-		<p style="white-space:nowrap;">#{projectName}</p>
-		
+
+		‎<p style="white-space:nowrap;">MONITORING INTEGRATION CENTER</p>
+
 		<h:link id="menuHomeId" outcome="/home" onclick="showWaitDialog();">
 			<h:graphicImage value="/img/favorite.png"/>
 			<h:outputText value="Inicio" />
 		</h:link>
 		
 	</rich:toolbarGroup>
-	
+
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none"  >
 	
 		<f:facet name="label">
@@ -26,44 +25,53 @@
 			</h:panelGroup>
 		</f:facet>
 		
-		<rich:menuGroup label="Gesti&#243;n de procesos de negocio">
+		<rich:menuGroup label="Gesti&#243;n de roles">
 			<rich:menuItem>
-				<h:link outcome="/admin/BusinessProcessList" value="Listar procesos de negocio" id="BusinessProcessListIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/RolList" value="Listar Roles" id="RolListIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 			<rich:menuItem>
-				<h:link outcome="/admin/BusinessProcessEdit" value="Crear procesos de negocio" id="BusinessProcessEditIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/RolEdit" value="Crear Rol" id="RolsEditIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 		</rich:menuGroup>
 		
-		<rich:menuGroup label="Gesti&#243;n de tipos de reportes">
+		<rich:menuGroup label="Gesti&#243;n de usuarios">
 			<rich:menuItem>
-				<h:link outcome="/admin/ReportTypeList" value="Listar tipos de Reporte" id="ReportTypeListIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/UsuarioList" value="Listar UsuarioS" id="UsuarioListIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 			<rich:menuItem>
-				<h:link outcome="/admin/ReportTypeEdit" value="Crear tipos de Reporte" id="ReportTypeEditIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/UsuarioEdit" value="Crear Usuario" id="UsuarioEditIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 		</rich:menuGroup>
         
-        <rich:menuGroup label="Gesti&#243;n de propiedades del sistema">
+        <rich:menuGroup label="Gesti&#243;n de centros medicos">
         	<rich:menuItem>
-				<h:link outcome="/admin/PropertyList" value="Listar propiedades" id="PropertyListIdMenu" onclick="showWaitDialog();"  />
+				<h:link outcome="/admin/CentroMedicoList" value="Listar Centros Medicos" id="CentroMedicoListIdMenu" onclick="showWaitDialog();"  />
 			</rich:menuItem>
 			<rich:menuItem>
-				<h:link outcome="/admin/PropertyEdit" value="Crear propiedades" id="PropertyEditIdMenu" onclick="showWaitDialog();"  />
+				<h:link outcome="/admin/CentroMedicoEdit" value="Crear Centro Medico" id="CentroMedicoEditIdMenu" onclick="showWaitDialog();"  />
 			</rich:menuItem>
 		</rich:menuGroup>
-		
-		<rich:menuGroup label="Gesti&#243;n de estados de transmisi&#243;n">
+
+		<rich:menuGroup label="Gesti&#243;n de tipos de alerta">
 			<rich:menuItem>
-				<h:link outcome="/admin/StateList" value="Listar estados" id="StateListIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/TiposAlertaList" value="Listar Tipos de Alerta" id="TiposAlertaListIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 			<rich:menuItem>
-				<h:link outcome="/admin/StateEdit" value="Crear estados" id="StateEditIdMenu" onclick="showWaitDialog();" />
+				<h:link outcome="/admin/TiposAlertaEdit" value="Crear Tipo de Alerta" id="TiposAlertaEditIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+		</rich:menuGroup>
+
+		<rich:menuGroup label="Gesti&#243;n de rangos">
+			<rich:menuItem>
+				<h:link outcome="/admin/RangoList" value="Listar Rangos" id="RangoListIdMenu" onclick="showWaitDialog();" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<h:link outcome="/admin/RangoEdit" value="Crear Rango" id="RangoEditIdMenu" onclick="showWaitDialog();" />
 			</rich:menuItem>
 		</rich:menuGroup>
 
 	</rich:dropDownMenu>
-	
+	‎<!--
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 	
 		<f:facet name="label">
@@ -154,7 +162,8 @@
 		</rich:menuItem>
 		
 	</rich:dropDownMenu>
-	
+	-->
+	‎<!--
 	<rich:toolbarGroup location="right">
 	
 		<h:graphicImage value="/img/user.png" />
@@ -178,6 +187,6 @@
 			</h:commandLink>
 		</h:form>
 		
-	</rich:toolbarGroup>
+	</rich:toolbarGroup>-->
 	
 </rich:toolbar>
