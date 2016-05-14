@@ -46,7 +46,7 @@ public class Usuario implements Serializable, Cloneable{
 
     private String email;
 
-    private Integer estadoUsuario;
+    private String estadoUsuario;
 
     //-------------------------------------------------- Getters ----------------------------------------------------//
 
@@ -86,9 +86,9 @@ public class Usuario implements Serializable, Cloneable{
         return email;
     }
 
-    @Column(name = "estado_usuario", nullable = false, length = 2)
+    @Column(name = "estado_usuario", nullable = false, length = 200)
     @NotNull
-    public Integer getEstadoUsuario() {
+    public String getEstadoUsuario() {
         return estadoUsuario;
     }
 
@@ -131,7 +131,7 @@ public class Usuario implements Serializable, Cloneable{
         this.email = email;
     }
 
-    public void setEstadoUsuario(Integer estadoUsuario) {
+    public void setEstadoUsuario(String estadoUsuario) {
         this.estadoUsuario = estadoUsuario;
     }
 

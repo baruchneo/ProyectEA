@@ -27,6 +27,7 @@ public class Alerta implements Serializable, Cloneable
     private String descripcionAlerta;
     private TipoAlerta tipoAlerta;
     private Rango rango;
+    private Historial historial;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -92,6 +93,11 @@ public class Alerta implements Serializable, Cloneable
         return rango;
     }
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "alerta", cascade = CascadeType.ALL)
+    public Historial getHistorial() {
+        return historial;
+    }
+
     //------------------------------------------- Setters --------------------------------------------------//
 
     public void setId(Long id)
@@ -129,5 +135,9 @@ public class Alerta implements Serializable, Cloneable
 
     public void setRango(Rango rango) {
         this.rango = rango;
+    }
+
+    public void setHistorial(Historial historial) {
+        this.historial = historial;
     }
 }

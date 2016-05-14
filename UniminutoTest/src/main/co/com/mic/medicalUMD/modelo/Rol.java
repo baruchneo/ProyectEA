@@ -27,7 +27,7 @@ public class Rol implements Serializable, Cloneable
      */
     private String nombreRol;
 
-    private Integer estadoRol;
+    private String estadoRol;
 
     @Id
     @GeneratedValue(generator = "SeqRol")
@@ -46,9 +46,9 @@ public class Rol implements Serializable, Cloneable
         return nombreRol;
     }
 
-    @Column(name = "estado_rol", nullable = false, length = 2)
+    @Column(name = "estado_rol", nullable = false, length = 200)
     @NotNull
-    public Integer getEstadoRol() {
+    public String getEstadoRol() {
         return estadoRol;
     }
 
@@ -62,7 +62,7 @@ public class Rol implements Serializable, Cloneable
         this.nombreRol = nombreRol;
     }
 
-    public void setEstadoRol(Integer estadoRol) {
+    public void setEstadoRol(String estadoRol) {
         this.estadoRol = estadoRol;
     }
 }

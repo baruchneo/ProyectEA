@@ -19,6 +19,7 @@
 				<f:viewParam name="reportTypeId" />
 				<f:viewParam name="rolId" value="#{rolList.rol.id}" />
 				<f:viewParam name="name" value="#{rolList.rol.nombreRol}" />
+				<f:viewParam name="estado" value="#{rolList.rol.estadoRol}" />
 			</f:validateBean>
 		</f:metadata>
 	</ui:define>
@@ -31,7 +32,7 @@
 				<f:validateBean disabled="#{true}">
 					<ui:decorate template="/layout/display.xhtml">
 						<ui:define name="label">Identificador</ui:define>
-						<h:inputText id="id" value="#{rolList.rol.id}">
+						<h:inputText id="rolId" value="#{rolList.rol.id}">
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
 					</ui:decorate>
@@ -39,6 +40,13 @@
 					<ui:decorate template="/layout/display.xhtml">
 						<ui:define name="label">Nombre rol</ui:define>
 						<h:inputText id="name" value="#{rolList.rol.nombreRol}">
+							<f:validateBean disabled="#{true}" />
+						</h:inputText>
+					</ui:decorate>
+
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Estado rol</ui:define>
+						<h:inputText id="estado" value="#{rolList.rol.estadoRol}">
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
 					</ui:decorate>
@@ -92,6 +100,17 @@
 							</ui:include>
 						</f:facet>
 						<h:outputText value="#{_rolList.nombreRol}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{rolList}" />
+								<ui:param name="propertyLabel" value="Estado rol" />
+								<ui:param name="propertyPath" value="rol.estadoRol" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_rolList.estadoRol}" />
 					</h:column>
 					
 					<rich:column styleClass="action">
