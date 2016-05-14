@@ -20,7 +20,7 @@ public class Rango implements Serializable, Cloneable
     private Long id;
     private String nombreRango;
     private String rango;
-    private Integer estadoRango;
+    private String estadoRango;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -46,9 +46,9 @@ public class Rango implements Serializable, Cloneable
         return rango;
     }
 
-    @Column(name = "estado_rango", nullable = false, length = 2)
+    @Column(name = "estado_rango", nullable = false, length = 200)
     @NotNull
-    public Integer getEstadoRango() {
+    public String getEstadoRango() {
         return estadoRango;
     }
 
@@ -69,7 +69,7 @@ public class Rango implements Serializable, Cloneable
         this.rango = rango;
     }
 
-    public void setEstadoRango(Integer estadoRango)
+    public void setEstadoRango(String estadoRango)
     {
         this.estadoRango = estadoRango;
     }

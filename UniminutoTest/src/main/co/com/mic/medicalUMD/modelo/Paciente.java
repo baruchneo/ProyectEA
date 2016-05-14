@@ -41,9 +41,9 @@ public class Paciente implements Serializable, Cloneable
         return cedula;
     }
 
-    @Column(name = "cedula", nullable = false, length = 40)
+    @Column(name = "nombre_paciente", nullable = false, length = 200)
     @NotNull
-    @Size(min = 2, max = 40)
+    @Size(min = 2, max = 200)
     public String getNombrePaciente() {
         return nombrePaciente;
     }

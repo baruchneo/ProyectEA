@@ -29,6 +29,12 @@
 				<ui:define name="label">Nombre</ui:define>
 				<h:outputText value="#{rolHome.instance.nombreRol}" />
 			</ui:decorate>
+
+            <ui:decorate id="name" template="/layout/display.xhtml">
+                <ui:define name="label">Estado</ui:define>
+                <h:outputText value="#{rolHome.instance.estadoRol}" />
+            </ui:decorate>
+
 		    <div style="clear: both" ></div>
 		</rich:panel>
 
