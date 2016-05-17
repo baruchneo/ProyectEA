@@ -36,8 +36,13 @@
 					<h:inputText binding="#{nombreRol}" id="nombreRol" size="65" maxlength="200" required="true" value="#{rolHome.instance.nombreRol}" />
 				</o:decorate>
 
-				<o:decorate label="Estado rol" object="#{estadoRol}">
-					<h:inputText binding="#{estadoRol}" id="estadoRol" size="65" maxlength="200" required="true" value="#{rolHome.instance.estadoRol}" />
+				<o:decorate label="Estado rol" object="#{estado}">
+					<h:selectOneMenu binding="#{estado}" required="true" id="estado" title="Seleccione" value="#{reportTypeHome.instance.periodicity}">
+						<f:selectItem itemValue="" itemLabel="Seleccione"/>
+						<f:selectItems var="item" value="#{reportType.reportTypePeriodicities}" itemLabel="#{item}" itemValue="#{item}"/>
+						<f:validateBean disabled="#{true}" />
+					</h:selectOneMenu>
+					<h:inputText binding="#{estadoRol}" id="estadoRol" size="65" maxlength="200" required="true" value="#{rolHome.instance.estado}" />
 				</o:decorate>
 
 
@@ -61,6 +66,119 @@
 				<h:button id="cancelAdd" value="Cancelar" immediate="true" outcome="#{empty rolFrom ? 'RolList' : rolFrom}" rendered="#{!rolHome.managed}" includeViewParams="true"/>
 
 			</div>
+		</h:form>
+
+		<h:form styleClass="association" id="associations">
+
+			<rich:tabPanel switchType="client">
+
+				<rich:tab labelClass="required">
+
+					<f:facet name="header" labelClass="required">
+						<h:panelGrid columns="2">
+							<h:graphicImage value="/img/requiredTextField.png" style="vertical-align: middle; padding-right: 4px;float:left"/>
+							<h:outputLabel value="Estado *"/>
+						</h:panelGrid>
+					</f:facet>
+
+					<div class="association" id="estadoParent">
+
+						<h:outputText value="No existe un estado asociado a este rol." rendered="#{rolHome.instance.estado.id == null}" />
+
+						<rich:dataTable style="width:100%" value="#{rolHome.instance.estado}" var="_estado" rendered="#{rolHome.instance.estado.id != null}" rowClasses="rvgRowOne,rvgRowTwo" id="estadoTable">
+							<rich:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputText value="#{_estado.id}" />
+							</rich:column>
+
+							<rich:column>
+								<f:facet name="header">Estado</f:facet>
+								<h:outputText value="#{_estado.nombreEstado}" />
+							</rich:column>
+
+						</rich:dataTable>
+
+						<div class="actionButtons">
+							<h:button id="#{rolHome.instance.estado.id != null ? 'changeParentEstado' : 'selectParentEstado'}" value="#{rolHome.instance.estado.id != null ? 'Cambiar' : 'Seleccionar'} de estado" outcome="EstadoList">
+								<f:param name="from" value="RolEdit"/>
+								<f:param name="rolId" value="#{rolHome.instance.id}" />
+							</h:button>
+						</div>
+
+					</div>
+
+				</rich:tab>
+
+				<rich:tab rendered="#{rolHome.managed}">
+
+					<f:facet name="header">
+						<h:panelGrid columns="2">
+							<h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;float:left"/>
+							<h:outputLabel value="usuarios"/>
+						</h:panelGrid>
+					</f:facet>
+
+					<h:outputText value="No existen usuarios asociados a este rol." rendered="#{empty usuariosPorRol.resultList}" />
+
+					<rich:extendedDataTable filterVar="filterValue" value="#{usuariosPorRol.resultList}" var="_usuario" rendered="#{not empty usuariosPorRol.resultList}" rowClasses="rvgRowOne,rvgRowTwo" id="usuariosTable" sortMode="single">
+
+						<rich:column sortBy="#{_usuario.id}" sortOrder="descending" filterExpression="#{empty filterValue or fn:startsWith(_usuario.id, filterValue)}">
+							<f:facet name="header">Id</f:facet>
+							<h:outputText value="#{_usuario.id}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_usuario.usuario}" filterExpression="#{empty filterValue or fn:startsWith(_usuario.usuario, filterValue)}">
+							<f:facet name="header">Usuario</f:facet>
+							<h:outputText value="#{_usuario.usuario}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_usuario.email}" filterExpression="#{empty filterValue or fn:startsWith(_usuario.email, filterValue)}">
+							<f:facet name="header">Email</f:facet>
+							<h:outputText value="#{_usuario.email}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_usuario.rol}" filterExpression="#{empty filterValue or fn:startsWith(_usuario.rol, filterValue)}">
+							<f:facet name="header">Rol</f:facet>
+							<h:outputText value="#{_usuario.rol}" />
+						</rich:column>
+
+						<rich:column sortBy="#{_usuario.fechaCreacion}" filterExpression="#{empty filterValue or fn:startsWith(_usuario.fechaCreacion, filterValue)}">
+							<f:facet name="header">Fecha creaci&oacute;n</f:facet>
+							<h:outputText value="#{_usuario.fechaCreacion}" />
+						</rich:column>
+
+						<rich:column>
+
+							<f:facet name="header">Acci&oacute;n</f:facet>
+							<h:link id="selectUsuario" outcome="Usuario" onclick="showWaitDialog();" includeViewParams="true">
+								<f:param name="usuarioId" value="#{_usuario.id}" />
+								<f:param name="usuarioFrom" value="RolEdit" />
+								<f:param name="usuarioIdOperation" value="none"/>
+								<f:param name="rolId" value="#{rolHome.instance.id}"/>
+								<h:graphicImage id="imgSelectUsuario" value="/img/view.png" alt="Ver"/>
+								<rich:tooltip for="selectUsuario" styleClass="tooltip" layout="block" value="Ver" />
+							</h:link>
+
+							<h:link id="disableUsuario" outcome="RolEdit" onclick="showWaitDialog();" includeViewParams="true">
+								<f:param name="usuarioId" value="#{_usuario.id}" />
+								<f:param name="usuarioIdOperation" value="delete"/>
+								<h:graphicImage id="imgDisableUsuario" value="/img/disabled.png" alt="Deshabilitar usuario asociado a este rol"/>
+								<rich:tooltip for="disableUsuario" styleClass="tooltip" layout="block"  value="Deshabilitar usuario asociado a este rol" />
+							</h:link>
+
+						</rich:column>
+
+					</rich:extendedDataTable>
+
+					<div class="actionButtons">
+						<h:button value="Asociar usuario al rol" outcome="UsuarioList" onclick="showWaitDialog();" rendered="#{rolHome.managed}">
+							<f:param name="rolId" value="#{rolHome.instance.id}" />
+							<f:param name="from" value="RolEdit" />
+						</h:button>
+					</div>
+
+				</rich:tab>
+			</rich:tabPanel>
 		</h:form>
 
 	</ui:define>

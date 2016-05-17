@@ -1,0 +1,62 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition
+		xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:rich="http://richfaces.org/rich"
+		xmlns:o="http://java.sun.com/jsf/composite/layout"
+		template="/layout/template.xhtml">
+
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:validateBean disabled="#{true}">
+				<f:viewParam name="estadoFrom" />
+				<f:viewParam name="estadoId" value="#{estadoHome.estadoId}" />
+			</f:validateBean>
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="body">
+
+		<h:form id="rol" styleClass="edit">
+
+			<rich:panel>
+
+				<f:facet name="header">#{estadoHome.managed ? 'Editar' : 'Adicionar'} Estado</f:facet>
+
+				<o:decorate label="Identificador" object="#{id}" showComponent="#{estadoHome.managed}">
+					<h:inputText binding="#{id}" id="id" required="true" disabled="#{estadoHome.managed}" value="#{estadoHome.instance.id}" />
+				</o:decorate>
+
+				<o:decorate label="Nombre estado" object="#{nombreEstado}">
+					<h:inputText binding="#{nombreEstado}" id="nombreEstado" size="65" maxlength="200" required="true" value="#{estadoHome.instance.nombreEstado}" />
+				</o:decorate>
+
+				<div style="clear:both">
+					<span class="required">
+						<h:graphicImage value="/img/requiredTextField.png"/>
+						Campos requeridos
+					</span>
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="Salvar" action="#{estadoHome.persist}" rendered="#{!estadoHome.managed}" />
+				<h:commandButton id="update" value="Actualizar" action="#{estadoHome.update}" rendered="#{estadoHome.managed}" />
+				<h:commandButton id="delete" value="Borrar" action="#{estadoHome.remove}" immediate="true" rendered="#{estadoHome.managed}" />
+				<h:button id="cancelEdit" value="Cancelar" immediate="true" outcome="Rol" rendered="#{estadoHome.managed}" includeViewParams="true">
+					<f:param name="rolId" value="#{estadoHome.instance.id}" />
+				</h:button>
+				<h:button id="cancelAdd" value="Cancelar" immediate="true" outcome="#{empty estadoFrom ? 'EstadoList' : estadoFrom}" rendered="#{!estadoHome.managed}" includeViewParams="true"/>
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

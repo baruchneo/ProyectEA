@@ -19,6 +19,31 @@
 	</application>
 
 	<navigation-rule>
+		<from-view-id>/admin/EstadoEdit.xhtml</from-view-id>
+
+		<navigation-case>
+			<from-action>#{estadoHome.update}</from-action>
+			<from-outcome>updated</from-outcome>
+			<to-view-id>/admin/Estado.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{estadoHome.persist}</from-action>
+			<from-outcome>persisted</from-outcome>
+			<to-view-id>/admin/Estado.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{estadoHome.remove}</from-action>
+			<from-outcome>removed</from-outcome>
+			<to-view-id>/admin/EstadoList.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+
+	</navigation-rule>
+
+	<navigation-rule>
 		<from-view-id>/admin/RolEdit.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{rolHome.update}</from-action>

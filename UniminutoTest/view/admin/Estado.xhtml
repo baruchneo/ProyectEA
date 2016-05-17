@@ -10,37 +10,32 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewParam name="rolFrom" />
-			<f:viewParam name="rolId" value="#{rolHome.rolId}"/>
+			<f:viewParam name="estadoFrom" />
+			<f:viewParam name="estadoId" value="#{estadoHome.estadoId}"/>
 		</f:metadata>
 	</ui:define>
 
 	<ui:define name="body">
 		
 		<rich:panel>
-			<f:facet name="header">Detalles del rol</f:facet>
+			<f:facet name="header">Detalles del estado</f:facet>
 				
 			<ui:decorate id="id" template="/layout/display.xhtml">
 				<ui:define name="label">Identificador</ui:define>
-				<h:outputText value="#{rolHome.instance.id}" />
+				<h:outputText value="#{estadoHome.instance.id}" />
 			</ui:decorate>
 			
 			<ui:decorate id="name" template="/layout/display.xhtml">		
 				<ui:define name="label">Nombre</ui:define>
-				<h:outputText value="#{rolHome.instance.nombreRol}" />
+				<h:outputText value="#{estadoHome.instance.nombreEstado}" />
 			</ui:decorate>
-
-            <ui:decorate id="name" template="/layout/display.xhtml">
-                <ui:define name="label">Estado</ui:define>
-                <h:outputText value="#{rolHome.instance.estado.nombreEstado}" />
-            </ui:decorate>
 
 		    <div style="clear: both" ></div>
 		</rich:panel>
 
 		<div class="actionButtons">
-			<h:button onclick="showWaitDialog();" outcome="RolEdit" id="edit" value="Editar" includeViewParams="true" />
-			<h:button onclick="showWaitDialog();" outcome="#{empty rolFrom ? 'RolList' : rolFrom}" id="done" value="Regresar" includeViewParams="true" />
+			<h:button onclick="showWaitDialog();" outcome="EstadoEdit" id="edit" value="Editar" includeViewParams="true" />
+			<h:button onclick="showWaitDialog();" outcome="#{empty estadoFrom ? 'EstadoList' : estadoFrom}" id="done" value="Regresar" includeViewParams="true" />
 		</div>
 
 	</ui:define>
