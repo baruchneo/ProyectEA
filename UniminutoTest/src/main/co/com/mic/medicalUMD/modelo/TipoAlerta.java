@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "tipo_alerta")
@@ -19,6 +20,7 @@ public class TipoAlerta implements Serializable, Cloneable
 
     private Long id;
     private String nombreAlerta;
+    private Set<Alerta> alertas;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -37,6 +39,11 @@ public class TipoAlerta implements Serializable, Cloneable
         return nombreAlerta;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="tipoAlerta")
+    public Set<Alerta> getAlertas() {
+        return alertas;
+    }
+
     //------------------------------------------- Setters --------------------------------------------------//
 
     public void setId(Long id)
@@ -47,5 +54,9 @@ public class TipoAlerta implements Serializable, Cloneable
     public void setNombreAlerta(String nombreAlerta)
     {
         this.nombreAlerta = nombreAlerta;
+    }
+
+    public void setAlertas(Set<Alerta> alertas) {
+        this.alertas = alertas;
     }
 }

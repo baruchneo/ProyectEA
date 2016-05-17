@@ -20,14 +20,17 @@ public class Historial implements Serializable, Cloneable
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private Date fecha;
+    private Date fechaCreacion;
     private Integer Triage;
     private String descripcionHistorial;
     private Boolean alertaClinica;
-    private Paciente paciente;
+    private String codigoCentroAtencion;
+    private String codigoDoctor;
+    private String codigoAmbulancia;
+    private String codigoPaciente;
     private ResponsableAlertaEnum unidadGeneraAlerta;
     private Alerta alerta;
-    private CentroMedico centroMedico;
+    private Usuario usuario;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -42,8 +45,8 @@ public class Historial implements Serializable, Cloneable
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
     @Column(name = "triage", nullable = false, length = 2)
@@ -65,18 +68,35 @@ public class Historial implements Serializable, Cloneable
         return alertaClinica;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_PACIENTE")
-    @JoinColumn(name = "id_paciente", nullable = true, updatable = true, insertable = true)
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
     @Column(name = "unidad_genera_alerta", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
     public ResponsableAlertaEnum getUnidadGeneraAlerta() {
         return unidadGeneraAlerta;
+    }
+
+    @Column(name = "codigo_centro_atencion", nullable = true, length = 20)
+    @Size(min = 2, max = 20)
+    public String getCodigoCentroAtencion() {
+        return codigoCentroAtencion;
+    }
+
+    @Column(name = "codigo_doctor", nullable = true, length = 20)
+    @Size(min = 2, max = 20)
+    public String getCodigoDoctor() {
+        return codigoDoctor;
+    }
+
+    @Column(name = "codigo_ambulancia", nullable = true, length = 20)
+    @Size(min = 2, max = 20)
+    public String getCodigoAmbulancia() {
+        return codigoAmbulancia;
+    }
+
+    @Column(name = "codigo_paciente", nullable = true, length = 20)
+    @Size(min = 2, max = 20)
+    public String getCodigoPaciente() {
+        return codigoPaciente;
     }
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -85,11 +105,12 @@ public class Historial implements Serializable, Cloneable
         return alerta;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_CENTRO_MEDICO")
-    @JoinColumn(name = "id_centro_medico", nullable = true, updatable = true, insertable = true)
-    public CentroMedico getCentroMedico() {
-        return centroMedico;
+    @ManyToOne(targetEntity = Usuario.class, fetch = FetchType.EAGER)
+    @ForeignKey(name = "FK_historial_usuario")
+    @JoinColumn(name = "id_usuario", nullable = false, updatable = false)
+    public Usuario getUsuario()
+    {
+        return usuario;
     }
 
     //------------------------------------------- Setters --------------------------------------------------//
@@ -99,8 +120,8 @@ public class Historial implements Serializable, Cloneable
         this.id = id;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public void setTriage(Integer triage) {
@@ -115,19 +136,31 @@ public class Historial implements Serializable, Cloneable
         this.alertaClinica = alertaClinica;
     }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
     public void setUnidadGeneraAlerta(ResponsableAlertaEnum unidadGeneraAlerta) {
         this.unidadGeneraAlerta = unidadGeneraAlerta;
+    }
+
+    public void setCodigoCentroAtencion(String codigoCentroAtencion) {
+        this.codigoCentroAtencion = codigoCentroAtencion;
+    }
+
+    public void setCodigoDoctor(String codigoDoctor) {
+        this.codigoDoctor = codigoDoctor;
+    }
+
+    public void setCodigoAmbulancia(String codigoAmbulancia) {
+        this.codigoAmbulancia = codigoAmbulancia;
+    }
+
+    public void setCodigoPaciente(String codigoPaciente) {
+        this.codigoPaciente = codigoPaciente;
     }
 
     public void setAlerta(Alerta alerta) {
         this.alerta = alerta;
     }
 
-    public void setCentroMedico(CentroMedico centroMedico) {
-        this.centroMedico = centroMedico;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

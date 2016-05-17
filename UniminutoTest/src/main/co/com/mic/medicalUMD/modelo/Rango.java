@@ -1,5 +1,6 @@
 package co.com.mic.medicalUMD.modelo;
 
+import org.hibernate.annotations.ForeignKey;
 import org.jboss.seam.annotations.Name;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Rango implements Serializable, Cloneable
     private Long id;
     private String nombreRango;
     private String rango;
-    private String estadoRango;
+    private Estado estado;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -46,10 +47,11 @@ public class Rango implements Serializable, Cloneable
         return rango;
     }
 
-    @Column(name = "estado_rango", nullable = false, length = 200)
-    @NotNull
-    public String getEstadoRango() {
-        return estadoRango;
+    @ManyToOne(targetEntity = Estado.class, fetch = FetchType.EAGER)
+    @ForeignKey(name = "FK_rango_estado")
+    @JoinColumn(name = "id_estado", nullable = false)
+    public Estado getEstado() {
+        return estado;
     }
 
     //------------------------------------------- Setters --------------------------------------------------//
@@ -69,8 +71,8 @@ public class Rango implements Serializable, Cloneable
         this.rango = rango;
     }
 
-    public void setEstadoRango(String estadoRango)
+    public void setEstado(Estado estado)
     {
-        this.estadoRango = estadoRango;
+        this.estado = estado;
     }
 }

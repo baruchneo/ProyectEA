@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
@@ -40,13 +41,13 @@ public class Usuario implements Serializable, Cloneable{
      */
     private Date fechaCreacion;
 
-    private Rol rol;
-
-    private CentroMedico centroMedico;
-
     private String email;
 
-    private String estadoUsuario;
+    private Rol rol;
+
+    private Estado estado;
+
+    private Set<Historial> historiales;
 
     //-------------------------------------------------- Getters ----------------------------------------------------//
 
@@ -86,10 +87,11 @@ public class Usuario implements Serializable, Cloneable{
         return email;
     }
 
-    @Column(name = "estado_usuario", nullable = false, length = 200)
-    @NotNull
-    public String getEstadoUsuario() {
-        return estadoUsuario;
+    @ManyToOne(targetEntity = Estado.class, fetch = FetchType.EAGER)
+    @ForeignKey(name = "FK_usuario_estado")
+    @JoinColumn(name = "id_estado", nullable = false, updatable = false)
+    public Estado getEstado() {
+        return estado;
     }
 
     @ManyToOne(targetEntity = Rol.class, fetch = FetchType.EAGER)
@@ -99,17 +101,12 @@ public class Usuario implements Serializable, Cloneable{
         return rol;
     }
 
-    @ManyToOne(targetEntity = CentroMedico.class, fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_usuario_centro_medico")
-    @JoinColumn(name = "id_centro_medico", nullable = false)
-    public CentroMedico getCentroMedico() {
-        return centroMedico;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="usuario")
+    public Set<Historial> getHistoriales() {
+        return historiales;
     }
 
-
-
     //-------------------------------------------------- Getters ----------------------------------------------------//
-
 
     public void setId(Long id) {
         this.id = id;
@@ -131,17 +128,15 @@ public class Usuario implements Serializable, Cloneable{
         this.email = email;
     }
 
-    public void setEstadoUsuario(String estadoUsuario) {
-        this.estadoUsuario = estadoUsuario;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public void setRol(Rol rol) {
         this.rol = rol;
     }
 
-    public void setCentroMedico(CentroMedico centroMedico) {
-        this.centroMedico = centroMedico;
+    public void setHistoriales(Set<Historial> historiales) {
+        this.historiales = historiales;
     }
-
-
 }

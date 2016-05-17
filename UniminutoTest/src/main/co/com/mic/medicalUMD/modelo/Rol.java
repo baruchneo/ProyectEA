@@ -1,11 +1,13 @@
 package co.com.mic.medicalUMD.modelo;
 
+import org.hibernate.annotations.ForeignKey;
 import org.jboss.seam.annotations.Name;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "rol")
@@ -27,7 +29,9 @@ public class Rol implements Serializable, Cloneable
      */
     private String nombreRol;
 
-    private String estadoRol;
+    private Estado estado;
+
+    private Set<Usuario> Usuarios;
 
     @Id
     @GeneratedValue(generator = "SeqRol")
@@ -46,11 +50,20 @@ public class Rol implements Serializable, Cloneable
         return nombreRol;
     }
 
-    @Column(name = "estado_rol", nullable = false, length = 200)
-    @NotNull
-    public String getEstadoRol() {
-        return estadoRol;
+    @ManyToOne(targetEntity = Estado.class, fetch = FetchType.EAGER)
+    @ForeignKey(name = "FK_rol_estado")
+    @JoinColumn(name = "id_estado", nullable = false)
+    public Estado getEstado() {
+        return estado;
     }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="rol")
+    public Set<Usuario> getUsuarios()
+    {
+        return Usuarios;
+    }
+
+    //------------------------------------------- Setters --------------------------------------------------//
 
     public void setId(Long id)
     {
@@ -62,7 +75,11 @@ public class Rol implements Serializable, Cloneable
         this.nombreRol = nombreRol;
     }
 
-    public void setEstadoRol(String estadoRol) {
-        this.estadoRol = estadoRol;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        Usuarios = usuarios;
     }
 }

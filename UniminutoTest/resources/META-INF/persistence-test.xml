@@ -9,10 +9,13 @@
 	<persistence-unit name="uniminutoTest">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/EAProject</jta-data-source>
-		<class>co.com.mic.medicalUMD.modelo.CentroMedico</class>
-		<class>co.com.mic.medicalUMD.modelo.Doctor</class>
+		<class>co.com.mic.medicalUMD.modelo.Estado</class>
 		<class>co.com.mic.medicalUMD.modelo.Rol</class>
+		<class>co.com.mic.medicalUMD.modelo.Rango</class>
+		<class>co.com.mic.medicalUMD.modelo.TipoAlerta</class>
 		<class>co.com.mic.medicalUMD.modelo.Usuario</class>
+		<class>co.com.mic.medicalUMD.modelo.Alerta</class>
+		<class>co.com.mic.medicalUMD.modelo.Historial</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.ProgressDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />

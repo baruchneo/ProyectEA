@@ -178,7 +178,7 @@
 	</navigation-rule> -->
 	
 	<factory>
-		<exception-handler-factory>co.com.sc.exception.ExceptionHandlerFactory</exception-handler-factory>
+		<exception-handler-factory>co.com.medicalUMD.exception.ExceptionHandlerFactory</exception-handler-factory>
 	</factory>
  
 </faces-config>

@@ -6,31 +6,31 @@
      
      <function>
           <function-name>substring</function-name>
-          <function-class>co.com.sc.utils.StringUtils</function-class>
+          <function-class>co.com.medicalUMD.utils.StringUtils</function-class>
           <function-signature>java.lang.String substring(java.lang.String,int,int)</function-signature>
      </function>
      
      <function>
           <function-name>exceptionGetStackTrace</function-name>
-          <function-class>co.com.sc.utils.ExceptionUtils</function-class>
+          <function-class>co.com.medicalUMD.utils.ExceptionUtils</function-class>
           <function-signature>java.lang.String exceptionGetStackTrace(java.lang.String)</function-signature>
      </function>
      
      <function>
           <function-name>exceptionGetMessage</function-name>
-          <function-class>co.com.sc.utils.ExceptionUtils</function-class>
+          <function-class>co.com.medicalUMD.utils.ExceptionUtils</function-class>
           <function-signature>java.lang.String exceptionGetMessage(java.lang.String)</function-signature>
      </function>
      
      <function>
           <function-name>exceptionGetLocalizedMessage</function-name>
-          <function-class>co.com.sc.utils.ExceptionUtils</function-class>
+          <function-class>co.com.medicalUMD.utils.ExceptionUtils</function-class>
           <function-signature>java.lang.String exceptionGetLocalizedMessage(java.lang.String)</function-signature>
      </function>
      
      <function>
           <function-name>getParameterSession</function-name>
-          <function-class>co.com.sc.utils.ExceptionUtils</function-class>
+          <function-class>co.com.medicalUMD.utils.ExceptionUtils</function-class>
           <function-signature>java.lang.String getParameterSession(java.lang.String)</function-signature>
      </function>
      
