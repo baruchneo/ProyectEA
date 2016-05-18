@@ -412,6 +412,13 @@
         </ejbRoots>
       </configuration>
     </facet>
+    <facet type="javaeeApplication" name="javaEEApplication4">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/lib/jboss-seam.jar" />
+        </descriptors>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/test-build" />

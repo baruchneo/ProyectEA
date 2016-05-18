@@ -38,3 +38,4 @@ hibernate-core.jar
 quartz.jar
 commons-fileupload-1.3.jar
 servlet-api.jar
+gwt-servlet.jar

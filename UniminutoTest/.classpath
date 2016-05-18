@@ -300,7 +300,6 @@
 	<classpathentry kind="lib" path="lib/test/xnio-api-3.0.3.GA.jar"/>
 	<classpathentry kind="lib" path="lib/test/xnio-nio-3.0.3.GA.jar"/>
 	<classpathentry kind="lib" path="lib/omnifaces-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/SuperfinancieraBase.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.49.jar"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>

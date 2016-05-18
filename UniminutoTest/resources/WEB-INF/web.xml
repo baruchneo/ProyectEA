@@ -129,6 +129,15 @@
 		<url-pattern>*.seam</url-pattern>
 	</servlet-mapping>
 
+	<!--<servlet>
+		<servlet-name>Saludo</servlet-name>
+		<servlet-class>test.ws.Saludo</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Saludo</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>-->
+
 	<security-constraint>
 		<display-name>Restrict raw XHTML Documents</display-name>
 		<web-resource-collection>
