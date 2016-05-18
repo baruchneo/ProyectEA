@@ -15,6 +15,14 @@
 	</module>
 
 	<module>
+		<web>
+			<web-uri>uniminutoTest.war</web-uri>
+			<context-root>/uniminutoTestWeb</context-root>
+		</web>
+	</module>
+
+
+	<module>
 		<ejb>uniminutoTest.jar</ejb>
 	</module>
 
