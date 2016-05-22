@@ -29,6 +29,10 @@ richfaces-core-api.jar
 richfaces-components-ui.jar
 richfaces-components-api.jar
 richfaces-core-impl.jar
+resteasy-atom-provider.jar
+resteasy-jaxb-provider.jar
+resteasy-jaxrs.jar
+resteasy-jettison-provider.jar
 guava.jar
 sac.jar
 cssparser.jar
