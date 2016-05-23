@@ -6,11 +6,13 @@ import org.jboss.seam.annotations.Name;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "alerta")
 @Name("alerta")
+@XmlRootElement(name="alerta")
 public class Alerta implements Serializable, Cloneable
 {
     /**
@@ -26,7 +28,6 @@ public class Alerta implements Serializable, Cloneable
     private Integer numeroRespiraciones;
     private String descripcionAlerta;
     private TipoAlerta tipoAlerta;
-    private Rango rango;
     private Historial historial;
 
     //------------------------------------------- Getters --------------------------------------------------//

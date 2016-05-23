@@ -6,12 +6,14 @@ import org.jboss.seam.annotations.Name;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "historial")
 @Name("historial")
+@XmlRootElement(name="historial")
 public class Historial implements Serializable, Cloneable
 {
     /**
@@ -30,7 +32,6 @@ public class Historial implements Serializable, Cloneable
     private String codigoPaciente;
     private ResponsableAlertaEnum unidadGeneraAlerta;
     private Alerta alerta;
-    private Usuario usuario;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -105,14 +106,6 @@ public class Historial implements Serializable, Cloneable
         return alerta;
     }
 
-    @ManyToOne(targetEntity = Usuario.class, fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_historial_usuario")
-    @JoinColumn(name = "id_usuario", nullable = false, updatable = false)
-    public Usuario getUsuario()
-    {
-        return usuario;
-    }
-
     //------------------------------------------- Setters --------------------------------------------------//
 
     public void setId(Long id)
@@ -158,9 +151,5 @@ public class Historial implements Serializable, Cloneable
 
     public void setAlerta(Alerta alerta) {
         this.alerta = alerta;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }
