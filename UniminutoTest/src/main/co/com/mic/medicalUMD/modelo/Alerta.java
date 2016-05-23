@@ -87,13 +87,6 @@ public class Alerta implements Serializable, Cloneable
         return tipoAlerta;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_RANGO")
-    @JoinColumn(name = "id_rango", nullable = true, updatable = true, insertable = true)
-    public Rango getRango() {
-        return rango;
-    }
-
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "alerta", cascade = CascadeType.ALL)
     public Historial getHistorial() {
         return historial;
@@ -132,10 +125,6 @@ public class Alerta implements Serializable, Cloneable
 
     public void setTipoAlerta(TipoAlerta tipoAlerta) {
         this.tipoAlerta = tipoAlerta;
-    }
-
-    public void setRango(Rango rango) {
-        this.rango = rango;
     }
 
     public void setHistorial(Historial historial) {

@@ -27,8 +27,8 @@ public class UsuarioPortal implements Serializable, Cloneable
     //------------------------------------------- Getters --------------------------------------------------//
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SeqhistRta")
-    @SequenceGenerator(name = "SeqhistRta", sequenceName = "SeqhistRta", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SeqUsuarioPortal")
+    @SequenceGenerator(name = "SeqUsuarioPortal", sequenceName = "SeqUsuarioPortal", allocationSize=1)
     @Column(name = "id")
     public Long getId() {
         return id;
