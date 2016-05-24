@@ -27,6 +27,7 @@ public class Alerta implements Serializable, Cloneable
     private Double limiteMinimo;
     private Double valorActual;
     private Date fechaMuestra;
+    private Integer cantidadDias;
     private Integer numeroRespiraciones;
     private String descripcionAlerta;
     private TipoAlerta tipoAlerta;

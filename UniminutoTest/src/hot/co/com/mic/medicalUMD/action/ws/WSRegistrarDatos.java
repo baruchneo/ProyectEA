@@ -2,6 +2,8 @@ package co.com.mic.medicalUMD.action.ws;
 
 
 import co.com.mic.medicalUMD.modelo.Alerta;
+import co.com.mic.medicalUMD.pojo.ConexionPOJO;
+import co.com.mic.medicalUMD.pojo.SensorPOJO;
 
 import javax.ws.rs.core.Response;
 
@@ -9,7 +11,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 {
 
     @Override
-    public Response registrarSensor(Alerta alerta, String usuario, String password)
+    public Response registrarSensor(SensorPOJO sensorPOJO, ConexionPOJO estaProgramado)
     {
         //TODO copiar a la tabla Historial
         //TODO Verificar que exista usuario y clave
@@ -18,9 +20,6 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
         //sensor:{
         //      'identificadorPaciente':'PAC1',
         //      'nombreSensor':'temperatura',
-        //      'limiteMaximo':40.0,
-        //      'limiteMinimo':20.05,
-        //      'periodicidad':10,
         //      'fechaMuestra':'2016-05-23 15:30',
         //      'valorSensor':37.3,
         //      'cantidadRespiraciones':-1, //-1 no aplica, de lo contrario se miden
@@ -28,5 +27,10 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
         // }
         String respuesta = "{'resultado':'sensor registrado satisfactoriamente para el paciente PAC1'}";
         return Response.status(200).entity(respuesta).build();
+    }
+
+    @Override
+    public Response programarSensor() {
+        return null;
     }
 }

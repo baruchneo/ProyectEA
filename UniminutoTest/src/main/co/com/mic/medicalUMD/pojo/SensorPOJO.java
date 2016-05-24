@@ -7,8 +7,9 @@ import java.util.Date;
 
 public class SensorPOJO
 {
-    private Boolean activarAlarma;
+    private Integer activarAlarma;
     private Integer periodicidad;
+    private Integer cantidadDias;
     private Double limiteMaximo;
     private Double limiteMinimo;
     private Double valorActual;
@@ -19,7 +20,7 @@ public class SensorPOJO
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public SensorPOJO(Boolean activarAlarma, Integer periodicidad, Double limiteMaximo, Double limiteMinimo, Double valorActual, Date fechaMuestra, Integer numeroRespiraciones, String descripcionAlerta, String nombreSensor) {
+    public SensorPOJO(Integer activarAlarma, Integer periodicidad, Double limiteMaximo, Double limiteMinimo, Double valorActual, Date fechaMuestra, Integer numeroRespiraciones, String descripcionAlerta, String nombreSensor, Integer cantidadDias) {
         this.activarAlarma = activarAlarma;
         this.periodicidad = periodicidad;
         this.limiteMaximo = limiteMaximo;
@@ -29,13 +30,14 @@ public class SensorPOJO
         this.numeroRespiraciones = numeroRespiraciones;
         this.descripcionAlerta = descripcionAlerta;
         this.nombreSensor = nombreSensor;
+        this.cantidadDias = cantidadDias;
     }
 
 
     //------------------------------------------- Getters --------------------------------------------------//
 
 
-    public Boolean getActivarAlarma() {
+    public Integer getActivarAlarma() {
         return activarAlarma;
     }
 
@@ -71,10 +73,14 @@ public class SensorPOJO
         return nombreSensor;
     }
 
+    public Integer getCantidadDias() {
+        return cantidadDias;
+    }
+
     //------------------------------------------- Setters --------------------------------------------------//
 
 
-    public void setActivarAlarma(Boolean activarAlarma) {
+    public void setActivarAlarma(Integer activarAlarma) {
         this.activarAlarma = activarAlarma;
     }
 
@@ -110,12 +116,17 @@ public class SensorPOJO
         this.nombreSensor = nombreSensor;
     }
 
+    public void setCantidadDias(Integer cantidadDias) {
+        this.cantidadDias = cantidadDias;
+    }
+
     //------------------------------------------- Business Method  --------------------------------------------------//
 
     @Override
     public String toString()
     {
         return new StringBuffer("nombreSensor : ").append(this.nombreSensor)
+            .append("cantidadDias : ").append(this.cantidadDias)
             .append("periodicidad : ").append(this.periodicidad)
             .append("limiteMaximo : ").append(this.limiteMaximo)
             .append("limiteMinimo : ").append(this.limiteMinimo)

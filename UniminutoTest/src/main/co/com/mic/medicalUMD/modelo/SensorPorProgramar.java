@@ -30,6 +30,7 @@ public class SensorPorProgramar implements Serializable, Cloneable
     private Integer numeroRespiraciones;
     private String descripcionSensor;
     private Boolean estaProgramado;
+    private Integer cantidadDias;
 
     //------------------------------------------- Getters --------------------------------------------------//
 
@@ -88,6 +89,11 @@ public class SensorPorProgramar implements Serializable, Cloneable
         return estaProgramado;
     }
 
+    @Column(name = "numero_respiraciones", nullable = true, length = 2)
+    public Integer getCantidadDias() {
+        return cantidadDias;
+    }
+
     //------------------------------------------- Setters --------------------------------------------------//
 
 
@@ -125,5 +131,9 @@ public class SensorPorProgramar implements Serializable, Cloneable
 
     public void setEstaProgramado(Boolean estaProgramado) {
         this.estaProgramado = estaProgramado;
+    }
+
+    public void setCantidadDias(Integer cantidadDias) {
+        this.cantidadDias = cantidadDias;
     }
 }
