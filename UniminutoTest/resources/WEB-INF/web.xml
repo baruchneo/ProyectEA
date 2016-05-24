@@ -196,7 +196,7 @@
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>co.com.mic.medicalUMD.action.ws.IWSRegistrarDatos</param-value>
+			<param-value>co.com.mic.medicalUMD.action.ws.ApplicationBus</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

@@ -2,9 +2,7 @@ package co.com.mic.medicalUMD.modelo;
 
 import org.jboss.seam.annotations.Name;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,12 +20,21 @@ public class Encuesta implements Serializable, Cloneable
      */
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String codigoPaciente;
     private String fechaRadicado;
     private String preguntas;
     private Boolean encuestaVista;
 
     //------------------------------------------- Getters --------------------------------------------------//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SeqEncuesta")
+    @SequenceGenerator(name = "SeqEncuesta", sequenceName = "SeqEncuesta", allocationSize=1)
+    @Column(name = "id")
+    public Long getId() {
+        return id;
+    }
 
     @Column(name = "codigo_paciente", nullable = false, length = 10)
     @NotNull
@@ -52,5 +59,28 @@ public class Encuesta implements Serializable, Cloneable
     @NotNull
     public Boolean getEncuestaVista() {
         return encuestaVista;
+    }
+
+    //------------------------------------------- Getters --------------------------------------------------//
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCodigoPaciente(String codigoPaciente) {
+        this.codigoPaciente = codigoPaciente;
+    }
+
+    public void setFechaRadicado(String fechaRadicado) {
+        this.fechaRadicado = fechaRadicado;
+    }
+
+    public void setPreguntas(String preguntas) {
+        this.preguntas = preguntas;
+    }
+
+    public void setEncuestaVista(Boolean encuestaVista) {
+        this.encuestaVista = encuestaVista;
     }
 }

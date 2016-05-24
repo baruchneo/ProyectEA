@@ -94,6 +94,11 @@ public class Alerta implements Serializable, Cloneable
         return fechaMuestra;
     }
 
+    @Column(name = "cantidad_dias", nullable = true, length = 2)
+    public Integer getCantidadDias() {
+        return cantidadDias;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @ForeignKey(name = "FK_TIPO_ALERTA")
     @JoinColumn(name = "id_tipo_alerta", nullable = false, updatable = true, insertable = true)
@@ -136,6 +141,18 @@ public class Alerta implements Serializable, Cloneable
 
     public void setDescripcionAlerta(String descripcionAlerta) {
         this.descripcionAlerta = descripcionAlerta;
+    }
+
+    public void setValorActual(Double valorActual) {
+        this.valorActual = valorActual;
+    }
+
+    public void setFechaMuestra(Date fechaMuestra) {
+        this.fechaMuestra = fechaMuestra;
+    }
+
+    public void setCantidadDias(Integer cantidadDias) {
+        this.cantidadDias = cantidadDias;
     }
 
     public void setTipoAlerta(TipoAlerta tipoAlerta) {

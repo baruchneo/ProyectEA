@@ -2,9 +2,7 @@ package co.com.mic.medicalUMD.modelo;
 
 import org.jboss.seam.annotations.Name;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,6 +19,7 @@ public class SensorPorProgramar implements Serializable, Cloneable
      */
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String codigoPaciente;
     private String codigoDoctor;
     private String nombreSensor;
@@ -33,6 +32,14 @@ public class SensorPorProgramar implements Serializable, Cloneable
     private Integer cantidadDias;
 
     //------------------------------------------- Getters --------------------------------------------------//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SeqSensorProProg")
+    @SequenceGenerator(name = "SeqSensorProProg", sequenceName = "SeqSensorProProg", allocationSize=1)
+    @Column(name = "id")
+    public Long getId() {
+        return id;
+    }
 
     @Column(name = "codigo_paciente", nullable = false, length = 10)
     @NotNull
@@ -89,13 +96,17 @@ public class SensorPorProgramar implements Serializable, Cloneable
         return estaProgramado;
     }
 
-    @Column(name = "numero_respiraciones", nullable = true, length = 2)
+    @Column(name = "cantidad_dias", nullable = true, length = 2)
     public Integer getCantidadDias() {
         return cantidadDias;
     }
 
     //------------------------------------------- Setters --------------------------------------------------//
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setCodigoPaciente(String codigoPaciente) {
         this.codigoPaciente = codigoPaciente;

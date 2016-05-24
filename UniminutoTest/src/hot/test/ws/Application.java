@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Created by Cristian on 21/05/2016.
  */
-public class Application extends javax.ws.rs.core.Application
+public class Application
 {
     private Set<Class<?>> classes = new HashSet<Class<?>>();
 
@@ -15,7 +15,7 @@ public class Application extends javax.ws.rs.core.Application
         classes.add(RESTSaludoImpl.class);
     }
 
-    @Override
+    /*@Override
     public Set<Class<?>> getClasses() {
         return classes;
     }
@@ -23,5 +23,5 @@ public class Application extends javax.ws.rs.core.Application
     @Override
     public Set<Object> getSingletons() {
         return Collections.EMPTY_SET;
-    }
+    }*/
 }

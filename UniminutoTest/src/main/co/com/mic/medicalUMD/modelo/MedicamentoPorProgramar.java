@@ -2,9 +2,7 @@ package co.com.mic.medicalUMD.modelo;
 
 import org.jboss.seam.annotations.Name;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,9 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "sensor_por_programar")
-@Name("sensorPorProgramar")
-@XmlRootElement(name="sensorPorProgramar")
+@Table(name = "medicamento_por_programar")
+@Name("medicamentoPorProgramar")
 public class MedicamentoPorProgramar implements Serializable, Cloneable
 {
     /**
@@ -22,6 +19,7 @@ public class MedicamentoPorProgramar implements Serializable, Cloneable
      */
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String codigoPaciente;
     private String codigoDoctor;
     private String nombreMedicamento;
@@ -33,6 +31,14 @@ public class MedicamentoPorProgramar implements Serializable, Cloneable
     private Boolean estaProgramado;
 
     //------------------------------------------- Getters --------------------------------------------------//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SeqMeidcamentoProProg")
+    @SequenceGenerator(name = "SeqMeidcamentoProProg", sequenceName = "SeqMeidcamentoProProg", allocationSize=1)
+    @Column(name = "id")
+    public Long getId() {
+        return id;
+    }
 
     @Column(name = "codigo_paciente", nullable = false, length = 10)
     @NotNull
@@ -92,6 +98,10 @@ public class MedicamentoPorProgramar implements Serializable, Cloneable
 
     //------------------------------------------- Setters --------------------------------------------------//
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setCodigoPaciente(String codigoPaciente) {
         this.codigoPaciente = codigoPaciente;

@@ -20,6 +20,9 @@ public class ConexionPOJO
         this.identificacionDoctor = identificacionDoctor;
     }
 
+    public ConexionPOJO() {
+    }
+
     //------------------------------------------- Getters --------------------------------------------------//
 
 
