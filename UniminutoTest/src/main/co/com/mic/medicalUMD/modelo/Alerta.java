@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "alerta")
 @Name("alerta")
-@XmlRootElement(name="alerta")
 public class Alerta implements Serializable, Cloneable
 {
     /**
@@ -25,6 +25,8 @@ public class Alerta implements Serializable, Cloneable
     private Integer periodicidad;
     private Double limiteMaximo;
     private Double limiteMinimo;
+    private Double valorActual;
+    private Date fechaMuestra;
     private Integer numeroRespiraciones;
     private String descripcionAlerta;
     private TipoAlerta tipoAlerta;
@@ -77,6 +79,18 @@ public class Alerta implements Serializable, Cloneable
     @Size(min = 2, max = 200)
     public String getDescripcionAlerta() {
         return descripcionAlerta;
+    }
+
+    @Column(name = "valor_actual", nullable = true, length = 20, precision = 2)
+    @Size(min = 0)
+    public Double getValorActual() {
+        return valorActual;
+    }
+
+    @Column(name = "fecha_muestra", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getFechaMuestra() {
+        return fechaMuestra;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)

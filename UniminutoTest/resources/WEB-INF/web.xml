@@ -183,8 +183,8 @@
 
 	<!-- WEb Services REST -->
 
-	<display-name>HelloWorldRESTEasy</display-name>
-	<description>Aplicación Hola Mundo con RESTEasy</description>
+	<display-name>Services Integration </display-name>
+	<description>Integracion de aplicaciones con RESTEasy</description>
 
 	<context-param>
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
@@ -196,7 +196,7 @@
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>test.ws.Application</param-value>
+			<param-value>co.com.mic.medicalUMD.action.ws.IWSRegistrarDatos</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
