@@ -1,4 +1,4 @@
-package co.com.mic.medicalUMD.action.ws
+package co.com.mic.medicalUMD.action.ws;
 
 import java.util.Collections;
 import java.util.HashSet;
