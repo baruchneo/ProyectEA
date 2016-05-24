@@ -1,6 +1,9 @@
 package co.com.mic.medicalUMD.action.ws;
 
 
+import co.com.mic.medicalUMD.pojo.ConexionPOJO;
+import co.com.mic.medicalUMD.pojo.EncuestaPOJO;
+
 import javax.ws.rs.core.Response;
 
 public class WSConsultarDatos implements IWSConsultarDatos
@@ -29,7 +32,7 @@ public class WSConsultarDatos implements IWSConsultarDatos
     }
 
     @Override
-    public Response consultarEncuesta(String datosEncuesta, String usuarioWS, String passwordWS, String codUnificadoPaciente)
+    public Response consultarEncuesta(EncuestaPOJO encuestaPOJO, ConexionPOJO conexionPOJO)
     {
         //TODO copiar a la Encuesta
         //TODO Verificar que exista usuario y clave
