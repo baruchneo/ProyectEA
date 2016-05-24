@@ -15,7 +15,9 @@ public class EncuestaPOJO
         this.preguntas = preguntas;
         this.encuestaVista = encuestaVista;
     }
-    
+
+    public EncuestaPOJO() {
+    }
     //------------------------------------------- Getters --------------------------------------------------//
 
     public String getFechaRadicado() {

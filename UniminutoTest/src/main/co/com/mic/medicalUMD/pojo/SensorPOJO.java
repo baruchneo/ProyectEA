@@ -13,14 +13,14 @@ public class SensorPOJO
     private Double limiteMaximo;
     private Double limiteMinimo;
     private Double valorActual;
-    private Date fechaMuestra;
+    private String fechaMuestra;
     private Integer numeroRespiraciones;
     private String descripcionAlerta;
     private String nombreSensor; // este se mapea con el tipo alerta
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public SensorPOJO(Integer activarAlarma, Integer periodicidad, Double limiteMaximo, Double limiteMinimo, Double valorActual, Date fechaMuestra, Integer numeroRespiraciones, String descripcionAlerta, String nombreSensor, Integer cantidadDias) {
+    public SensorPOJO(Integer activarAlarma, Integer periodicidad, Double limiteMaximo, Double limiteMinimo, Double valorActual, String fechaMuestra, Integer numeroRespiraciones, String descripcionAlerta, String nombreSensor, Integer cantidadDias) {
         this.activarAlarma = activarAlarma;
         this.periodicidad = periodicidad;
         this.limiteMaximo = limiteMaximo;
@@ -31,6 +31,10 @@ public class SensorPOJO
         this.descripcionAlerta = descripcionAlerta;
         this.nombreSensor = nombreSensor;
         this.cantidadDias = cantidadDias;
+    }
+
+    public SensorPOJO() {
+
     }
 
 
@@ -57,7 +61,7 @@ public class SensorPOJO
         return valorActual;
     }
 
-    public Date getFechaMuestra() {
+    public String getFechaMuestra() {
         return fechaMuestra;
     }
 
@@ -100,7 +104,7 @@ public class SensorPOJO
         this.valorActual = valorActual;
     }
 
-    public void setFechaMuestra(Date fechaMuestra) {
+    public void setFechaMuestra(String fechaMuestra) {
         this.fechaMuestra = fechaMuestra;
     }
 
