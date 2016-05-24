@@ -3,6 +3,8 @@ package co.com.mic.medicalUMD.action.ws;
 
 import co.com.mic.medicalUMD.modelo.Alerta;
 import co.com.mic.medicalUMD.pojo.ConexionPOJO;
+import co.com.mic.medicalUMD.pojo.EncuestaPOJO;
+import co.com.mic.medicalUMD.pojo.MedicamentoPOJO;
 import co.com.mic.medicalUMD.pojo.SensorPOJO;
 
 import javax.ws.rs.core.Response;
@@ -30,7 +32,19 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
     }
 
     @Override
-    public Response programarSensor() {
+    public Response programarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO) {
         return null;
     }
+
+    @Override
+    public Response programarMedicamento(MedicamentoPOJO medicamentoPOJO, ConexionPOJO conexionPOJO) {
+        return null;
+    }
+
+    @Override
+    public Response registrarEncuesta(EncuestaPOJO encuestaPOJO, ConexionPOJO conexionPOJO) {
+        return null;
+    }
+
+
 }
