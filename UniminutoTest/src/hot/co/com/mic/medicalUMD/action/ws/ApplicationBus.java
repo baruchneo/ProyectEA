@@ -1,6 +1,4 @@
-package co.com.mic.medicalUMD.action.ws;
-
-import test.ws.RESTSaludoImpl;
+package co.com.mic.medicalUMD.action.ws
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,7 +9,8 @@ public class ApplicationBus extends javax.ws.rs.core.Application
     private Set<Class<?>> classes = new HashSet<Class<?>>();
 
     public ApplicationBus() {
-        classes.add(RESTSaludoImpl.class);
+        classes.add(WSRegistrarDatos.class);
+        classes.add(WSConsultarDatos.class);
     }
 
     @Override
