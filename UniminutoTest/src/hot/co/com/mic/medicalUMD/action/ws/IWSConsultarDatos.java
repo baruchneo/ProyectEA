@@ -36,8 +36,6 @@ public interface IWSConsultarDatos
     @Consumes(MediaType.APPLICATION_JSON)
     public SensorPorProgramarPOJO consultarSensorPorPaciente(ConexionPOJO conexionPOJO);
 
-    //TODO ws consultar medicamento por paciente
-
     //TODO ws ver respuestas
 
     //TODO ws ver historico de paciente
