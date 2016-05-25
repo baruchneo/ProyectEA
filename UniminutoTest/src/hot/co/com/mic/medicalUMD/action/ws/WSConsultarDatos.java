@@ -34,16 +34,17 @@ public class WSConsultarDatos implements IWSConsultarDatos
     }
 
     @Override
-    public EncuestaPOJO consultarEncuesta(ConexionPOJO conexionPOJO)
+    public Response consultarEncuesta(ConexionPOJO conexionPOJO)
     {
         //TODO copiar a la Encuesta
         //TODO Verificar que exista usuario y clave
 
-        String user="correcta";
-
         EncuestaPOJO encuestaPOJO = new EncuestaPOJO();
+        encuestaPOJO.setFechaRadicado("2016-05-25 15:03");
+        encuestaPOJO.setEncuestaVista(1);
+        encuestaPOJO.setPreguntas("[{1:'Regular'},{2:'Casi siempre'}, {3:'Positivo'}]");
 
-        return new EncuestaPOJO();
+        return Response.status(200).entity(encuestaPOJO).build();
     }
 
 
@@ -91,16 +92,16 @@ public class WSConsultarDatos implements IWSConsultarDatos
         MedicamentoPOJO medicamentoPOJO = new MedicamentoPOJO();
         medicamentoPOJO.setCantidadRecetada(3.1);
         medicamentoPOJO.setCantidadTotal(20.0);
-        medicamentoPOJO.setFechaInicio("2016-05-28");
-        medicamentoPOJO.setFechafinal("2016-08-10");
+        medicamentoPOJO.setFechaInicio("2016-05-28 12:25");
+        medicamentoPOJO.setFechafinal("2016-08-10 18:25");
         medicamentoPOJO.setNombreMedicamento("Ibuprofeno");
         medicamentoPOJO.setPeriodicidadToma(8);
 
         MedicamentoPOJO medicamentoPOJO1 = new MedicamentoPOJO();
         medicamentoPOJO1.setCantidadRecetada(2.0);
         medicamentoPOJO1.setCantidadTotal(12.0);
-        medicamentoPOJO1.setFechaInicio("2016-05-25");
-        medicamentoPOJO1.setFechafinal("2016-05-26");
+        medicamentoPOJO1.setFechaInicio("2016-05-25 08:03");
+        medicamentoPOJO1.setFechafinal("2016-05-26 22:10");
         medicamentoPOJO1.setNombreMedicamento("Acetaminofen");
         medicamentoPOJO1.setPeriodicidadToma(8);
 

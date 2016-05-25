@@ -28,10 +28,10 @@ public interface IWSConsultarDatos
     @Path("/encuesta/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public EncuestaPOJO consultarEncuesta(ConexionPOJO conexionPOJO);
+    public Response consultarEncuesta(ConexionPOJO conexionPOJO);
 
     @POST
-    @Path("/sensorpaciente/")
+    @Path("/sensorespaciente/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response consultarSensorPorPaciente(ConexionPOJO conexionPOJO);
@@ -44,7 +44,7 @@ public interface IWSConsultarDatos
 
 
     @POST
-    @Path("/medicamentopaciente/")
+    @Path("/medicamentospaciente/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response consultarMedicamentoPorPaciente(ConexionPOJO conexionPOJO);

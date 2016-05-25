@@ -43,7 +43,10 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 
     @Override
     public Response registrarEncuesta(EncuestaPOJO encuestaPOJO, ConexionPOJO conexionPOJO) {
-        return null;
+
+        String result = "objeto recivido con exito";
+
+        return Response.status(200).entity(result).build();
     }
 
 
