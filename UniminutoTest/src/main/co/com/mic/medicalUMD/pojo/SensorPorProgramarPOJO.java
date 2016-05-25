@@ -16,6 +16,9 @@ public class SensorPorProgramarPOJO
         this.estaProgramado = estaProgramado;
     }
 
+    public SensorPorProgramarPOJO() {
+    }
+
     //------------------------------------------- Getter --------------------------------------------------//
 
 
