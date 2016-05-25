@@ -1,10 +1,7 @@
 package co.com.mic.medicalUMD.action.ws;
 
 
-import co.com.mic.medicalUMD.pojo.ConexionPOJO;
-import co.com.mic.medicalUMD.pojo.EncuestaPOJO;
-import co.com.mic.medicalUMD.pojo.SensorPOJO;
-import co.com.mic.medicalUMD.pojo.SensorPorProgramarPOJO;
+import co.com.mic.medicalUMD.pojo.*;
 
 import javax.ws.rs.core.Response;
 
@@ -67,6 +64,28 @@ public class WSConsultarDatos implements IWSConsultarDatos
         String sensor="correcta";
 
         return sensorPorProgramarPOJO1;
+    }
+
+
+
+    @Override
+    public MedicamentoPorProgramarPOJO consultarMedicamentoPorPaciente(ConexionPOJO conexionPOJO)
+    {
+        //TODO copiar a la Medicamento por programar
+        MedicamentoPOJO medicamentoPOJO = new MedicamentoPOJO();
+        medicamentoPOJO.setCantidadRecetada(3.1);
+        medicamentoPOJO.setCantidadTotal(20.0);
+        medicamentoPOJO.setFechaInicio("2016-05-28");
+        medicamentoPOJO.setFechafinal("2016-08-10");
+        medicamentoPOJO.setNombreMedicamento("Ibuprofeno");
+        medicamentoPOJO.setPeriodicidadToma(8);
+
+        MedicamentoPorProgramarPOJO medicamentoPorProgramarPOJO1= new MedicamentoPorProgramarPOJO(medicamentoPOJO, 1);
+
+
+        String medicamento="correcta";
+
+        return medicamentoPorProgramarPOJO1;
     }
 
 }
