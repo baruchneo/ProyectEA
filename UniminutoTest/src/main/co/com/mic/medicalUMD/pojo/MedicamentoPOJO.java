@@ -1,5 +1,7 @@
 package co.com.mic.medicalUMD.pojo;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by Cristian on 24/05/2016.
  */
@@ -18,7 +20,12 @@ public class MedicamentoPOJO
     public MedicamentoPOJO() {
     }
 
-    public MedicamentoPOJO(String nombreMedicamento, Double cantidadRecetada, Integer periodicidadToma, String fechaInicio, String fechafinal, Double cantidadTotal) {
+    public MedicamentoPOJO(@JsonProperty("Nombre Medicamento") String nombreMedicamento,
+                           @JsonProperty("Canridad Recetada") Double cantidadRecetada,
+                           @JsonProperty("Periocidad Toma") Integer periodicidadToma,
+                           @JsonProperty("Fecha Inicio") String fechaInicio,
+                           @JsonProperty("Fecha Final") String fechafinal,
+                           @JsonProperty("Cantidad Total") Double cantidadTotal) {
         this.nombreMedicamento = nombreMedicamento;
         this.cantidadRecetada = cantidadRecetada;
         this.periodicidadToma = periodicidadToma;

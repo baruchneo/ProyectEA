@@ -1,6 +1,8 @@
 package co.com.mic.medicalUMD.pojo;
 
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class EncuestaPOJO
 {
 
@@ -10,7 +12,9 @@ public class EncuestaPOJO
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public EncuestaPOJO(String fechaRadicado, String preguntas, Integer encuestaVista) {
+    public EncuestaPOJO(@JsonProperty("Fecha Radicado") String fechaRadicado,
+                        @JsonProperty("Preguntas") String preguntas,
+                        @JsonProperty("encuestaVista") Integer encuestaVista) {
         this.fechaRadicado = fechaRadicado;
         this.preguntas = preguntas;
         this.encuestaVista = encuestaVista;
