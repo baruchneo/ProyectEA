@@ -1,6 +1,7 @@
 package co.com.mic.medicalUMD.pojo;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @JsonAutoDetect
 public class ConexionPOJO
@@ -13,7 +14,10 @@ public class ConexionPOJO
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public ConexionPOJO(String identificacionPaciente, String usuario, String password, String identificacionDoctor) {
+    public ConexionPOJO(@JsonProperty("identificacionPaciente") String identificacionPaciente,
+                        @JsonProperty("usuario") String usuario,
+                        @JsonProperty("password") String password,
+                        @JsonProperty("identificacionDoctor") String identificacionDoctor) {
         this.identificacionPaciente = identificacionPaciente;
         this.usuario = usuario;
         this.password = password;
