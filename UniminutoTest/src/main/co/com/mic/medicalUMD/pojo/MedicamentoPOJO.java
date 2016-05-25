@@ -20,12 +20,12 @@ public class MedicamentoPOJO
     public MedicamentoPOJO() {
     }
 
-    public MedicamentoPOJO(@JsonProperty("Nombre Medicamento") String nombreMedicamento,
-                           @JsonProperty("Canridad Recetada") Double cantidadRecetada,
-                           @JsonProperty("Periocidad Toma") Integer periodicidadToma,
-                           @JsonProperty("Fecha Inicio") String fechaInicio,
-                           @JsonProperty("Fecha Final") String fechafinal,
-                           @JsonProperty("Cantidad Total") Double cantidadTotal) {
+    public MedicamentoPOJO(@JsonProperty("nombreMedicamento") String nombreMedicamento,
+                           @JsonProperty("cantidadRecetada") Double cantidadRecetada,
+                           @JsonProperty("periodicidadToma") Integer periodicidadToma,
+                           @JsonProperty("fechaInicio") String fechaInicio,
+                           @JsonProperty("fechafinal") String fechafinal,
+                           @JsonProperty("cantidadTotal") Double cantidadTotal) {
         this.nombreMedicamento = nombreMedicamento;
         this.cantidadRecetada = cantidadRecetada;
         this.periodicidadToma = periodicidadToma;

@@ -12,8 +12,8 @@ public class EncuestaPOJO
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public EncuestaPOJO(@JsonProperty("Fecha Radicado") String fechaRadicado,
-                        @JsonProperty("Preguntas") String preguntas,
+    public EncuestaPOJO(@JsonProperty("fechaRadicado") String fechaRadicado,
+                        @JsonProperty("preguntas") String preguntas,
                         @JsonProperty("encuestaVista") Integer encuestaVista) {
         this.fechaRadicado = fechaRadicado;
         this.preguntas = preguntas;
