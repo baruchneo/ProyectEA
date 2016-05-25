@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>co.com.mic.medicalUMD.modelo</OriginalElement>
+  <nodes>
+    <node x="90.0" y="900.0">co.com.mic.medicalUMD.modelo.TipoAlerta</node>
+    <node x="1051.5" y="0.0">co.com.mic.medicalUMD.modelo.UsuarioPortal</node>
+    <node x="1021.5" y="234.0">co.com.mic.medicalUMD.modelo.HistorialRespuestas</node>
+    <node x="432.0" y="1063.0">co.com.mic.medicalUMD.modelo.MedicamentoPorProgramar</node>
+    <node x="505.5999999999999" y="314.0">co.com.mic.medicalUMD.modelo.Usuario</node>
+    <node x="10.0" y="190.0">co.com.mic.medicalUMD.modelo.Historial</node>
+    <node x="451.99999999999994" y="124.0">co.com.mic.medicalUMD.modelo.Rol</node>
+    <node x="770.875" y="0.0">co.com.mic.medicalUMD.modelo.Estado</node>
+    <node x="80.0" y="0.0">co.com.mic.medicalUMD.modelo.ResponsableAlertaEnum</node>
+    <node x="844.0" y="1063.0">co.com.mic.medicalUMD.modelo.Encuesta</node>
+    <node x="719.0" y="124.0">co.com.mic.medicalUMD.modelo.Rango</node>
+    <node x="0.0" y="534.0">co.com.mic.medicalUMD.modelo.Alerta</node>
+    <node x="0.0" y="1063.0">co.com.mic.medicalUMD.modelo.SensorPorProgramar</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="co.com.mic.medicalUMD.modelo.TipoAlerta" target="co.com.mic.medicalUMD.modelo.Alerta">
+      <point x="-56.75" y="-59.0" />
+      <point x="146.75" y="875.0" />
+      <point x="101.75" y="875.0" />
+      <point x="-101.75" y="158.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Alerta" target="co.com.mic.medicalUMD.modelo.Historial">
+      <point x="-101.75" y="-158.0" />
+      <point x="101.75" y="509.0" />
+      <point x="106.75" y="509.0" />
+      <point x="-96.75" y="147.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Rol" target="co.com.mic.medicalUMD.modelo.Usuario">
+      <point x="61.74999999999997" y="70.0" />
+      <point x="637.2499999999999" y="289.0" />
+      <point x="659.0999999999999" y="289.0" />
+      <point x="0.0" y="-103.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Usuario" target="co.com.mic.medicalUMD.modelo.Estado">
+      <point x="102.33333333333331" y="-103.0" />
+      <point x="761.4333333333332" y="289.0" />
+      <point x="976.5" y="289.0" />
+      <point x="976.5" y="99.0" />
+      <point x="866.7083333333333" y="99.0" />
+      <point x="38.333333333333364" y="37.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Rango" target="co.com.mic.medicalUMD.modelo.Estado">
+      <point x="0.0" y="-70.0" />
+      <point x="842.5" y="99.0" />
+      <point x="828.375" y="99.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.HistorialRespuestas" target="co.com.mic.medicalUMD.modelo.UsuarioPortal">
+      <point x="0.0" y="-125.0" />
+      <point x="0.0" y="92.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Rol" target="co.com.mic.medicalUMD.modelo.Estado">
+      <point x="-2.8421709430404007E-14" y="-70.0" />
+      <point x="575.4999999999999" y="99.0" />
+      <point x="790.0416666666666" y="99.0" />
+      <point x="-38.333333333333314" y="37.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Alerta" target="co.com.mic.medicalUMD.modelo.TipoAlerta">
+      <point x="101.75" y="158.0" />
+      <point x="305.25" y="875.0" />
+      <point x="260.25" y="875.0" />
+      <point x="56.75" y="-59.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Historial" target="co.com.mic.medicalUMD.modelo.ResponsableAlertaEnum">
+      <point x="0.0" y="-147.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Historial" target="co.com.mic.medicalUMD.modelo.Alerta">
+      <point x="96.75" y="147.0" />
+      <point x="300.25" y="509.0" />
+      <point x="305.25" y="509.0" />
+      <point x="101.75" y="-158.0" />
+    </edge>
+    <edge source="co.com.mic.medicalUMD.modelo.Usuario" target="co.com.mic.medicalUMD.modelo.Rol">
+      <point x="-102.33333333333331" y="-103.0" />
+      <point x="556.7666666666667" y="289.0" />
+      <point x="513.75" y="289.0" />
+      <point x="-61.75" y="70.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4037763253449528" x="684.6151079136691" y="698.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

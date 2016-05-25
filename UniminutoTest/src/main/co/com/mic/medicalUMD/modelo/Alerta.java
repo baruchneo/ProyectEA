@@ -6,7 +6,9 @@ import org.jboss.seam.annotations.Name;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "alerta")
@@ -23,10 +25,12 @@ public class Alerta implements Serializable, Cloneable
     private Integer periodicidad;
     private Double limiteMaximo;
     private Double limiteMinimo;
+    private Double valorActual;
+    private Date fechaMuestra;
+    private Integer cantidadDias;
     private Integer numeroRespiraciones;
     private String descripcionAlerta;
     private TipoAlerta tipoAlerta;
-    private Rango rango;
     private Historial historial;
 
     //------------------------------------------- Getters --------------------------------------------------//
@@ -78,19 +82,29 @@ public class Alerta implements Serializable, Cloneable
         return descripcionAlerta;
     }
 
+    @Column(name = "valor_actual", nullable = true, length = 20, precision = 2)
+    @Size(min = 0)
+    public Double getValorActual() {
+        return valorActual;
+    }
+
+    @Column(name = "fecha_muestra", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getFechaMuestra() {
+        return fechaMuestra;
+    }
+
+    @Column(name = "cantidad_dias", nullable = true, length = 2)
+    public Integer getCantidadDias() {
+        return cantidadDias;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @ForeignKey(name = "FK_TIPO_ALERTA")
     @JoinColumn(name = "id_tipo_alerta", nullable = false, updatable = true, insertable = true)
     @NotNull
     public TipoAlerta getTipoAlerta() {
         return tipoAlerta;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_RANGO")
-    @JoinColumn(name = "id_rango", nullable = true, updatable = true, insertable = true)
-    public Rango getRango() {
-        return rango;
     }
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "alerta", cascade = CascadeType.ALL)
@@ -129,12 +143,20 @@ public class Alerta implements Serializable, Cloneable
         this.descripcionAlerta = descripcionAlerta;
     }
 
-    public void setTipoAlerta(TipoAlerta tipoAlerta) {
-        this.tipoAlerta = tipoAlerta;
+    public void setValorActual(Double valorActual) {
+        this.valorActual = valorActual;
     }
 
-    public void setRango(Rango rango) {
-        this.rango = rango;
+    public void setFechaMuestra(Date fechaMuestra) {
+        this.fechaMuestra = fechaMuestra;
+    }
+
+    public void setCantidadDias(Integer cantidadDias) {
+        this.cantidadDias = cantidadDias;
+    }
+
+    public void setTipoAlerta(TipoAlerta tipoAlerta) {
+        this.tipoAlerta = tipoAlerta;
     }
 
     public void setHistorial(Historial historial) {

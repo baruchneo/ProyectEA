@@ -47,8 +47,6 @@ public class Usuario implements Serializable, Cloneable{
 
     private Estado estado;
 
-    private Set<Historial> historiales;
-
     //-------------------------------------------------- Getters ----------------------------------------------------//
 
     @Id
@@ -101,11 +99,6 @@ public class Usuario implements Serializable, Cloneable{
         return rol;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="usuario")
-    public Set<Historial> getHistoriales() {
-        return historiales;
-    }
-
     //-------------------------------------------------- Getters ----------------------------------------------------//
 
     public void setId(Long id) {
@@ -134,9 +127,5 @@ public class Usuario implements Serializable, Cloneable{
 
     public void setRol(Rol rol) {
         this.rol = rol;
-    }
-
-    public void setHistoriales(Set<Historial> historiales) {
-        this.historiales = historiales;
     }
 }
