@@ -12,6 +12,6 @@ public class RESTSaludoImpl implements IRESTSaludo
 
     @Override
     public String getSaludaA(String nombre) {
-        return MessageFormat.format("¡Hola {0}!", nombre);
+        return MessageFormat.format("Hola {0}!", nombre);
     }
 }
