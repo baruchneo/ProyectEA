@@ -13,7 +13,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 {
 
     @Override
-    public Response registrarSensor(SensorPOJO sensorPOJO, ConexionPOJO estaProgramado)
+    public Response registrarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO)
     {
         //TODO copiar a la tabla Historial
         //TODO Verificar que exista usuario y clave
