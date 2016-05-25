@@ -2,6 +2,7 @@ package co.com.mic.medicalUMD.pojo;
 
 
 import co.com.mic.medicalUMD.modelo.TipoAlerta;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Date;
 
@@ -20,7 +21,16 @@ public class SensorPOJO
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
-    public SensorPOJO(Integer activarAlarma, Integer periodicidad, Double limiteMaximo, Double limiteMinimo, Double valorActual, String fechaMuestra, Integer numeroRespiraciones, String descripcionAlerta, String nombreSensor, Integer cantidadDias) {
+    public SensorPOJO(@JsonProperty("activarAlarma") Integer activarAlarma,
+                      @JsonProperty("periodicidad") Integer periodicidad,
+                      @JsonProperty("limiteMaximo") Double limiteMaximo,
+                      @JsonProperty("limiteMinimo") Double limiteMinimo,
+                      @JsonProperty("valorActual") Double valorActual,
+                      @JsonProperty("fechaMuestra") String fechaMuestra,
+                      @JsonProperty("numeroRespiraciones") Integer numeroRespiraciones,
+                      @JsonProperty("descripcionAlerta") String descripcionAlerta,
+                      @JsonProperty("nombreSensor") String nombreSensor,
+                      @JsonProperty("cantidadDias") Integer cantidadDias) {
         this.activarAlarma = activarAlarma;
         this.periodicidad = periodicidad;
         this.limiteMaximo = limiteMaximo;

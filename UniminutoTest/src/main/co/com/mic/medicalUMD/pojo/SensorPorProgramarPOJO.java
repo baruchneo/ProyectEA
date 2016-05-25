@@ -1,18 +1,21 @@
 package co.com.mic.medicalUMD.pojo;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.List;
 
 
 public class SensorPorProgramarPOJO
 {
-    private SensorPOJO sensorPOJO;
+    private List<SensorPOJO> sensorPOJOList;
     private Integer estaProgramado;
 
     //------------------------------------------- Constructors --------------------------------------------------//
 
 
-    public SensorPorProgramarPOJO(SensorPOJO sensorPOJO, Integer estaProgramado) {
-        this.sensorPOJO = sensorPOJO;
+    public SensorPorProgramarPOJO(@JsonProperty("sensorPOJO") List<SensorPOJO> sensorPOJOList,
+                                  @JsonProperty("estaProgramado") Integer estaProgramado) {
+        this.sensorPOJOList = sensorPOJOList;
         this.estaProgramado = estaProgramado;
     }
 
@@ -22,8 +25,8 @@ public class SensorPorProgramarPOJO
     //------------------------------------------- Getter --------------------------------------------------//
 
 
-    public SensorPOJO getSensorPOJO() {
-        return sensorPOJO;
+    public List<SensorPOJO> getSensorPOJOList() {
+        return sensorPOJOList;
     }
 
     public Integer getEstaProgramado() {
@@ -33,8 +36,8 @@ public class SensorPorProgramarPOJO
     //------------------------------------------- Setter --------------------------------------------------//
 
 
-    public void setSensorPOJOList(SensorPOJO sensorPOJO) {
-        this.sensorPOJO = sensorPOJO;
+    public void setSensorPOJOList(List<SensorPOJO> sensorPOJOList) {
+        this.sensorPOJOList = sensorPOJOList;
     }
 
     public void setEstaProgramado(Integer estaProgramado) {
@@ -46,7 +49,7 @@ public class SensorPorProgramarPOJO
     @Override
     public String toString()
     {
-        return new StringBuffer("SensorPOJO : ").append(this.sensorPOJO.toString())
+        return new StringBuffer("SensorPOJO : ").append(this.sensorPOJOList.toString())
                 .append("estaProgramado : ").append(this.estaProgramado)
                 .toString();
     }

@@ -34,7 +34,7 @@ public interface IWSConsultarDatos
     @Path("/sensorpaciente/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public SensorPorProgramarPOJO consultarSensorPorPaciente(ConexionPOJO conexionPOJO);
+    public Response consultarSensorPorPaciente(ConexionPOJO conexionPOJO);
 
     //TODO ws ver respuestas
 
@@ -47,6 +47,6 @@ public interface IWSConsultarDatos
     @Path("/medicamentopaciente/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public MedicamentoPorProgramarPOJO consultarMedicamentoPorPaciente(ConexionPOJO conexionPOJO);
+    public Response consultarMedicamentoPorPaciente(ConexionPOJO conexionPOJO);
 
 }

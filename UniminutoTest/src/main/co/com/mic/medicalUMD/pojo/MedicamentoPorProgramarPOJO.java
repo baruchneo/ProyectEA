@@ -1,8 +1,10 @@
 package co.com.mic.medicalUMD.pojo;
 
+import java.util.List;
+
 public class MedicamentoPorProgramarPOJO
 {
-    private MedicamentoPOJO medicamentoPOJO;
+    private List<MedicamentoPOJO> medicamentoPOJOList;
     private Integer estaProgramado;
 
     //------------------------------------------- Constructors --------------------------------------------------//
@@ -11,16 +13,16 @@ public class MedicamentoPorProgramarPOJO
     public MedicamentoPorProgramarPOJO() {
     }
 
-    public MedicamentoPorProgramarPOJO(MedicamentoPOJO medicamentoPOJO, Integer estaProgramado) {
-        this.medicamentoPOJO = medicamentoPOJO;
+    public MedicamentoPorProgramarPOJO(List<MedicamentoPOJO> medicamentoPOJOList, Integer estaProgramado) {
+        this.medicamentoPOJOList = medicamentoPOJOList;
         this.estaProgramado = estaProgramado;
     }
 
     //------------------------------------------- Getters --------------------------------------------------//
 
 
-    public MedicamentoPOJO getMedicamentoPOJO() {
-        return medicamentoPOJO;
+    public List<MedicamentoPOJO> getMedicamentoPOJOList() {
+        return medicamentoPOJOList;
     }
 
     public Integer getEstaProgramado() {
@@ -30,8 +32,8 @@ public class MedicamentoPorProgramarPOJO
     //------------------------------------------- Setters --------------------------------------------------//
 
 
-    public void setMedicamentoPOJO(MedicamentoPOJO medicamentoPOJO) {
-        this.medicamentoPOJO = medicamentoPOJO;
+    public void setMedicamentoPOJOList(List<MedicamentoPOJO> medicamentoPOJOList) {
+        this.medicamentoPOJOList = medicamentoPOJOList;
     }
 
     public void setEstaProgramado(Integer estaProgramado) {
@@ -43,7 +45,7 @@ public class MedicamentoPorProgramarPOJO
     @Override
     public String toString()
     {
-        return new StringBuffer("MedicamentoPOJO : ").append(this.medicamentoPOJO.toString())
+        return new StringBuffer("MedicamentoPOJO : ").append(this.medicamentoPOJOList.toString())
                 .append("estaProgramado : ").append(this.estaProgramado)
                 .toString();
     }
