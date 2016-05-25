@@ -1,11 +1,11 @@
 package co.com.mic.medicalUMD.modelo;
 
+import org.hibernate.annotations.ForeignKey;
 import org.jboss.seam.annotations.Name;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -83,6 +83,9 @@ public class HistorialRespuestas implements Serializable, Cloneable
         return linkRespuesta;
     }
 
+    @ManyToOne(targetEntity = UsuarioPortal.class, fetch = FetchType.EAGER)
+    @ForeignKey(name = "FK_historial_respuesta_usaurio_portal")
+    @JoinColumn(name = "id_usaurio_portal", nullable = false, updatable = false)
     public UsuarioPortal getUsuarioPortal() {
         return usuarioPortal;
     }

@@ -1,6 +1,8 @@
 package co.com.mic.medicalUMD.pojo;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 
+@JsonAutoDetect
 public class ConexionPOJO
 {
 
@@ -20,6 +22,8 @@ public class ConexionPOJO
 
     public ConexionPOJO() {
     }
+
+
 
     //------------------------------------------- Getters --------------------------------------------------//
 
