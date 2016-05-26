@@ -10,6 +10,10 @@ import javax.ws.rs.core.Response;
 @Path("/registrar")
 public interface IWSRegistrarDatos
 {
+    @GET
+    @Path("saludo")
+    Response saludo();
+
     @POST
     @Path("/sensores")
     @Produces(MediaType.APPLICATION_JSON)

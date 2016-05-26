@@ -10,6 +10,11 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 {
 
     @Override
+    public Response saludo() {
+        return Response.status(200).entity("Correcto").build();
+    }
+
+    @Override
     public Response registrarSensor(InsertarSensorPOJO insertarSensorPOJO)
     {
         //TODO copiar a la tabla Historial
@@ -30,6 +35,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 
     @Override
     public Response programarSensor(ConexionPOJO conexionPOJO) {
+
 
         String result = "objeto recibido con exito";
         System.out.println("funciono HP");
@@ -52,6 +58,8 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 
         return Response.status(200).entity(result).build();
     }
+
+
 
 
 }
