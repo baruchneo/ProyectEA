@@ -14,25 +14,26 @@ public interface IWSRegistrarDatos
     @Path("/sensores")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Response registrarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO);
+    Response registrarSensor(InsertarSensorPOJO insertarSensorPOJO);
 
     @POST
     @Path("/programarSensor")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Response programarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO);
+    //Response programarSensor(InsertarSensorPOJO insertarSensorPOJO);
+    Response programarSensor(ConexionPOJO conexionPOJO);
 
     @POST
     @Path("/programarMedicamento")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Response programarMedicamento(MedicamentoPOJO medicamentoPOJO, ConexionPOJO conexionPOJO);
+    Response programarMedicamento(InsertarMedicamentoPOJO insertarMedicamentoPOJO);
 
     @POST
     @Path("/encuesta")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Response registrarEncuesta(EncuestaPOJO encuestaPOJO, ConexionPOJO conexionPOJO);
+    Response registrarEncuesta(InsertarEncuestaPOJO insertarEncuestaPOJO);
 
     //TODO ws registra historial paciente conversacion
 

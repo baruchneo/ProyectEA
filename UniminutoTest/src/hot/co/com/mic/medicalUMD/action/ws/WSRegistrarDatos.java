@@ -2,10 +2,7 @@ package co.com.mic.medicalUMD.action.ws;
 
 
 import co.com.mic.medicalUMD.modelo.Alerta;
-import co.com.mic.medicalUMD.pojo.ConexionPOJO;
-import co.com.mic.medicalUMD.pojo.EncuestaPOJO;
-import co.com.mic.medicalUMD.pojo.MedicamentoPOJO;
-import co.com.mic.medicalUMD.pojo.SensorPOJO;
+import co.com.mic.medicalUMD.pojo.*;
 
 import javax.ws.rs.core.Response;
 
@@ -13,7 +10,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 {
 
     @Override
-    public Response registrarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO)
+    public Response registrarSensor(InsertarSensorPOJO insertarSensorPOJO)
     {
         //TODO copiar a la tabla Historial
         //TODO Verificar que exista usuario y clave
@@ -32,19 +29,26 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
     }
 
     @Override
-    public Response programarSensor(SensorPOJO sensorPOJO, ConexionPOJO conexionPOJO) {
-        return null;
+    public Response programarSensor(ConexionPOJO conexionPOJO) {
+
+        String result = "objeto recibido con exito";
+        System.out.println("funciono HP");
+
+        return Response.status(200).entity(result).build();
     }
 
     @Override
-    public Response programarMedicamento(MedicamentoPOJO medicamentoPOJO, ConexionPOJO conexionPOJO) {
-        return null;
+    public Response programarMedicamento(InsertarMedicamentoPOJO insertarMedicamentoPOJO) {
+        String result = "objeto recibido con exito";
+
+        return Response.status(200).entity(result).build();
+
     }
 
     @Override
-    public Response registrarEncuesta(EncuestaPOJO encuestaPOJO, ConexionPOJO conexionPOJO) {
+    public Response registrarEncuesta(InsertarEncuestaPOJO insertarEncuestaPOJO) {
 
-        String result = "objeto recivido con exito";
+        String result = "objeto recibido con exito";
 
         return Response.status(200).entity(result).build();
     }
