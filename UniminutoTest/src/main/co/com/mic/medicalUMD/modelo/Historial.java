@@ -30,7 +30,7 @@ public class Historial implements Serializable, Cloneable
     private String codigoDoctor;
     private String codigoAmbulancia;
     private String codigoPaciente;
-    private ResponsableAlertaEnum unidadGeneraAlerta;
+    private String unidadGeneraAlerta;
     private Alerta alerta;
 
     //------------------------------------------- Getters --------------------------------------------------//
@@ -72,7 +72,7 @@ public class Historial implements Serializable, Cloneable
     @Column(name = "unidad_genera_alerta", nullable = false, length = 200)
     @NotNull
     @Size(min = 2, max = 200)
-    public ResponsableAlertaEnum getUnidadGeneraAlerta() {
+    public String getUnidadGeneraAlerta() {
         return unidadGeneraAlerta;
     }
 
@@ -100,8 +100,8 @@ public class Historial implements Serializable, Cloneable
         return codigoPaciente;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_alerta")
     public Alerta getAlerta() {
         return alerta;
     }
@@ -129,7 +129,7 @@ public class Historial implements Serializable, Cloneable
         this.alertaClinica = alertaClinica;
     }
 
-    public void setUnidadGeneraAlerta(ResponsableAlertaEnum unidadGeneraAlerta) {
+    public void setUnidadGeneraAlerta(String unidadGeneraAlerta) {
         this.unidadGeneraAlerta = unidadGeneraAlerta;
     }
 

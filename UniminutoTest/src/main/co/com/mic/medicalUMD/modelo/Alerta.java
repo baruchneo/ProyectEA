@@ -107,7 +107,7 @@ public class Alerta implements Serializable, Cloneable
         return tipoAlerta;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "alerta", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     public Historial getHistorial() {
         return historial;
     }

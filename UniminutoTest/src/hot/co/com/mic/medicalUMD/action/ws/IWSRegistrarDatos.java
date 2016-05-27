@@ -24,8 +24,8 @@ public interface IWSRegistrarDatos
     @Path("/programarSensor")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    //Response programarSensor(InsertarSensorPOJO insertarSensorPOJO);
-    Response programarSensor(ConexionPOJO conexionPOJO);
+    Response programarSensor(InsertarSensorPOJO insertarSensorPOJO);
+    //Response programarSensor(ConexionPOJO conexionPOJO);
 
     @POST
     @Path("/programarMedicamento")

@@ -1,4 +1,4 @@
-package co.com.mic.medicalUMD.action.admin;
+package co.com.mic.medicalUMD.action.user;
 
 import co.com.mic.medicalUMD.modelo.Estado;
 import co.com.mic.medicalUMD.modelo.SensorPorProgramar;
