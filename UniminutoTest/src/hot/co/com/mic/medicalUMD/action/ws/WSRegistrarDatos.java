@@ -1,8 +1,10 @@
 package co.com.mic.medicalUMD.action.ws;
 
 
+import co.com.mic.medicalUMD.action.user.AlertaHome;
 import co.com.mic.medicalUMD.action.user.SensorPorProgramarHome;
-import co.com.mic.medicalUMD.action.user.TipoAlertaList;
+import co.com.mic.medicalUMD.action.admin.TipoAlertaList;
+import co.com.mic.medicalUMD.modelo.Historial;
 import co.com.mic.medicalUMD.pojo.*;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -19,6 +21,12 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
 
     @In
     TipoAlertaList tipoAlertaList;
+
+    @In
+    AlertaHome alertaHome;
+
+    @In
+    Historial historial;
 
     @Override
     public Response saludo() {
@@ -66,6 +74,8 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
             // 3 insertar en tabla historial
 
             // 3.1 insertar en alerta
+            alertaHome.getInstance();
+            alertaHome.getInstance().setActivarAlarma(false); //la alarma la activa la Unidad BAse
 
             // 3.2 obtener tipoalerta
 
