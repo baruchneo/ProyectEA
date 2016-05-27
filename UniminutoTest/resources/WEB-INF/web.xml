@@ -201,6 +201,11 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
 	<servlet-mapping>
 		<servlet-name>resteasy</servlet-name>
 		<url-pattern>/rest/*</url-pattern>

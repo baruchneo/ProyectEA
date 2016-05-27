@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 public interface IWSRegistrarDatos
 {
     @GET
-    @Path("saludo")
+    @Path("/saludo")
     Response saludo();
 
     @POST
