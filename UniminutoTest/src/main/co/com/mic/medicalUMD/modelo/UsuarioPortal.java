@@ -22,6 +22,7 @@ public class UsuarioPortal implements Serializable, Cloneable
     private String cedula;
     private String clave;
     private String email;
+    private String estado;
     private Boolean verificacion;
 
     //------------------------------------------- Getters --------------------------------------------------//
@@ -61,6 +62,13 @@ public class UsuarioPortal implements Serializable, Cloneable
         return email;
     }
 
+    @Column(name = "estado", nullable = false, length = 200)
+    @NotNull
+    @Size(min = 2, max = 200)
+    public String getEstado() {
+        return estado;
+    }
+
     @Column(name = "verifcacion", nullable = false)
     @NotNull
     public Boolean getVerificacion() {
@@ -88,6 +96,10 @@ public class UsuarioPortal implements Serializable, Cloneable
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public void setVerificacion(Boolean verificacion) {

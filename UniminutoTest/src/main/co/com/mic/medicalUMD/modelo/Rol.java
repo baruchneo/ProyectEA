@@ -29,7 +29,7 @@ public class Rol implements Serializable, Cloneable
      */
     private String nombreRol;
 
-    private Estado estado;
+    private String estado;
 
     private Set<Usuario> Usuarios;
 
@@ -50,10 +50,10 @@ public class Rol implements Serializable, Cloneable
         return nombreRol;
     }
 
-    @ManyToOne(targetEntity = Estado.class, fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_rol_estado")
-    @JoinColumn(name = "id_estado", nullable = false)
-    public Estado getEstado() {
+    @Column(name = "estado_rol", nullable = false, length = 200)
+    @NotNull
+    @Size(min = 2, max = 200)
+    public String getEstado() {
         return estado;
     }
 
@@ -75,7 +75,7 @@ public class Rol implements Serializable, Cloneable
         this.nombreRol = nombreRol;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

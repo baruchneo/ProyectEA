@@ -19,7 +19,7 @@
 				<f:viewParam name="rolId" />
 				<f:viewParam name="usuarioId" value="#{usuarioList.usuario.id}" />
 				<f:viewParam name="usuario" value="#{usuarioList.usuario.usuario}" />
-				<f:viewParam name="fechaCreacion" value="#{usuarioList.usuario.fechaCreacio
+				<f:viewParam name="fechaCreacion" value="#{usuarioList.usuario.fechaCreacion}" />
 				<f:viewParam name="estadoId" value="#{usuarioList.usuario.estado.id}" />
 			</f:validateBean>
 		</f:metadata>
@@ -33,23 +33,34 @@
 				<f:validateBean disabled="#{true}">
 					<ui:decorate template="/layout/display.xhtml">
 						<ui:define name="label">Identificador</ui:define>
-						<h:inputText id="rolId" value="#{rolList.rol.id}">
+						<h:inputText id="usuarioId" value="#{usuarioList.usuario.id}">
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
 					</ui:decorate>
 	
 					<ui:decorate template="/layout/display.xhtml">
-						<ui:define name="label">Nombre rol</ui:define>
-						<h:inputText id="name" value="#{rolList.rol.nombreRol}">
+						<ui:define name="label">Usuario</ui:define>
+						<h:inputText id="usuario" value="#{usuarioList.usuario.usuario}">
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
 					</ui:decorate>
 
 					<ui:decorate template="/layout/display.xhtml">
-						<ui:define name="label">Estado rol</ui:define>
-						<h:inputText id="estado" value="#{rolList.rol.estadoRol}">
+						<ui:define name="label">Email</ui:define>
+						<h:inputText id="email" value="#{usuarioList.usuario.email}">
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
+					</ui:decorate>
+
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Estado usuario</ui:define>
+						<h:selectOneMenu id="usuarioListEstado" title="Seleccione" value="#{usuarioList.usuario.estado}">
+							<f:selectItem itemValue="" itemLabel="Seleccione"/>
+							<f:selectItem itemValue="activo" itemLabel="Usuario activo"/>
+							<f:selectItem itemValue="inactivo" itemLabel="Usuario inactivo"/>
+							<f:selectItem itemValue="eliminado" itemLabel="Usuario eliminado"/>
+							<f:validateBean disabled="#{true}" />
+						</h:selectOneMenu>
 					</ui:decorate>
 					
 					<ui:decorate template="/layout/display.xhtml">
@@ -72,77 +83,99 @@
 
 		<rich:panel>
 		
-			<f:facet name="header">Resultados de b&uacute;squeda de roles (#{empty rolList.resultList ? 0 : (rolList.paginated ? rolList.resultCount : rolList.resultList.size)})</f:facet>
-			<div class="results" id="rolListSearchResult">
+			<f:facet name="header">Resultados de b&uacute;squeda de usuarios (#{empty usuarioList.resultList ? 0 : (usuarioList.paginated ? usuarioList.resultCount : usuarioList.resultList.size)})</f:facet>
+			<div class="results" id="usuarioListSearchResult">
 
-				<h:outputText value="La b&uacute;squeda de roles no retorn&oacute; resultados." rendered="#{empty rolList.resultList}" />
+				<h:outputText value="La b&uacute;squeda de usuarios no retorn&oacute; resultados." rendered="#{empty usuarioList.resultList}" />
 				
-				<rich:dataScroller renderIfSinglePage="false" for="rolList" maxPages="5" id="dataScroller1" reRender="dataScroller2" rendered="#{not empty rolList.resultList}"/>
+				<rich:dataScroller renderIfSinglePage="false" for="usuarioList" maxPages="5" id="dataScroller1" reRender="dataScroller2" rendered="#{not empty usuarioList.resultList}"/>
 				
-				<rich:dataTable rows="10" style="width:100%" id="rolList" var="_rolList" rowClasses="rvgRowOne,rvgRowTwo"  value="#{rolList.resultList}" rendered="#{not empty rolList.resultList}">
+				<rich:dataTable rows="10" style="width:100%" id="usuarioList" var="_usuarioList" rowClasses="rvgRowOne,rvgRowTwo"  value="#{usuarioList.resultList}" rendered="#{not empty usuarioList.resultList}">
 					
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="/layout/sort.xhtml">
-								<ui:param name="entityList" value="#{rolList}" />
+								<ui:param name="entityList" value="#{usuarioList}" />
 								<ui:param name="propertyLabel" value="Identificador" />
-								<ui:param name="propertyPath" value="rol.id" />
+								<ui:param name="propertyPath" value="usuario.id" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_rolList.id}" />
+						<h:outputText value="#{_usuarioList.id}" />
 					</h:column>
 					
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="/layout/sort.xhtml">
-								<ui:param name="entityList" value="#{rolList}" />
-								<ui:param name="propertyLabel" value="Nombre rol" />
-								<ui:param name="propertyPath" value="rol.nombreRol" />
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Usuario" />
+								<ui:param name="propertyPath" value="usuario.usuario" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_rolList.nombreRol}" />
+						<h:outputText value="#{_usuarioList.usuario}" />
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">
 							<ui:include src="/layout/sort.xhtml">
-								<ui:param name="entityList" value="#{rolList}" />
-								<ui:param name="propertyLabel" value="Estado rol" />
-								<ui:param name="propertyPath" value="rol.estadoRol" />
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Email" />
+								<ui:param name="propertyPath" value="usuario.email" />
 							</ui:include>
 						</f:facet>
-						<h:outputText value="#{_rolList.estadoRol}" />
+						<h:outputText value="#{_usuarioList.email}" />
 					</h:column>
-					
+
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Creado desde" />
+								<ui:param name="propertyPath" value="usuario.fechaCreacion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuarioList.fechaCreacion}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="/layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Estado usuario" />
+								<ui:param name="propertyPath" value="usuario.estado" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuarioList.estado}" />
+					</h:column>
+
 					<rich:column styleClass="action">
 						
 						<f:facet name="header">Acci&oacute;n</f:facet>
             
-						<h:link outcome="#{empty from ? 'Rol' : from}" id="rolViewId" includeViewParams="true">
-							<f:param name="rolId" value="#{_rolList.id}"/>
-							<f:param name="rolIdOperation" value="insert"/>
+						<h:link outcome="#{empty from ? 'Usuario' : from}" id="usuarioViewId" includeViewParams="true">
+							<f:param name="usuarioId" value="#{_usuarioList.id}"/>
+							<f:param name="usuarioIdOperation" value="insert"/>
 							<h:graphicImage value="#{empty from ? '/img/view.png' : '/img/link.png'}" alt="#{empty from ? 'Ver' : 'Seleccionar'}" />
-							<rich:tooltip styleClass="tooltip" layout="block" value="#{empty from ? 'Ver' : 'Seleccionar'}" target="rolViewId"/>
+							<rich:tooltip styleClass="tooltip" layout="block" value="#{empty from ? 'Ver' : 'Seleccionar'}" target="usuarioViewId"/>
 						</h:link>
 						
-						<h:link outcome="RolEdit" id="rolEdit" rendered="#{empty from}" includeViewParams="true" >
-							<f:param name="rolId" value="#{_rolList.id}"/>
+						<h:link outcome="UsuarioEdit" id="usuarioEdit" rendered="#{empty from}" includeViewParams="true" >
+							<f:param name="usuarioId" value="#{_usuarioList.id}"/>
 							<h:graphicImage value="/img/pencil.png" alt="Editar"/>
-							<rich:tooltip styleClass="tooltip" layout="block" value="Editar" target="rolEdit"/>
+							<rich:tooltip styleClass="tooltip" layout="block" value="Editar" target="usuarioEdit"/>
 						</h:link>
 						
 					</rich:column>
 					
 				</rich:dataTable>
 				
-				<rich:dataScroller renderIfSinglePage="false" for="rolList" maxPages="5" id="dataScroller2" reRender="dataScroller1" rendered="#{not empty rolList.resultList}"/>
+				<rich:dataScroller renderIfSinglePage="false" for="usuarioList" maxPages="5" id="dataScroller2" reRender="dataScroller1" rendered="#{not empty usuarioList.resultList}"/>
 
 			</div>
 		</rich:panel>
 		
 		<h:panelGroup styleClass="actionButtons" rendered="#{empty from}">
-			<h:button outcome="RolEdit" id="create" value="Crear rol">
-				<f:param name="rolId" />
+			<h:button outcome="UsuarioEdit" id="create" value="Crear usuario">
+				<f:param name="usuarioId" />
 			</h:button>
 		</h:panelGroup>
 

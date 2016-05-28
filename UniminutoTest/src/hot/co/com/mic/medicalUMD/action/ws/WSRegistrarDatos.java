@@ -32,16 +32,16 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
     @In(create = true)
     SensorPorProgramarHome sensorPorProgramarHome;
 
-    @In
+    @In(create = true)
     AlertaHome alertaHome;
 
-    @In
+    @In(create = true)
     HistorialHome historialHome;
 
-    @In
+    @In(create = true)
     TipoAlertaList tipoAlertaList;
 
-    @In
+    @In(create = true)
     EncuestaHome encuestaHome;
 
     //------------------------------------------ Bussiness Methods ---------------------------------------------------//
@@ -128,6 +128,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
             return Response.status(200).entity(result).build();
 
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(500).entity("Se presentaron errores al registrar medicion del sensor: " + e.getMessage() + "Por favor intEntelo de nuevo").build();
         }
     }
@@ -213,6 +214,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
             String result = "objeto recibido con exito, id generado " + historialHome.getInstance().getId();
             return Response.status(200).entity(result).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(500).entity("Se presentaron errores al progrmar el sensor: " + e.getMessage() + "Por favor intEntelo de nuevo").build();
         }
     }
@@ -251,6 +253,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
             String result = "objeto recibido con exito";
             return Response.status(200).entity(result).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(500).entity("Se presentaron errores al registrar medicion del sensor: " + e.getMessage() + "Por favor intEntelo de nuevo").build();
         }
 
@@ -278,12 +281,12 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
 
             //1.2 validacion campo fecha
             String dateRecived = insertarEncuestaPOJO.getEncuestaPOJO().getFechaRadicado();
-            if (validarFormatoFecha(dateRecived)) {
+            if (!validarFormatoFecha(dateRecived)) {
                 return Response.status(500).entity("El campo fecha no tiene el formato correcto... Por favor intEntelo de nuevo").build();
             }
 
             // 2 insertar en tabla encuesta
-            encuestaHome.getInstance();
+            encuestaHome.getEncuestaId();
             encuestaHome.getInstance().setCodigoPaciente(insertarEncuestaPOJO.getConexionPOJO().getIdentificacionPaciente());
             encuestaHome.getInstance().setFechaRadicado(dateRecived);
             encuestaHome.getInstance().setPreguntas(insertarEncuestaPOJO.getEncuestaPOJO().getPreguntas());
@@ -309,6 +312,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
             String result = "objeto recibido con exito, id generado " + historialHome.getInstance().getId();
             return Response.status(200).entity(result).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(500).entity("Se presentaron errores al enviar la encuesta: " + e.getMessage() + "Por favor intEntelo de nuevo").build();
         }
     }
@@ -321,10 +325,11 @@ public class WSRegistrarDatos implements IWSRegistrarDatos {
      * @return true si el formato corresponde con el estanda YYYY-MM-DD HH:MI de lo contrario falso
      */
     private boolean validarFormatoFecha(String dateForValidate) {
-        String patternString = "^\\d{4}\\-\\d{2}\\-\\d{2}\\s+\\d{2}\\:\\d{2}";
+        String patternString = "^\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(dateForValidate);
         return matcher.find();
+        //return true;
     }
 
     /**

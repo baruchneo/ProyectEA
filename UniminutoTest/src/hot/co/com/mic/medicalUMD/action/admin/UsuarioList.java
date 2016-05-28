@@ -28,7 +28,8 @@ public class UsuarioList extends EntityQuery<Usuario>
                     "usuario.id = #{usuarioList.usuario.id} ",
                     "usuario.fechaCreacion = #{usuarioList.usuario.fechaCreacion}",
                     "lower(usuario.rol.nombreRol) like lower(concat('%', concat(#{usuarioList.usuario.rol.nombreRol},'%')))",
-                    "lower(usuario.estadoUsuario) like lower(concat('%', concat(#{usuarioList.usuario.estadoUsuario},'%')))",
+                    "lower(usuario.estado) like lower(concat('%', concat(#{usuarioList.usuario.estado},'%')))",
+                    "lower(usuario.email) like lower(concat('%', concat(#{usuarioList.usuario.email},'%')))"
             };
 
 

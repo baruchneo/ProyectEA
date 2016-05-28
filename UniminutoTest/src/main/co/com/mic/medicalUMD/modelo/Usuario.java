@@ -45,7 +45,7 @@ public class Usuario implements Serializable, Cloneable{
 
     private Rol rol;
 
-    private Estado estado;
+    private String estado;
 
     //-------------------------------------------------- Getters ----------------------------------------------------//
 
@@ -85,10 +85,10 @@ public class Usuario implements Serializable, Cloneable{
         return email;
     }
 
-    @ManyToOne(targetEntity = Estado.class, fetch = FetchType.EAGER)
-    @ForeignKey(name = "FK_usuario_estado")
-    @JoinColumn(name = "id_estado", nullable = false, updatable = false)
-    public Estado getEstado() {
+    @Column(name = "estado", nullable = false, length = 200)
+    @NotNull
+    @Size(min = 2, max = 200)
+    public String getEstado() {
         return estado;
     }
 
@@ -121,7 +121,7 @@ public class Usuario implements Serializable, Cloneable{
         this.email = email;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

@@ -43,6 +43,16 @@
 							<f:validateBean disabled="#{true}" />
 						</h:inputText>
 					</ui:decorate>
+
+					<ui:decorate template="/layout/display.xhtml">
+						<ui:define name="label">Estado rol</ui:define>
+						<h:selectOneMenu id="urolListEstado" title="Seleccione" value="#{rolList.rol.estado}">
+							<f:selectItem itemValue="" itemLabel="Seleccione"/>
+							<f:selectItem itemValue="activo" itemLabel="Rol activo"/>
+							<f:selectItem itemValue="inactivo" itemLabel="Rol inactivo"/>
+							<f:validateBean disabled="#{true}" />
+						</h:selectOneMenu>
+					</ui:decorate>
 					
 					<ui:decorate template="/layout/display.xhtml">
 						<ui:define name="label">Coincidencia</ui:define>
