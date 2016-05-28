@@ -4,7 +4,6 @@ package co.com.mic.medicalUMD.action.ws;
 import co.com.mic.medicalUMD.pojo.*;
 
 import javax.ws.rs.core.Response;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 

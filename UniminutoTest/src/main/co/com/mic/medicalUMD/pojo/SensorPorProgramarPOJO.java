@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.List;
 
+// esto es para jhon, para que programe la unidad base
 
 public class SensorPorProgramarPOJO
 {
@@ -35,7 +36,6 @@ public class SensorPorProgramarPOJO
 
     //------------------------------------------- Setter --------------------------------------------------//
 
-
     public void setSensorPOJOList(List<SensorPOJO> sensorPOJOList) {
         this.sensorPOJOList = sensorPOJOList;
     }
@@ -49,7 +49,7 @@ public class SensorPorProgramarPOJO
     @Override
     public String toString()
     {
-        return new StringBuffer("SensorPOJO : ").append(this.sensorPOJOList.toString())
+        return new StringBuffer("sensorPOJO : ").append(this.sensorPOJOList.toString())
                 .append("estaProgramado : ").append(this.estaProgramado)
                 .toString();
     }

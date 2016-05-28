@@ -2,15 +2,19 @@ package co.com.mic.medicalUMD.action.ws;
 
 
 import co.com.mic.medicalUMD.action.user.AlertaHome;
+import co.com.mic.medicalUMD.action.user.HistorialHome;
 import co.com.mic.medicalUMD.action.user.SensorPorProgramarHome;
 import co.com.mic.medicalUMD.action.admin.TipoAlertaList;
 import co.com.mic.medicalUMD.modelo.Historial;
+import co.com.mic.medicalUMD.modelo.ResponsableAlertaEnum;
+import co.com.mic.medicalUMD.modelo.TipoAlerta;
 import co.com.mic.medicalUMD.pojo.*;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 @Stateless
 @Name("wSRegistrarDatos")
@@ -20,13 +24,13 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
     SensorPorProgramarHome sensorPorProgramarHome;
 
     @In
-    TipoAlertaList tipoAlertaList;
-
-    @In
     AlertaHome alertaHome;
 
     @In
-    Historial historial;
+    HistorialHome historialHome;
+
+    @In
+    TipoAlertaList tipoAlertaList;
 
     @Override
     public Response saludo() {
@@ -56,7 +60,7 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
     public Response programarSensor(InsertarSensorPOJO insertarSensorPOJO) {
 
         try {
-            // 1 verificar conexion
+            // 1 verificar conexion y fechas
 
             // 2 insertar en tabla sensor por progrmar
             sensorPorProgramarHome.getInstance();
@@ -69,22 +73,57 @@ public class WSRegistrarDatos implements IWSRegistrarDatos
             sensorPorProgramarHome.getInstance().setNombreSensor(insertarSensorPOJO.getSensorPOJO().getNombreSensor());
             sensorPorProgramarHome.getInstance().setNumeroRespiraciones(insertarSensorPOJO.getSensorPOJO().getNumeroRespiraciones());
             sensorPorProgramarHome.getInstance().setPeriodicidad(insertarSensorPOJO.getSensorPOJO().getPeriodicidad());
-            sensorPorProgramarHome.create();
+            sensorPorProgramarHome.persist();
 
             // 3 insertar en tabla historial
 
-            // 3.1 insertar en alerta
-            alertaHome.getInstance();
-            alertaHome.getInstance().setActivarAlarma(false); //la alarma la activa la Unidad BAse
+            // 3.1 obtener tipoalerta
+            tipoAlertaList.getTipoAlerta().setNombreAlerta(insertarSensorPOJO.getSensorPOJO().getNombreSensor());
+            TipoAlerta tipoAlerta = new TipoAlerta();
 
-            // 3.2 obtener tipoalerta
+            if(tipoAlertaList.getResultList().size() <= 0)
+            {
+                return Response.status(500).entity("El tipo de sensor indicado no existe.. Por favor intEntelo de nuevo").build();
+            }
+
+            tipoAlerta = tipoAlertaList.getResultList().get(0);
+
+            // 3.2 insertar en alerta
+            alertaHome.getInstance();
+            alertaHome.getInstance().setActivarAlarma(false); //la alarma la activa la Unidad Base
+            alertaHome.getInstance().setPeriodicidad(insertarSensorPOJO.getSensorPOJO().getPeriodicidad());
+            alertaHome.getInstance().setNumeroRespiraciones(insertarSensorPOJO.getSensorPOJO().getNumeroRespiraciones());
+            alertaHome.getInstance().setLimiteMinimo(insertarSensorPOJO.getSensorPOJO().getLimiteMinimo());
+            alertaHome.getInstance().setCantidadDias(insertarSensorPOJO.getSensorPOJO().getCantidadDias());
+            alertaHome.getInstance().setDescripcionAlerta(insertarSensorPOJO.getSensorPOJO().getDescripcionAlerta());
+            alertaHome.getInstance().setLimiteMaximo(insertarSensorPOJO.getSensorPOJO().getLimiteMaximo());
+            alertaHome.getInstance().setTipoAlerta(tipoAlerta);
+            alertaHome.persist();
 
             // 3.2 insertar historial
+            String mensajeAlerta = "Programación Sensor " + insertarSensorPOJO.getSensorPOJO().getNombreSensor() +  " con las siguientes condiciones: ";
+            mensajeAlerta += "lim max: [" + insertarSensorPOJO.getSensorPOJO().getLimiteMaximo() + "] ";
+            mensajeAlerta += "lim min: [" + insertarSensorPOJO.getSensorPOJO().getLimiteMinimo() + "] ";
+            mensajeAlerta += "periodicidad: [" + insertarSensorPOJO.getSensorPOJO().getPeriodicidad() + "]";
+            mensajeAlerta += "cantidad de dias programados [" + insertarSensorPOJO.getSensorPOJO().getCantidadDias() + "]";
+            if(!insertarSensorPOJO.getSensorPOJO().getNumeroRespiraciones().equals(-1))
+            {
+                mensajeAlerta += "numeor de respiraciones [" + insertarSensorPOJO.getSensorPOJO().getNumeroRespiraciones() + "]";
+            }
 
+            historialHome.getInstance();
+            historialHome.getInstance().setAlerta(alertaHome.getInstance());
+            historialHome.getInstance().setAlertaClinica(false);
+            historialHome.getInstance().setCodigoCentroAtencion("CNTROATNC001");
+            historialHome.getInstance().setCodigoDoctor(insertarSensorPOJO.getConexionPOJO().getIdentificacionDoctor());
+            historialHome.getInstance().setCodigoPaciente(insertarSensorPOJO.getConexionPOJO().getIdentificacionPaciente());
+            historialHome.getInstance().setDescripcionHistorial(mensajeAlerta);
+            historialHome.getInstance().setFechaCreacion(new Date());
+            historialHome.getInstance().setTriage(5);
+            historialHome.getInstance().setUnidadGeneraAlerta(ResponsableAlertaEnum.ALERTA_POR_CENTRO_ATENCION.getName());
+            historialHome.persist();
 
-            String result = "objeto recibido con exito";
-            System.out.println("funciono HP");
-
+            String result = "objeto recibido con exito, id generado " + historialHome.getInstance().getId();
             return Response.status(200).entity(result).build();
         }
         catch (Exception e)

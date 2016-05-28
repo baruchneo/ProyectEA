@@ -10,8 +10,8 @@ public class InsertarEncuestaPOJO
     //------------------------------------------- Constructors --------------------------------------------------//
 
 
-    public InsertarEncuestaPOJO(@JsonProperty("Conexion") ConexionPOJO conexionPOJO,
-                                @JsonProperty("Encuesta") EncuestaPOJO encuestaPOJO) {
+    public InsertarEncuestaPOJO(@JsonProperty("conexion") ConexionPOJO conexionPOJO,
+                                @JsonProperty("encuesta") EncuestaPOJO encuestaPOJO) {
         this.conexionPOJO = conexionPOJO;
         this.encuestaPOJO = encuestaPOJO;
     }
